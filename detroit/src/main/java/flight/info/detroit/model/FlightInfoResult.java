@@ -1,4 +1,4 @@
-package flight.info.detroit.entities;
+package flight.info.detroit.model;
 
 import java.util.List;
 
