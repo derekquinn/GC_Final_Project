@@ -18,8 +18,7 @@ public class MyFlightController {
 
 	@RequestMapping("/")
 	public ModelAndView showIndex() {
-		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
-		System.out.println(flightstatus.toString());
+
 		return new ModelAndView("index");
 	}
 
@@ -29,4 +28,10 @@ public class MyFlightController {
 		return new ModelAndView("results");
 	}
 
+	@RequestMapping("/flight")
+	public ModelAndView showFlight() {
+		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
+		System.out.println(flightstatus.toString());
+		return new ModelAndView("flight", "flightstatus", flightstatus);
+	}
 }
