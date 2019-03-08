@@ -1,6 +1,6 @@
 package flight.info.detroit;
 
-public class FlightDuration {
+public class FlightDurations {
 
 	private Integer scheduledBlockMinutes;
 	private Integer blockMinutes;
@@ -11,11 +11,11 @@ public class FlightDuration {
 	private Integer scheduledTaxiInMinutes;
 	private Integer taxiInMinutes;
 
-	public FlightDuration() {
+	public FlightDurations() {
 
 	}
 
-	public FlightDuration(Integer scheduledBlockMinutes, Integer blockMinutes, Integer scheduledAirMinutes,
+	public FlightDurations(Integer scheduledBlockMinutes, Integer blockMinutes, Integer scheduledAirMinutes,
 			Integer airMinutes, Integer scheduledTaxiOutMinutes, Integer taxiOutMinutes, Integer scheduledTaxiInMinutes,
 			Integer taxiInMinutes) {
 		super();
@@ -95,7 +95,7 @@ public class FlightDuration {
 
 	@Override
 	public String toString() {
-		return "FlightDuration [scheduledBlockMinutes=" + scheduledBlockMinutes + ", blockMinutes=" + blockMinutes
+		return "FlightDurations [scheduledBlockMinutes=" + scheduledBlockMinutes + ", blockMinutes=" + blockMinutes
 				+ ", scheduledAirMinutes=" + scheduledAirMinutes + ", airMinutes=" + airMinutes
 				+ ", scheduledTaxiOutMinutes=" + scheduledTaxiOutMinutes + ", taxiOutMinutes=" + taxiOutMinutes
 				+ ", scheduledTaxiInMinutes=" + scheduledTaxiInMinutes + ", taxiInMinutes=" + taxiInMinutes + "]";

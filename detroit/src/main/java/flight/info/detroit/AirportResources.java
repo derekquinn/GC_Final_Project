@@ -4,16 +4,19 @@ public class AirportResources {
 	private String departureTerminal;
 	private String departureGate;
 	private String arrivalTerminal;
+	private String arrivalGate;
 
 	public AirportResources() {
 
 	}
 
-	public AirportResources(String departureTerminal, String departureGate, String arrivalTerminal) {
+	public AirportResources(String departureTerminal, String departureGate, String arrivalTerminal,
+			String arrivalGate) {
 		super();
 		this.departureTerminal = departureTerminal;
 		this.departureGate = departureGate;
 		this.arrivalTerminal = arrivalTerminal;
+		this.arrivalGate = arrivalGate;
 	}
 
 	public String getDepartureTerminal() {
@@ -40,10 +43,18 @@ public class AirportResources {
 		this.arrivalTerminal = arrivalTerminal;
 	}
 
+	public String getArrivalGate() {
+		return arrivalGate;
+	}
+
+	public void setArrivalGate(String arrivalGate) {
+		this.arrivalGate = arrivalGate;
+	}
+
 	@Override
 	public String toString() {
 		return "AirportResources [departureTerminal=" + departureTerminal + ", departureGate=" + departureGate
-				+ ", arrivalTerminal=" + arrivalTerminal + "]";
+				+ ", arrivalTerminal=" + arrivalTerminal + ", arrivalGate=" + arrivalGate + "]";
 	}
 
 }

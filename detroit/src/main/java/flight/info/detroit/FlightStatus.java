@@ -4,21 +4,25 @@ public class FlightStatus {
 
 	private Long flightId;
 	private String carrierFsCode;
-	private String flightNumber;
+	private Integer flightNumber;
 	private String departureAirportFsCode;
 	private String arrivalAirportFsCode;
 	private DepartureDate departureDate;
 	private ArrivalDate arrivalDate;
 	private String status;
 	private OperationalTimes operationalTimes;
-	private Integer flightDurations;
-	private String airportResources;
-	private String flightEquipment;
+	private FlightDurations flightDurations;
+	private AirportResources airportResources;
+	private FlightEquipment flightEquipment;
 
-	public FlightStatus(Long flightId, String carrierFsCode, String flightNumber, String departureAirportFsCode,
+	public FlightStatus() {
+
+	}
+
+	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
 			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
-			OperationalTimes operationalTimes, Integer flightDurations, String airportResources,
-			String flightEquipment) {
+			OperationalTimes operationalTimes, FlightDurations flightDurations, AirportResources airportResources,
+			FlightEquipment flightEquipment) {
 		super();
 		this.flightId = flightId;
 		this.carrierFsCode = carrierFsCode;
@@ -50,11 +54,11 @@ public class FlightStatus {
 		this.carrierFsCode = carrierFsCode;
 	}
 
-	public String getFlightNumber() {
+	public Integer getFlightNumber() {
 		return flightNumber;
 	}
 
-	public void setFlightNumber(String flightNumber) {
+	public void setFlightNumber(Integer flightNumber) {
 		this.flightNumber = flightNumber;
 	}
 
@@ -106,27 +110,27 @@ public class FlightStatus {
 		this.operationalTimes = operationalTimes;
 	}
 
-	public Integer getFlightDurations() {
+	public FlightDurations getFlightDurations() {
 		return flightDurations;
 	}
 
-	public void setFlightDurations(Integer flightDurations) {
+	public void setFlightDurations(FlightDurations flightDurations) {
 		this.flightDurations = flightDurations;
 	}
 
-	public String getAirportResources() {
+	public AirportResources getAirportResources() {
 		return airportResources;
 	}
 
-	public void setAirportResources(String airportResources) {
+	public void setAirportResources(AirportResources airportResources) {
 		this.airportResources = airportResources;
 	}
 
-	public String getFlightEquipment() {
+	public FlightEquipment getFlightEquipment() {
 		return flightEquipment;
 	}
 
-	public void setFlightEquipment(String flightEquipment) {
+	public void setFlightEquipment(FlightEquipment flightEquipment) {
 		this.flightEquipment = flightEquipment;
 	}
 
