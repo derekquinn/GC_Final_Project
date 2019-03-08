@@ -31,4 +31,9 @@ public class DepartureDate {
 		this.dateUtc = dateUtc;
 	}
 
+	@Override
+	public String toString() {
+		return "DepartureDate [dateLocal=" + dateLocal + ", dateUtc=" + dateUtc + "]";
+	}
+
 }

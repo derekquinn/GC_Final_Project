@@ -93,4 +93,12 @@ public class FlightDuration {
 		this.taxiInMinutes = taxiInMinutes;
 	}
 
+	@Override
+	public String toString() {
+		return "FlightDuration [scheduledBlockMinutes=" + scheduledBlockMinutes + ", blockMinutes=" + blockMinutes
+				+ ", scheduledAirMinutes=" + scheduledAirMinutes + ", airMinutes=" + airMinutes
+				+ ", scheduledTaxiOutMinutes=" + scheduledTaxiOutMinutes + ", taxiOutMinutes=" + taxiOutMinutes
+				+ ", scheduledTaxiInMinutes=" + scheduledTaxiInMinutes + ", taxiInMinutes=" + taxiInMinutes + "]";
+	}
+
 }

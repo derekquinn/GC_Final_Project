@@ -9,5 +9,14 @@
 </head>
 <body>
 Hello world let's fly.
+<c:forEach var="flightStatus" items="${donut}">
+
+
+<tr><td><a href="/details/${donut.id }">${donut.name }</a></td>
+<td>${donut.id }</td>
+
+</tr>
+
+</c:forEach>
 </body>
 </html>

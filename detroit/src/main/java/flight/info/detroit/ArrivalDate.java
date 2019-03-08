@@ -29,4 +29,9 @@ public class ArrivalDate {
 		this.dateLocal = dateLocal;
 		this.dateUtc = dateUtc;
 	}
+
+	@Override
+	public String toString() {
+		return "ArrivalDate [dateLocal=" + dateLocal + ", dateUtc=" + dateUtc + "]";
+	}
 }

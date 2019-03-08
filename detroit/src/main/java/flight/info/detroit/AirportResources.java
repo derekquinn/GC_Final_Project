@@ -40,4 +40,10 @@ public class AirportResources {
 		this.arrivalTerminal = arrivalTerminal;
 	}
 
+	@Override
+	public String toString() {
+		return "AirportResources [departureTerminal=" + departureTerminal + ", departureGate=" + departureGate
+				+ ", arrivalTerminal=" + arrivalTerminal + "]";
+	}
+
 }

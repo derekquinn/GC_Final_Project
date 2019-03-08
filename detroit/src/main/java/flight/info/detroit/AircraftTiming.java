@@ -30,4 +30,9 @@ public class AircraftTiming {
 		this.dateUtc = dateUtc;
 	}
 
+	@Override
+	public String toString() {
+		return "AircraftTiming [dateLocal=" + dateLocal + ", dateUtc=" + dateUtc + "]";
+	}
+
 }

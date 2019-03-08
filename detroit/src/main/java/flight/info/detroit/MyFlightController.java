@@ -7,9 +7,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MyFlightController {
 
-	@RequestMapping("/")
-	public ModelAndView list() {
+//	@Autowired
+//	private FlightStatsApiServices flightStatsApiServices;
 
+	@RequestMapping("/")
+	public ModelAndView showIndex() {
+		// List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
 		return new ModelAndView("index");
 	}
 

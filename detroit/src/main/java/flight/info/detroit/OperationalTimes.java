@@ -155,4 +155,18 @@ public class OperationalTimes {
 	public void setActualRunwayArrival(AircraftTiming actualRunwayArrival) {
 		this.actualRunwayArrival = actualRunwayArrival;
 	}
+
+	@Override
+	public String toString() {
+		return "OperationalTimes [publishedDeparture=" + publishedDeparture + ", publishedArrival=" + publishedArrival
+				+ ", scheduledGateDeparture=" + scheduledGateDeparture + ", estimatedGateDeparture="
+				+ estimatedGateDeparture + ", actualGateDeparture=" + actualGateDeparture
+				+ ", flightPlanPlannedDeparture=" + flightPlanPlannedDeparture + ", estimatedRunwayDeparture="
+				+ estimatedRunwayDeparture + ", actualRunwayDeparture=" + actualRunwayDeparture
+				+ ", scheduledGateArrival=" + scheduledGateArrival + ", estimatedGateArrival=" + estimatedGateArrival
+				+ ", actualGateArrival=" + actualGateArrival + ", flightPlanPlannedArrival=" + flightPlanPlannedArrival
+				+ ", estimatedRunwayArrival=" + estimatedRunwayArrival + ", actualRunwayArrival=" + actualRunwayArrival
+				+ "]";
+	}
+
 }

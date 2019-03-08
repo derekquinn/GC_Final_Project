@@ -130,4 +130,14 @@ public class FlightStatus {
 		this.flightEquipment = flightEquipment;
 	}
 
+	@Override
+	public String toString() {
+		return "FlightStatus [flightId=" + flightId + ", carrierFsCode=" + carrierFsCode + ", flightNumber="
+				+ flightNumber + ", departureAirportFsCode=" + departureAirportFsCode + ", arrivalAirportFsCode="
+				+ arrivalAirportFsCode + ", departureDate=" + departureDate + ", arrivalDate=" + arrivalDate
+				+ ", status=" + status + ", operationalTimes=" + operationalTimes + ", flightDurations="
+				+ flightDurations + ", airportResources=" + airportResources + ", flightEquipment=" + flightEquipment
+				+ "]";
+	}
+
 }

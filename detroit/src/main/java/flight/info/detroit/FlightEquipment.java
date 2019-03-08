@@ -41,4 +41,10 @@ public class FlightEquipment {
 		this.tailNumber = tailNumber;
 	}
 
+	@Override
+	public String toString() {
+		return "FlightEquipment [scheduledEquipmentIataCode=" + scheduledEquipmentIataCode
+				+ ", actualEquipmentIataCode=" + actualEquipmentIataCode + ", tailNumber=" + tailNumber + "]";
+	}
+
 }

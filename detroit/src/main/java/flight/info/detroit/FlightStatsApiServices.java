@@ -31,7 +31,7 @@ public class FlightStatsApiServices {
 	}
 
 	public List<FlightStatus> getFlightStatus() {
-		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/dl/0188/dep/2019/03/07?appId="
+		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/UX/0193/dep/2019/03/07?appId="
 				+ appId + "&appKey=" + appKey + "&utc=false";
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 		return response.getFlightStatuses();
