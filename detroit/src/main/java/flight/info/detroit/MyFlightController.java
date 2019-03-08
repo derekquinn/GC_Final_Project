@@ -11,6 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class MyFlightController {
 
 	@Autowired
+	MapsInfoApiService mapsApiService;
+
+	@Autowired
 	private FlightStatsApiServices flightStatsApiServices;
 
 	@RequestMapping("/")
@@ -18,6 +21,12 @@ public class MyFlightController {
 		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
 		System.out.println(flightstatus.toString());
 		return new ModelAndView("index");
+	}
+
+	@RequestMapping("/results")
+	public ModelAndView deployResults() {
+		mapsApiService.printDistanceMatrix();
+		return new ModelAndView("results");
 	}
 
 }
