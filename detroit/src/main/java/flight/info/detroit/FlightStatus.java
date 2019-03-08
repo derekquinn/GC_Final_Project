@@ -11,14 +11,13 @@ public class FlightStatus {
 	private ArrivalDate arrivalDate;
 	private String status;
 	private OperationalTimes operationalTimes;
-	private String codeShares;
 	private Integer flightDurations;
 	private String airportResources;
 	private String flightEquipment;
 
 	public FlightStatus(Long flightId, String carrierFsCode, String flightNumber, String departureAirportFsCode,
 			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
-			OperationalTimes operationalTimes, String codeShares, Integer flightDurations, String airportResources,
+			OperationalTimes operationalTimes, Integer flightDurations, String airportResources,
 			String flightEquipment) {
 		super();
 		this.flightId = flightId;
@@ -30,7 +29,6 @@ public class FlightStatus {
 		this.arrivalDate = arrivalDate;
 		this.status = status;
 		this.operationalTimes = operationalTimes;
-		this.codeShares = codeShares;
 		this.flightDurations = flightDurations;
 		this.airportResources = airportResources;
 		this.flightEquipment = flightEquipment;
@@ -106,14 +104,6 @@ public class FlightStatus {
 
 	public void setOperationalTimes(OperationalTimes operationalTimes) {
 		this.operationalTimes = operationalTimes;
-	}
-
-	public String getCodeShares() {
-		return codeShares;
-	}
-
-	public void setCodeShares(String codeShares) {
-		this.codeShares = codeShares;
 	}
 
 	public Integer getFlightDurations() {

@@ -5,6 +5,10 @@ public class DepartureDate {
 	private String dateLocal;
 	private String dateUtc;
 
+	public DepartureDate() {
+
+	}
+
 	public DepartureDate(String dateLocal, String dateUtc) {
 		super();
 		this.dateLocal = dateLocal;

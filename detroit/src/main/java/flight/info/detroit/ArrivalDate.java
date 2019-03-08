@@ -4,6 +4,10 @@ public class ArrivalDate {
 	private String dateLocal;
 	private String dateUtc;
 
+	public ArrivalDate() {
+
+	}
+
 	public String getDateLocal() {
 		return dateLocal;
 	}
