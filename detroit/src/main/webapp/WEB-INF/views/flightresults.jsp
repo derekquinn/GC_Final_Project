@@ -5,10 +5,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Flight | Search Results</title>
+<title>Flight | Search Results</title>
 </head>
 <body>
 
+Flight Search Results
+	<c:forEach var="flightstatus" items="${flightstatus}">
+		<div>
+			<h3>${flightstatus.flightId}-
+				${flightstatus.carrierFsCode}-${flightstatus.flightNumber}</h3>
+
+			Expected Arrival:
+			${flightstatus.operationalTimes.publishedArrival.dateLocal}<br>
+			Actual Arrival:
+			${flightstatus.operationalTimes.estimatedGateArrival.dateLocal}<br>
+
+			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
+			Arrival Gate: ${flightstatus.airportResources.arrivalGate}
+
+
+
+		</div>
+
+
+
+
+
+	</c:forEach>
 
 
 </body>

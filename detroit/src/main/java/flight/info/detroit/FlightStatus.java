@@ -14,6 +14,7 @@ public class FlightStatus {
 	private FlightDurations flightDurations;
 	private AirportResources airportResources;
 	private FlightEquipment flightEquipment;
+	private FlightMath flightMath;
 
 	public FlightStatus() {
 
@@ -22,7 +23,7 @@ public class FlightStatus {
 	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
 			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
 			OperationalTimes operationalTimes, FlightDurations flightDurations, AirportResources airportResources,
-			FlightEquipment flightEquipment) {
+			FlightEquipment flightEquipment, FlightMath flightMath) {
 		super();
 		this.flightId = flightId;
 		this.carrierFsCode = carrierFsCode;
@@ -36,6 +37,7 @@ public class FlightStatus {
 		this.flightDurations = flightDurations;
 		this.airportResources = airportResources;
 		this.flightEquipment = flightEquipment;
+		this.flightMath = flightMath;
 	}
 
 	public Long getFlightId() {
@@ -132,6 +134,14 @@ public class FlightStatus {
 
 	public void setFlightEquipment(FlightEquipment flightEquipment) {
 		this.flightEquipment = flightEquipment;
+	}
+	
+	public FlightMath getFlightMath() {
+		return flightMath;
+	}
+	
+	public void setFlightMath (FlightMath flightMath) {
+		this.flightMath = flightMath;
 	}
 
 	@Override
