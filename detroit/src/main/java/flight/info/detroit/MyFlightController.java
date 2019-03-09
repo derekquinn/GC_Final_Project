@@ -28,10 +28,10 @@ public class MyFlightController {
 		return new ModelAndView("results");
 	}
 
-	@RequestMapping("/flight")
+	@RequestMapping("/flighttest")
 	public ModelAndView showFlight() {
 		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
 		System.out.println(flightstatus.toString());
-		return new ModelAndView("flight", "flightstatus", flightstatus);
+		return new ModelAndView("flighttest", "flightstatus", flightstatus);
 	}
 }
