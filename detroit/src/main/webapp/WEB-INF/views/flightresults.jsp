@@ -21,8 +21,9 @@ Flight Search Results
 			${flightstatus.operationalTimes.estimatedGateArrival.dateLocal}<br>
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
-			Arrival Gate: ${flightstatus.airportResources.arrivalGate}
-
+			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
+			<%-- Arrival Metric: ${flightstatus.flightmath.gateArrivalMetric }
+ --%>
 
 
 		</div>

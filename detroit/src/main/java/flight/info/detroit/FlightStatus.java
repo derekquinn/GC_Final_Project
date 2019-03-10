@@ -151,7 +151,9 @@ public class FlightStatus {
 				+ arrivalAirportFsCode + ", departureDate=" + departureDate + ", arrivalDate=" + arrivalDate
 				+ ", status=" + status + ", operationalTimes=" + operationalTimes + ", flightDurations="
 				+ flightDurations + ", airportResources=" + airportResources + ", flightEquipment=" + flightEquipment
-				+ "]";
+				+ ", flightMath=" + flightMath + "]";
 	}
+
+
 
 }
