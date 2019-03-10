@@ -55,11 +55,12 @@ public class MyFlightController {
 		String flightNumber = flightCode.substring(2, 6);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-		
+		//int test = FlightMathCalculator.getMinuteDifference();
+		//System.out.println(test);
 		System.out.println(flightstatus.toString());
 
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-
+		
 		return mav;
 	}
 }
