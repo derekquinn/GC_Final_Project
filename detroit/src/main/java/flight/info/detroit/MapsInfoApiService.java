@@ -38,42 +38,35 @@ public class MapsInfoApiService {
 	 * GsonBuilder().setPrettyPrinting().create();
 	 * System.out.println(gson.toJson(results[0].addressComponents)); }
 	 */
-	origin = "1 Park Ave, Detroit, MI"; 
+	// origin = "1 Park Ave, Detroit, MI";
 	public DistanceMatrix getTravelWithTraffic(String origin) {
-		GeoApiContext context = new GeoApiContext.Builder()
-			    .apiKey(apiKey)
-			    .build();
-		
+		GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
+
 		DistanceMatrix trix;
 //		Instant now = new Instant(52329028);
-    try {
-        DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
-       trix = req.origins(origin)
-                .destinations("11050 Rogell Drive, Romulus, MI")
-                .departureTime(Instant.now())
-                .await();
-     
-               
-        
-        System.out.println(trix.rows[0].elements[0].duration.humanReadable);
-       // System.out.println(trix.rows[0].elements[0].
-        System.out.println("What?");
-        Map<String, Integer> map = new HashMap<>();
-        map.put("Hi", 3);
-        map.put("Yo",  7);
-        
-        
-        
+		try {
+			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+			trix = req.origins(origin).destinations("11050 Rogell Drive, Romulus, MI").departureTime(Instant.now())
+					.await();
+
+			System.out.println(trix.rows[0].elements[0].duration.humanReadable);
+			// System.out.println(trix.rows[0].elements[0].
+			System.out.println("What?");
+			Map<String, Integer> map = new HashMap<>();
+			map.put("Hi", 3);
+			map.put("Yo", 7);
+
 //        System.out.println(trix);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(gson.toJson(map));
-		System.out.println(gson.toJson(trix));
-		System.out.println("Hello?");
-		return trix;
-    } catch(ApiException e){
-        e.printStackTrace();
-    } catch(Exception e){
-        e.printStackTrace();
-    } 
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			System.out.println(gson.toJson(map));
+			System.out.println(gson.toJson(trix));
+			System.out.println("Hello?");
+			return trix;
+		} catch (ApiException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
