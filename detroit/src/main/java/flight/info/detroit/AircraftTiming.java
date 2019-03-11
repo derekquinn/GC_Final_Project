@@ -3,24 +3,24 @@ package flight.info.detroit;
 import java.time.LocalDateTime;
 
 public class AircraftTiming {
-	private LocalDateTime dateLocal;
+	private String dateLocal;
 	private String dateUtc;
 
 	public AircraftTiming() {
 
 	}
 
-	public AircraftTiming(LocalDateTime dateLocal, String dateUtc) {
+	public AircraftTiming(String dateLocal, String dateUtc) {
 		super();
 		this.dateLocal = dateLocal;
 		this.dateUtc = dateUtc;
 	}
 
-	public LocalDateTime getDateLocal() {
+	public String getDateLocal() {
 		return dateLocal;
 	}
 
-	public void setDateLocal(LocalDateTime dateLocal) {
+	public void setDateLocal(String dateLocal) {
 		this.dateLocal = dateLocal;
 	}
 

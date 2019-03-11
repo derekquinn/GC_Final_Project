@@ -22,8 +22,7 @@ Flight Search Results
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
-			<%-- Arrival Metric: ${flightstatus.flightmath.gateArrivalMetric }
- --%>
+			<%-- Arrival Metric: ${flightstatus.flightmath.gateArrivalMetric }--%>
 
 
 		</div>

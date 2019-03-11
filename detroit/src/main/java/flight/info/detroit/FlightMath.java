@@ -2,31 +2,31 @@ package flight.info.detroit;
 
 public class FlightMath {
 
-	private Integer gateArrivalMetric;
-	private Integer runwayDepartureMetric;
+	private Long gateArrivalMetric;
+	private Long runwayDepartureMetric;
 
 	public FlightMath( ) {
 		
 	}
 	
-	public FlightMath(Integer gateArrivalMetric, Integer runwayDepartureMetric) {
+	public FlightMath(Long gateArrivalMetric, Long runwayDepartureMetric) {
 		this.gateArrivalMetric = gateArrivalMetric;
 		this.runwayDepartureMetric = runwayDepartureMetric;
 	}
 
-	public Integer getGateArrivalMetric() {
+	public Long getGateArrivalMetric() {
 		return gateArrivalMetric;
 	}
 
-	public void setGateArrivalMetric(Integer gateArrivalMetric) {
+	public void setGateArrivalMetric(Long gateArrivalMetric) {
 		this.gateArrivalMetric = gateArrivalMetric;
 	}
 
-	public Integer getRunwayDepartureMetric() {
+	public Long getRunwayDepartureMetric() {
 		return runwayDepartureMetric;
 	}
 
-	public void setRunwayDepartureMetric(Integer runwayDepartureMetric) {
+	public void setRunwayDepartureMetric(Long runwayDepartureMetric) {
 		this.runwayDepartureMetric = runwayDepartureMetric;
 	}
 	
@@ -34,6 +34,8 @@ public class FlightMath {
 	public String toString() {
 		return "FlightMath [gateArrivalMetric=" + gateArrivalMetric + ", runwayDepartureMetric=" + runwayDepartureMetric +"]";
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }

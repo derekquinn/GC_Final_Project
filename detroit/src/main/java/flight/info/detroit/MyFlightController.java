@@ -37,15 +37,15 @@ public class MyFlightController {
 	@RequestMapping("/flighttest")
 	public ModelAndView showFlight() {
 		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
-		System.out.println(flightstatus.toString());
+		// System.out.println(flightstatus.toString());
+
 		return new ModelAndView("flighttest", "flightstatus", flightstatus);
 	}
 
 // take user input for flight number and send to API
 	@RequestMapping("/flightsearch")
 	public ModelAndView showFlightSearch() {
-		
-		
+
 		return new ModelAndView("flightsearch");
 	}
 
@@ -58,12 +58,18 @@ public class MyFlightController {
 		String flightNumber = flightCode.substring(2, 6);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-		//int test = FlightMathCalculator.getMinuteDifference();
-		//System.out.println(test);
-		System.out.println(flightstatus.toString());
+
+		// String test = FlightMathCalculator.gateArrivalMath();
+	//	FlightMathCalculator fm = new FlightMathCalculator();
+	
+		String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
+		
+		System.out.println("Calculator Test: " + test);
+
+		// System.out.println(flightstatus.toString());
 
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-		
+
 		return mav;
 	}
 }
