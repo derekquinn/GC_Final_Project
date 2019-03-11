@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.maps.model.DistanceMatrix;
+
 @Controller
 public class MyFlightController {
 
@@ -26,8 +28,9 @@ public class MyFlightController {
 // hard coded google distance matrix results test page with static destination / origin 
 	@RequestMapping("/results")
 	public ModelAndView deployResults() {
-		mapsApiService.printDistanceMatrix();
-		return new ModelAndView("results");
+		
+		DistanceMatrix trix = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
+		return new ModelAndView("results", "results", trix );
 	}
 
 // hard coded flight test results with a static flight number 

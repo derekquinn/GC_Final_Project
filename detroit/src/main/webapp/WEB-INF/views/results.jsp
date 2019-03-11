@@ -9,6 +9,13 @@
 </head>
 <body>
 
+<c:forEach var="results" items="${ trix }">
+	<div>
+	Destination address is ${ results.destination_addresses }
+	Arrival address is ${ results.arrival_addresses }
+	Duration in traffic ${ results.rows.elements.durationInTraffic.humanReadable }
+	</div>
+</c:forEach>
 	
 
 </body>
