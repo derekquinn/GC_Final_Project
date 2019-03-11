@@ -30,7 +30,7 @@ public class MyFlightController {
 	public ModelAndView deployResults() {
 		
 		DistanceMatrix trix = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		return new ModelAndView("results", "results", trix );
+		return new ModelAndView("results", "", trix );
 	}
 
 // hard coded flight test results with a static flight number 
@@ -51,7 +51,7 @@ public class MyFlightController {
 
 // split the flightsearch into airline and flight number for API url
 	@RequestMapping("flightresults")
-	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode) {
+	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode, @RequestParam("origin") String origin ) {
 
 // need to add conditional logic in case the flightCode is different length (IE AA67 vs AA067)
 		String airline = flightCode.substring(0, 2);
@@ -61,8 +61,11 @@ public class MyFlightController {
 		//int test = FlightMathCalculator.getMinuteDifference();
 		//System.out.println(test);
 		System.out.println(flightstatus.toString());
+		DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
 
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+		mav.addObject("origin",trix);
+		mav.addObject("origlocation", origin);
 		
 		return mav;
 	}

@@ -10,6 +10,7 @@
 <body>
 
 Flight Search Results
+			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
 			<h3>${flightstatus.flightId}-
