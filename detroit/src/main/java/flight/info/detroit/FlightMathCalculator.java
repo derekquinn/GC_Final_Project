@@ -40,36 +40,11 @@ public class FlightMathCalculator {
 
 		String hoursAsString = Long.toString(hours);
 		String minutesAsString = Long.toString(minutes);
-		String hoursAndMinutes = "Difference is" + hoursAsString + minutesAsString;
+		String hoursAndMinutes = "Difference is" + "HR " + hoursAsString + "MIN"+ minutesAsString;
+				 
 
 		return hoursAndMinutes;
 	}
 }
 
-//
 
-//	long diffInNano = ChronoUnit.NANOS.between(dateTime, dateTime2);
-//	long diffInSeconds = ChronoUnit.SECONDS.between(dateTime, dateTime2);
-//	long diffInMilli = ChronoUnit.MILLIS.between(dateTime, dateTime2);
-//////implements Comparable<LocalDateTime>
-//	public static int getMinuteDifference() {
-//	FlightStatus flightStatus = new FlightStatus();
-//	LocalDateTime estimatedGateArrival = flightStatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
-//	LocalDateTime actualGateArrival = flightStatus.getOperationalTimes().getActualGateArrival().getDateLocal();
-//	int minuteDifference = estimatedGateArrival.getMinute(). - actualGateArrival.getMinute();
-//	
-//
-//	
-//	//estimatedGateArrival.compareTo(actualGateArrival);
-//	//FlightMath.setGateArrivalMetric();
-//	return minuteDifference;
-//	}
-//	/*public int compareTo(LocalDateTime o) {
-//		int timeDiff = estimatedGateArrival.getMinute() - actualGateArrival.getMinute();
-//		return timeDiff;
-//	} */
-//	
-//	
-//}
-//
-//}

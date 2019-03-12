@@ -25,15 +25,16 @@ public class MyFlightController {
 		return new ModelAndView("index");
 	}
 
-// hard coded google distance matrix results test page with static destination / origin 
+	// hard coded google distance matrix results test page with static destination /
+	// origin
 	@RequestMapping("/results")
 	public ModelAndView deployResults() {
-		
+
 		DistanceMatrix trix = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		return new ModelAndView("results", "", trix );
+		return new ModelAndView("results", "", trix);
 	}
 
-// hard coded flight test results with a static flight number 
+	// hard coded flight test results with a static flight number
 	@RequestMapping("/flighttest")
 	public ModelAndView showFlight() {
 		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
@@ -42,45 +43,72 @@ public class MyFlightController {
 		return new ModelAndView("flighttest", "flightstatus", flightstatus);
 	}
 
-// take user input for flight number and send to API
+	// take user input for flight number and send to API
 	@RequestMapping("/flightsearch")
 	public ModelAndView showFlightSearch() {
 
 		return new ModelAndView("flightsearch");
 	}
 
-// split the flightsearch into airline and flight number for API url
+	// split the flightsearch into airline and flight number for API url
 	@RequestMapping("flightresults")
-	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode, @RequestParam("origin") String origin ) {
+	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
+			@RequestParam("origin") String origin) {
 
-// need to add conditional logic in case the flightCode is different length (IE AA67 vs AA067)
-		String airline = flightCode.substring(0, 2);
-		String flightNumber = flightCode.substring(2, 6);
+		if (flightCode.length() == 6) {
 
-		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+			String airline = flightCode.substring(0, 2);
+			String flightNumber = flightCode.substring(2, 6);
+			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
 
+			String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 
-		// String test = FlightMathCalculator.gateArrivalMath();
-	//	FlightMathCalculator fm = new FlightMathCalculator();
-	
-		String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
+			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
 
-		//int test = FlightMathCalculator.getMinuteDifference();
-		//System.out.println(test);
-		System.out.println(flightstatus.toString());
-		DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
+			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+			mav.addObject("origin", trix);
+			mav.addObject("origlocation", origin);
 
-		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-		mav.addObject("origin",trix);
-		mav.addObject("origlocation", origin);
+			System.out.println("Calculator Test: " + test);
+			return mav;
 
-		
-		System.out.println("Calculator Test: " + test);
+		} else if (flightCode.length() == 5) {
 
-		// System.out.println(flightstatus.toString());
+			String airline = flightCode.substring(0, 2);
+			String flightNumber = flightCode.substring(2, 5);
+			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
 
-		//ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+			String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 
-		return mav;
+			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
+
+			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+			mav.addObject("origin", trix);
+			mav.addObject("origlocation", origin);
+
+			System.out.println("Calculator Test: " + test);
+			return mav;
+
+		} else if (flightCode.length() == 4) {
+
+			String airline = flightCode.substring(0, 2);
+			String flightNumber = flightCode.substring(2, 4);
+			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+
+			String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
+
+			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
+
+			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+			mav.addObject("origin", trix);
+			mav.addObject("origlocation", origin);
+
+			System.out.println("Calculator Test: " + test);
+			return mav;
+
+		}
+
+		return new ModelAndView("flightsearch");
+
 	}
 }
