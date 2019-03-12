@@ -97,7 +97,7 @@ public class MyFlightController {
 //			// System.out.println("Calculator Test: " + test);
 //			return mav;
 
-		} else if (flightCode.length() == 4) {
+		//} else if (flightCode.length() == 4) {
 
 //			String flightNumber = flightCode.substring(2, 4);
 //			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);

@@ -14,7 +14,6 @@ import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.Duration;
 
 @Component
 public class MapsInfoApiService {
@@ -40,7 +39,7 @@ public class MapsInfoApiService {
 	 * System.out.println(gson.toJson(results[0].addressComponents)); }
 	 */
 	// origin = "1 Park Ave, Detroit, MI";
-	public Duration getTravelWithTraffic(String origin) {
+	public DistanceMatrix getTravelWithTraffic(String origin) {
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
 
 		DistanceMatrix trix;
@@ -52,19 +51,16 @@ public class MapsInfoApiService {
 
 			System.out.println(trix.rows[0].elements[0].duration.humanReadable);
 			// System.out.println(trix.rows[0].elements[0].
-			System.out.println("What?");
 			Map<String, Integer> map = new HashMap<>();
 			map.put("Hi", 3);
 			map.put("Yo", 7);
-			Duration dur;
+
 //        System.out.println(trix);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			System.out.println(gson.toJson(map));
 			System.out.println(gson.toJson(trix));
 			System.out.println("Hello?");
-//			return trix;
-			dur = trix.rows[0].elements[0].durationInTraffic;
-			return dur;
+			return trix;
 		} catch (ApiException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

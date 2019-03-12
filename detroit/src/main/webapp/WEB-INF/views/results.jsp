@@ -8,18 +8,18 @@
 <title>Results</title>
 </head>
 <body>
-
-
-<<<<<<< HEAD
-=======
 	<div>
 	Destination address is ${ origin.destinationAddresses }
+	</div>
+	
+	<div> 
 	Arrival address is ${ origin.arrivalAddresses }
+	</div>
+	<div>
 	Duration in traffic ${ origin.rows.elements.durationInTraffic.humanReadable }
 	</div>
 
-	
->>>>>>> 1fc3fa6852e0114e8ca0067f69350c931d3ac337
+
 
 </body>
 </html>
