@@ -11,9 +11,7 @@
 
 
 	<div>
-	Destination address is ${ origin.destinationAddresses }
-	Arrival address is ${ origin.arrivalAddresses }
-	Duration in traffic ${ origin.rows.elements.durationInTraffic.humanReadable }
+	Duration in traffic ${ dur }
 	</div>
 
 	

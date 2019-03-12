@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.Duration;
 
 @Controller
@@ -32,7 +31,7 @@ public class MyFlightController {
 	public ModelAndView deployResults() {
 
 		Duration dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		return new ModelAndView("results", "", dur);
+		return new ModelAndView("results", "dur", dur);
 	}
 
 	// hard coded flight test results with a static flight number
@@ -51,103 +50,29 @@ public class MyFlightController {
 		return new ModelAndView("flightsearch");
 	}
 
-	// split the flightsearch into airline and flight number for API url and accept
-	// flight numbers ranging from 3-6 characters in length
+	
 	@RequestMapping("flightresults")
-	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
+	public ModelAndView showFlightResults(
+			@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin) {
 
+		// split the flight search into airline and flight number for API url and accept
+		// flight numbers ranging from 3-6 characters in length
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 		
-//		if (flightCode.length() == 6) {
-
-//			String flightNumber = flightCode.substring(2, 6);
-//			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-//
-//			// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//
-//			Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//
-//			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
-//
-//
-//			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-//			mav.addObject("traffic", trix);
-//			mav.addObject("origlocation", origin);
-//			mav.addObject("gatearrivalmetric", gateArrivalMetric);
-//
-//			System.out.println(gateArrivalMetric);
-//			return mav;
-
-//		} else if (flightCode.length() == 5) {
-
-//			String flightNumber = flightCode.substring(2, 5);
-//			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-//
-//			// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//			Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
-//
-//			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-//			mav.addObject("traffic", trix);
-//			mav.addObject("origlocation", origin);
-//			mav.addObject("gatearrivalmetric", gateArrivalMetric);
-//
-//			// System.out.println("Calculator Test: " + test);
-//			return mav;
-
-		} else if (flightCode.length() == 4) {
-
-//			String flightNumber = flightCode.substring(2, 4);
-//			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-//			Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//			// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//
-//			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
-//
-//			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-//			mav.addObject("traffic", trix);
-//			mav.addObject("origlocation", origin);
-//			mav.addObject("gatearrivalmetric", gateArrivalMetric);
-//			// System.out.println("Calculator Test: " + test);
-//			return mav;
-
-//		} else if (flightCode.length() == 3) {
-
-//			String flightNumber = flightCode.substring(2, 3);
-//			List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-//
-//			// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//			Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-//			DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
-//
-//			ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-//			mav.addObject("traffic", trix);
-//			mav.addObject("origlocation", origin);
-//			mav.addObject("gatearrivalmetric", gateArrivalMetric);
-//			// System.out.println("Calculator Test: " + test);
-//			return mav;
-
-//		}
-		
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-
 		// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-
 		Duration dur = mapsApiService.getTravelWithTraffic(origin);
 
-
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
+		
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
 		mav.addObject("gatearrivalmetric", gateArrivalMetric);
-
 		System.out.println(gateArrivalMetric);
-		return mav;
-		//return new ModelAndView("flightsearch");
-
+		
+		return mav;	
 	}
 }

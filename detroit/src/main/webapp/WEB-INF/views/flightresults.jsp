@@ -25,24 +25,15 @@ Flight Search Results
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
 			Arrival Metric: ${gatearrivalmetric}
 
-
 		</div>
-
-
-
-
 
 	</c:forEach>
 
-
-
 	<div>
-	<%-- Destination address is ${ traffic.destinationAddresses } --%>
-	<%-- Arrival address is ${ traffic.arrivalAddresses } --%>
-	Duration in traffic ${ traffic.humanReadable }  
+	
+	Duration in traffic ${ traffic }
+	    
 	</div>
-
-
 
 
 
