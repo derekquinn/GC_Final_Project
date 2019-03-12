@@ -8,7 +8,6 @@ public class FlightMathCalculator {
 
 	public static Long gateArrivalMath(FlightStatus fs) {
 
-
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
 		String estimatedGateArrival = fs.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
 
@@ -37,19 +36,16 @@ public class FlightMathCalculator {
 		fromTemp = fromTemp.plusSeconds(seconds);
 
 		long millis = fromTemp.until(estimated, ChronoUnit.MILLIS);
-		
-		long hoursAsMinutes = hours*60;
-		
+
+		long hoursAsMinutes = hours * 60;
+
 		long totalMinutes = minutes + hoursAsMinutes;
 
-	//	String hoursAsString = Long.toString(hours);
-	//	String minutesAsString = Long.toString(minutes);
-	//	String hoursAndMinutes = "Difference is" + "HR " + hoursAsString + "MIN"+ minutesAsString;
-		
-		
-		
+		// String hoursAsString = Long.toString(hours);
+		// String minutesAsString = Long.toString(minutes);
+		// String hoursAndMinutes = "Difference is" + "HR " + hoursAsString + "MIN"+
+		// minutesAsString;
+
 		return totalMinutes;
 	}
 }
-
-
