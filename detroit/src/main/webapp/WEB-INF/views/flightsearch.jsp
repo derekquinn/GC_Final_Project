@@ -18,7 +18,7 @@
 		</p>
 		<p>
 		<input type= "text" name= "origin">
-			<input type="submit" value="Tell Me a Story">
+			<input type="submit" value="Calculate Pickup">
 		</p>
 	</form>
 

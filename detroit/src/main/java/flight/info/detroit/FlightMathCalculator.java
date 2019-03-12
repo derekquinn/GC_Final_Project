@@ -6,8 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 public class FlightMathCalculator {
 
-	public static String gateArrivalMath(FlightStatus fs) {
-
+	public static Long gateArrivalMath(FlightStatus fs) {
 
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
 		String estimatedGateArrival = fs.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
@@ -38,38 +37,15 @@ public class FlightMathCalculator {
 
 		long millis = fromTemp.until(estimated, ChronoUnit.MILLIS);
 
-		String hoursAsString = Long.toString(hours);
-		String minutesAsString = Long.toString(minutes);
-		String hoursAndMinutes = "Difference is" + hoursAsString + minutesAsString;
+		long hoursAsMinutes = hours * 60;
 
-		return hoursAndMinutes;
+		long totalMinutes = minutes + hoursAsMinutes;
+
+		// String hoursAsString = Long.toString(hours);
+		// String minutesAsString = Long.toString(minutes);
+		// String hoursAndMinutes = "Difference is" + "HR " + hoursAsString + "MIN"+
+		// minutesAsString;
+
+		return totalMinutes;
 	}
 }
-
-//
-
-//	long diffInNano = ChronoUnit.NANOS.between(dateTime, dateTime2);
-//	long diffInSeconds = ChronoUnit.SECONDS.between(dateTime, dateTime2);
-//	long diffInMilli = ChronoUnit.MILLIS.between(dateTime, dateTime2);
-//////implements Comparable<LocalDateTime>
-//	public static int getMinuteDifference() {
-//	FlightStatus flightStatus = new FlightStatus();
-//	LocalDateTime estimatedGateArrival = flightStatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
-//	LocalDateTime actualGateArrival = flightStatus.getOperationalTimes().getActualGateArrival().getDateLocal();
-//	int minuteDifference = estimatedGateArrival.getMinute(). - actualGateArrival.getMinute();
-//	
-//
-//	
-//	//estimatedGateArrival.compareTo(actualGateArrival);
-//	//FlightMath.setGateArrivalMetric();
-//	return minuteDifference;
-//	}
-//	/*public int compareTo(LocalDateTime o) {
-//		int timeDiff = estimatedGateArrival.getMinute() - actualGateArrival.getMinute();
-//		return timeDiff;
-//	} */
-//	
-//	
-//}
-//
-//}
