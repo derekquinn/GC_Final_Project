@@ -35,5 +35,16 @@ Flight Search Results
 	</c:forEach>
 
 
+
+	<div>
+	Destination address is ${ traffic.destinationAddresses }
+	<%-- Arrival address is ${ traffic.arrivalAddresses } --%>
+	<%-- Duration in traffic ${ traffic.rows.elements.durationInTraffic.humanReadable }  --%>
+	</div>
+
+
+
+
+
 </body>
 </html>

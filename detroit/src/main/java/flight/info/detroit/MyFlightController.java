@@ -71,7 +71,7 @@ public class MyFlightController {
 		DistanceMatrix trix = mapsApiService.getTravelWithTraffic(origin);
 
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-		mav.addObject("origin",trix);
+		mav.addObject("traffic",trix);
 		mav.addObject("origlocation", origin);
 
 		
