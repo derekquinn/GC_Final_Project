@@ -12,7 +12,13 @@
 Hello world let's fly.
 </p>
 
-
+<form action="/results">
+  Flight number:<br>
+  <input type="text" name="destination_addresses"><br>
+  Where Are You Leaving From :<br>
+  <input type="text" name="origin_addresses"><br><br>
+  <input type="submit" value="Submit">
+</form>
 
 
 
