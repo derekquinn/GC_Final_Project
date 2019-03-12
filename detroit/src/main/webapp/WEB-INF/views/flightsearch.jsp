@@ -17,7 +17,8 @@
 			Flight Number: <input name="flightcode" />
 		</p>
 		<p>
-			<button type="submit">Tell me a Story!</button>
+		<input type= "text" name= "origin">
+			<input type="submit" value="Calculate Pickup">
 		</p>
 	</form>
 

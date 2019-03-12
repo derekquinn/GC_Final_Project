@@ -10,6 +10,7 @@
 <body>
 
 Flight Search Results
+			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
 			<h3>${flightstatus.flightId}-
@@ -22,8 +23,7 @@ Flight Search Results
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
-			<%-- Arrival Metric: ${flightstatus.flightmath.gateArrivalMetric }
- --%>
+			Arrival Metric: ${gatearrivalmetric}
 
 
 		</div>
@@ -33,6 +33,17 @@ Flight Search Results
 
 
 	</c:forEach>
+
+
+
+	<div>
+	Destination address is ${ traffic.destinationAddresses }
+	<%-- Arrival address is ${ traffic.arrivalAddresses } --%>
+	<%-- Duration in traffic ${ traffic.rows.elements.durationInTraffic.humanReadable }  --%>
+	</div>
+
+
+
 
 
 </body>
