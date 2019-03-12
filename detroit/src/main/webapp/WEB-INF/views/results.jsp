@@ -9,6 +9,7 @@
 </head>
 <body>
 	<div>
+<<<<<<< HEAD
 	Destination address is ${ origin.destinationAddresses }
 	</div>
 	
@@ -17,6 +18,9 @@
 	</div>
 	<div>
 	Duration in traffic ${ origin.rows.elements.durationInTraffic.humanReadable }
+=======
+	Duration in traffic ${ dur }
+>>>>>>> 260979e3637ae3270c5782dce50f250e19f3a424
 	</div>
 
 

@@ -1,4 +1,4 @@
-package flight.info.detroit;
+package flight.info.detroit.model.googlematrix;
 
 import java.util.List;
 
