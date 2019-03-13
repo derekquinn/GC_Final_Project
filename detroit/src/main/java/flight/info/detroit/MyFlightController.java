@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.maps.model.Duration;
+import flight.info.detroit.flightdao.FlightTripDao;
 
 @Controller
 public class MyFlightController {
 
+	@Autowired
+	FlightTripDao flightTripDao;
+	
 	@Autowired
 	MapsInfoApiService mapsApiService;
 
@@ -32,10 +35,13 @@ public class MyFlightController {
 	// hard coded google distance matrix results test page with static destination /
 	// origin
 	@RequestMapping("/results")
-	public ModelAndView deployResults() {
-
+	public ModelAndView deployResults(FlightStatus fs) {
+		flightTripDao.create(fs);
+		ModelAndView mav = new ModelAndView("results");
 		Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		return new ModelAndView("results", "dur", dur);
+		mav.addObject("dur", dur);
+		mav.addObject("flightstatus", flightTripDao.findAll());
+		return mav;
 	}
 
 	// hard coded flight test results with a static flight number
@@ -66,6 +72,8 @@ public class MyFlightController {
 		String flightNumber = flightCode.substring(2);
 		
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+		flightTripDao.create(flightstatus.get(0));
+		
 		// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin);

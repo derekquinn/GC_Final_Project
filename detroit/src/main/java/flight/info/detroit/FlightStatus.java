@@ -1,24 +1,71 @@
 package flight.info.detroit;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="flight_data")
 public class FlightStatus {
 
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Long id;
+	@Transient
 	private Long flightId;
 	private String carrierFsCode;
 	private Integer flightNumber;
+	@Transient
 	private String departureAirportFsCode;
+	@Transient
 	private String arrivalAirportFsCode;
+	@Transient
 	private DepartureDate departureDate;
+	@Transient
 	private ArrivalDate arrivalDate;
+	@Transient
 	private String status;
+	@Transient
 	private OperationalTimes operationalTimes;
+	@Transient
 	private FlightDurations flightDurations;
+	@Transient
 	private AirportResources airportResources;
+	@Transient
 	private FlightEquipment flightEquipment;
+	@Transient
 	private FlightMath flightMath;
 
 	public FlightStatus() {
 
 	}
+	
+	public FlightStatus(Long id, Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
+			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
+			OperationalTimes operationalTimes, FlightDurations flightDurations, AirportResources airportResources,
+			FlightEquipment flightEquipment, FlightMath flightMath) {
+		super();
+		this.id=id;
+		this.flightId = flightId;
+		this.carrierFsCode = carrierFsCode;
+		this.flightNumber = flightNumber;
+		this.departureAirportFsCode = departureAirportFsCode;
+		this.arrivalAirportFsCode = arrivalAirportFsCode;
+		this.departureDate = departureDate;
+		this.arrivalDate = arrivalDate;
+		this.status = status;
+		this.operationalTimes = operationalTimes;
+		this.flightDurations = flightDurations;
+		this.airportResources = airportResources;
+		this.flightEquipment = flightEquipment;
+		this.flightMath = flightMath;
+	}
+	
+	
 
 	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
 			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
@@ -38,6 +85,16 @@ public class FlightStatus {
 		this.airportResources = airportResources;
 		this.flightEquipment = flightEquipment;
 		this.flightMath = flightMath;
+	}
+
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Long getFlightId() {
