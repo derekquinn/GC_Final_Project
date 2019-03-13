@@ -1,5 +1,9 @@
 package flight.info.detroit;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,13 +69,20 @@ public class MyFlightController {
 		// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin);
-
+		//placing departure time on jsp
+		
+		LocalDateTime groundDeptTime = FlightMathCalculator.leaveOrginTime(flightstatus.get(0), dur);
+		//Date Format
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
+		
+		
+		//
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
 		mav.addObject("gatearrivalmetric", gateArrivalMetric);
-		System.out.println(gateArrivalMetric);
+		mav.addObject("grounddepttime",groundDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a")));
 		
 		return mav;	
 	}

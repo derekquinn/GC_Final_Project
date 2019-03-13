@@ -1,11 +1,15 @@
 package flight.info.detroit;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class FlightMathCalculator {
 
+	private static Long getBagsTime = 20L;
+	private static Long getWalkToDoor = 15L;
+	
 	public static Long gateArrivalMath(FlightStatus fs) {
 
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
@@ -90,5 +94,21 @@ public class FlightMathCalculator {
 		return totalMinutes;
 		
 	}
-
+	public static LocalDateTime leaveOrginTime(FlightStatus fs, Long durationInSeconds) {
+		
+		String estimatedGateArrival = fs.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
+		Long minsInTraffic = durationInSeconds/60;
+		
+		Long airlinePassTask = (getBagsTime + getWalkToDoor);
+		
+		LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
+		LocalDateTime timeToLeave= timeAtDoor.minusMinutes(minsInTraffic);
+		
+		
+		
+		return timeToLeave;
+	} 
 }

@@ -34,9 +34,11 @@ Flight Search Results
 	Duration in traffic: ${ traffic } seconds
 	    
 	</div>
+<fmt:parseDate pattern="yyyy-MM-dd'T'HH:mm:ss.SSS" value="${grounddepttime}" var="parsedDate" />
+<fmt:formatDate value="${parsedDate}" pattern="HH:mm a" />
 
+<p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
 
-<p> Based on current traffic conditions, you should leave for the airport at THIS TIME.
 </p>
 
 
