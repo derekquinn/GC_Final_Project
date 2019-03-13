@@ -40,7 +40,7 @@ public class MapsInfoApiService {
 	 * System.out.println(gson.toJson(results[0].addressComponents)); }
 	 */
 	// origin = "1 Park Ave, Detroit, MI";
-	public Duration getTravelWithTraffic(String origin) {
+	public Long getTravelWithTraffic(String origin) {
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
 
 		DistanceMatrix trix;
@@ -56,14 +56,14 @@ public class MapsInfoApiService {
 			Map<String, Integer> map = new HashMap<>();
 			map.put("Hi", 3);
 			map.put("Yo", 7);
-			Duration dur;
+		//	Duration dur;
 //        System.out.println(trix);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			System.out.println(gson.toJson(map));
 			System.out.println(gson.toJson(trix));
 			System.out.println("Hello?");
 //			return trix;
-			dur = trix.rows[0].elements[0].durationInTraffic;
+			Long dur = trix.rows[0].elements[0].durationInTraffic.inSeconds;
 			return dur;
 		} catch (ApiException e) {
 			e.printStackTrace();

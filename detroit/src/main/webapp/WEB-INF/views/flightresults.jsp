@@ -31,10 +31,13 @@ Flight Search Results
 
 	<div>
 	
-	Duration in traffic ${ traffic }
+	Duration in traffic: ${ traffic } seconds
 	    
 	</div>
 
+
+<p> Based on current traffic conditions, you should leave for the airport at THIS TIME.
+</p>
 
 
 </body>

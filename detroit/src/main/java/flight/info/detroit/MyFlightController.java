@@ -30,7 +30,7 @@ public class MyFlightController {
 	@RequestMapping("/results")
 	public ModelAndView deployResults() {
 
-		Duration dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
+		Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
 		return new ModelAndView("results", "dur", dur);
 	}
 
@@ -64,7 +64,7 @@ public class MyFlightController {
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
 		// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-		Duration dur = mapsApiService.getTravelWithTraffic(origin);
+		Long dur = mapsApiService.getTravelWithTraffic(origin);
 
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
