@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import flight.info.detroit.flightdao.FlightTripDao;
+import flight.info.detroit.model.googlematrix.Duration;
+
 
 @Controller
 public class MyFlightController {
@@ -77,6 +79,13 @@ public class MyFlightController {
 		// String test = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin);
+		
+		Duration duration = new Duration(dur);
+		//Duration.findByDuration(dur);
+		flightTripDao.createDuration(duration);
+		System.out.println(duration);
+		
+		
 		//placing departure time on jsp
 		
 		LocalDateTime groundDeptTime = FlightMathCalculator.leaveOrginTime(flightstatus.get(0), dur);

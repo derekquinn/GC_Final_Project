@@ -39,6 +39,9 @@ public class FlightStatus {
 	private FlightEquipment flightEquipment;
 	@Transient
 	private FlightMath flightMath;
+	private Long duration;
+
+	
 
 	public FlightStatus() {
 
@@ -199,6 +202,16 @@ public class FlightStatus {
 	
 	public void setFlightMath (FlightMath flightMath) {
 		this.flightMath = flightMath;
+	}
+
+	
+	
+	public Long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Long duration) {
+		this.duration = duration;
 	}
 
 	@Override

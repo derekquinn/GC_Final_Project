@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import flight.info.detroit.FlightStatus;
+import flight.info.detroit.model.googlematrix.Duration;
 
 @Repository
 @Transactional
@@ -33,6 +34,14 @@ public class FlightTripDao {
 	}
 	
 	
+	public void createDuration(Duration duration) {
+		em.persist(duration);
+	}
+	
+	public Duration findByDuration(Long dur) {
+		
+		return em.createQuery("FROM Duration", Duration.class).getSingleResult();
+	}
 	
 	public void update(FlightStatus flightStatus) {
 		
