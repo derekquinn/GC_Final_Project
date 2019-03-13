@@ -48,4 +48,47 @@ public class FlightMathCalculator {
 
 		return totalMinutes;
 	}
+
+	public static Long runwayDepartureMath(FlightStatus fs) {
+
+		String estimateTakeoff = fs.getOperationalTimes().getEstimatedRunwayDeparture().getDateLocal();
+		String actualTakeoff = fs.getOperationalTimes().getActualRunwayDeparture().getDateLocal();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		
+		LocalDateTime actual = LocalDateTime.parse(actualTakeoff, formatter);
+		LocalDateTime estimated = LocalDateTime.parse(estimateTakeoff, formatter);
+		
+		LocalDateTime fromTemp = LocalDateTime.from(actual);
+		
+		long years = fromTemp.until(estimated, ChronoUnit.YEARS);
+		fromTemp = fromTemp.plusYears(years);
+
+		long months = fromTemp.until(estimated, ChronoUnit.MONTHS);
+		fromTemp = fromTemp.plusMonths(months);
+
+		long days = fromTemp.until(estimated, ChronoUnit.DAYS);
+		fromTemp = fromTemp.plusDays(days);
+
+		long hours = fromTemp.until(estimated, ChronoUnit.HOURS);
+		fromTemp = fromTemp.plusHours(hours);
+
+		long minutes = fromTemp.until(estimated, ChronoUnit.MINUTES);
+		fromTemp = fromTemp.plusMinutes(minutes);
+
+		long seconds = fromTemp.until(estimated, ChronoUnit.SECONDS);
+		fromTemp = fromTemp.plusSeconds(seconds);
+		
+		//Not being used from the api, but place if the api useds it in future
+		long millis = fromTemp.until(estimated, ChronoUnit.MILLIS);
+
+		long hoursAsMinutes = hours * 60;
+
+		long totalMinutes = minutes + hoursAsMinutes;
+
+	
+		return totalMinutes;
+		
+	}
+
 }

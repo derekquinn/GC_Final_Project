@@ -8,13 +8,14 @@
 <title>Results</title>
 </head>
 <body>
-
-
+	
 	<div>
+	
 	Duration in traffic ${ dur }
+
 	</div>
 
-	
+
 
 </body>
 </html>

@@ -17,7 +17,7 @@
 			Flight Number: <input name="flightcode" />
 		</p>
 		<p>
-			Driver Origin: <input type= "text" name= "origin">
+			Driver Origin Location: <input type= "text" name= "origin">
 			<input type="submit" value="Calculate Pickup">
 		</p>
 	</form>
