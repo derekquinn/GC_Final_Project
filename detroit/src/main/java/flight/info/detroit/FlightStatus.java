@@ -46,6 +46,8 @@ public class FlightStatus {
 	private LocalDateTime driverDeparture;
 	@Column(name = "departure_time_fmt")
 	private String fmtDriverDepartureTime;
+	@Column(name = "driver_origin")
+	private String driverOrigin;
 
 	public FlightStatus() {
 
@@ -54,8 +56,8 @@ public class FlightStatus {
 	public FlightStatus(Long id, Long flightId, String carrierFsCode, Integer flightNumber,
 			String departureAirportFsCode, String arrivalAirportFsCode, DepartureDate departureDate,
 			ArrivalDate arrivalDate, String status, OperationalTimes operationalTimes, FlightDurations flightDurations,
-			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath, Long driveDurationSec,
-			LocalDateTime driverDeparture, String fmtDriverDepartureTime) {
+			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath,
+			Long driveDurationSec, LocalDateTime driverDeparture, String fmtDriverDepartureTime, String driverOrigin) {
 		super();
 		this.id = id;
 		this.flightId = flightId;
@@ -73,6 +75,7 @@ public class FlightStatus {
 		this.flightMath = flightMath;
 		this.driveDurationSec = driveDurationSec;
 		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+		this.driverOrigin = driverOrigin;
 	}
 
 	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
@@ -222,8 +225,6 @@ public class FlightStatus {
 	public void setDriverDeparture(LocalDateTime driverDeparture) {
 		this.driverDeparture = driverDeparture;
 	}
-	
-	
 
 	public Long getDriveDurationSec() {
 		return driveDurationSec;
@@ -239,6 +240,14 @@ public class FlightStatus {
 
 	public void setFmtDriverDepartureTime(String fmtDriverDepartureTime) {
 		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+	}
+
+	public String getDriveOrigin() {
+		return driverOrigin;
+	}
+
+	public void setDriveOrigin(String driveOrigin) {
+		this.driverOrigin = driveOrigin;
 	}
 
 	@Override

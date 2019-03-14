@@ -53,4 +53,9 @@ public class FlightTripDao {
 		em.remove(fs);
 
 	}
+
+	public void updateFlight(FlightStatus fs) {
+		em.merge(fs);
+	}
+
 }

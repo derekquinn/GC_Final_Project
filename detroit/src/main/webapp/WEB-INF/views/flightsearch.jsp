@@ -8,9 +8,12 @@
 <title>Flight | Search</title>
 </head>
 <body>
-
+<%@include file="partials/header.jsp"%>
+	
 	<p> ${ message }
 	</p>
+
+
 	<form action="/flightresults">
 		<h2>Calculate your departure time</h2>
 		<p>

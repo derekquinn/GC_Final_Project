@@ -8,8 +8,10 @@
 <title>Flight | Search Results</title>
 </head>
 <body>
-<a href = "/flightlist"> My Flights</a>
-Flight Search Results
+
+<%@include file="partials/header.jsp"%>
+<h2>Flight Search Results</h2>
+
 			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
@@ -35,12 +37,10 @@ Flight Search Results
 	    
 	</div>
 
+
 <p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
 
 </p>
-<p>
-
-
 
 </body>
 </html>

@@ -24,12 +24,6 @@ public class MyFlightController {
 	@Autowired
 	private FlightStatsApiServices flightStatsApiServices;
 
-	@RequestMapping("/")
-	public ModelAndView showIndex() {
-
-		return new ModelAndView("flightsearch");
-	}
-
 	// hard coded google distance matrix results test page with static destination
 	@RequestMapping("/results")
 	public ModelAndView deployResults(FlightStatus fs) {
@@ -50,7 +44,7 @@ public class MyFlightController {
 	}
 
 	// take user input for flight number and send to API
-	@RequestMapping("/flightsearch")
+	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
 		return new ModelAndView("flightsearch");
@@ -90,22 +84,23 @@ public class MyFlightController {
 		// send duration in seconds to the database
 		flightstatus.get(0).setDuration(dur);
 		flightTripDao.update(flightstatus.get(0));
-		
+
 		LocalDateTime driverDeptTime;
 
 		if (checkedBags != null) {
 			// storing the calculated departure time for driver / user with checked bags
 			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus.get(0), dur);
 		} else {
-			
+
 			// storing the calculated departure time for driver / user with no checked bags
-			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus.get(0), dur);			
-		} 
+			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus.get(0), dur);
+		}
 
 		// sending driver departure time to database
 		flightstatus.get(0).setDriverDeparture(driverDeptTime);
 		flightTripDao.update(flightstatus.get(0));
-		// storing the calcualted driver departure time in a string, reformatted for humans
+		// storing the calcualted driver departure time in a string, reformatted for
+		// humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 		// sending reformatted driver departure time to database
 		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
@@ -118,7 +113,8 @@ public class MyFlightController {
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
 		mav.addObject("gatearrivalmetric", gateArrivalMetric);
-		// placing reformatted driver departure time on jsp after reformatting to 12hr time
+		// placing reformatted driver departure time on jsp after reformatting to 12hr
+		// time
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		
 		return mav;
@@ -142,4 +138,13 @@ public class MyFlightController {
 		return new ModelAndView("redirect:/flightlist");
 
 	}
+
+//Update and item
+	@RequestMapping("/flightstatus/update")
+	public ModelAndView update(FlightStatus fs) {
+		flightTripDao.updateFlight(fs);
+		return new ModelAndView("redirect:/flightlist");
+
+	}
+
 }

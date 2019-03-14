@@ -20,6 +20,8 @@
 			<th>Airline</th>
 			<th>Flight #</th>
 			<th>Driver Departure</th>
+			<th>Refresh</th>
+			<th>Remove</th>
 		</tr>
 
 
@@ -30,6 +32,7 @@
 				<td>${flights.flightNumber}</td>
 				<td>${flights.fmtDriverDepartureTime}</td>
 				
+				<td><a href="/flightstatus/update?id=${flights.id}">Update</a></td>
 				<td><a href="/flightstatus/delete?id=${flights.id}">Delete</a></td>
 			</tr>
 		</c:forEach>
