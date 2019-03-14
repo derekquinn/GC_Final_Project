@@ -13,7 +13,6 @@ public class FlightMath {
 		this.gateArrivalMetric = gateArrivalMetric;
 		this.runwayDepartureMetric = runwayDepartureMetric;
 	}
-
 	public Long getGateArrivalMetric() {
 		return gateArrivalMetric;
 	}

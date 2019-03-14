@@ -8,7 +8,7 @@
 <title>Flight | Search Results</title>
 </head>
 <body>
-
+<a href = "/flightlist"> My Flights</a>
 Flight Search Results
 			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
@@ -34,12 +34,12 @@ Flight Search Results
 	Duration in traffic: ${ traffic } seconds
 	    
 	</div>
-<fmt:parseDate pattern="yyyy-MM-dd'T'HH:mm:ss.SSS" value="${grounddepttime}" var="parsedDate" />
-<fmt:formatDate value="${parsedDate}" pattern="HH:mm a" />
 
 <p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
 
 </p>
+<p>
+
 
 
 </body>
