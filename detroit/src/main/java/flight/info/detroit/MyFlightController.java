@@ -56,17 +56,33 @@ public class MyFlightController {
 		return new ModelAndView("flightsearch");
 	}
 
-	@RequestMapping("flightresults")
+	@RequestMapping("/flightresults")
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean checkedBags) {
 
+		
+		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$")) ) { 
+			  ModelAndView mav = new ModelAndView("flightsearch"); 
+			  mav.addObject("message", "Invalid flight number or flight code. Please re-enter."); 
+			  return mav;
+		  }
+		  
+		 
 		// split the flight search into airline and flight number for API url and accept
 		// flight numbers ranging from 3-6 characters in length
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+		if (flightstatus.isEmpty()) {
+			ModelAndView mav = new ModelAndView("flightsearch");
+			mav.addObject("message", "The flight information you entered could not be found. Please try again.");
+			return mav;
+		}
+		
 		flightTripDao.create(flightstatus.get(0));
+		
+		
 
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin);
@@ -95,7 +111,8 @@ public class MyFlightController {
 		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.update(flightstatus.get(0));
 		// sending airline passenger gate assignment to database
-
+		
+	
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 
 		mav.addObject("traffic", dur);
@@ -103,8 +120,10 @@ public class MyFlightController {
 		mav.addObject("gatearrivalmetric", gateArrivalMetric);
 		// placing reformatted driver departure time on jsp after reformatting to 12hr time
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
-
+		
 		return mav;
+		
+		
 	}
 
 	@RequestMapping("flightlist")
