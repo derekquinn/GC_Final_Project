@@ -8,8 +8,10 @@
 <title>Flight | Search Results</title>
 </head>
 <body>
+
 <%@include file="partials/header.jsp"%>
 <h2>Flight Search Results</h2>
+
 			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
@@ -39,7 +41,6 @@
 <p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
 
 </p>
-
 
 </body>
 </html>

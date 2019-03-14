@@ -1,4 +1,4 @@
-package flight.info.detroit;
+package flight.info.detroit.model.flightstats;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import flight.info.detroit.FlightMath;
 
 @Entity
 @Table(name = "flight_data")
@@ -41,11 +43,10 @@ public class FlightStatus {
 	private FlightEquipment flightEquipment;
 	@Transient
 	private FlightMath flightMath;
-	private Long driveDurationSec;
+	@Column(name = "duration")
+	private Long driveDuration;
 	@Column(name = "departure_time")
 	private LocalDateTime driverDeparture;
-	@Column(name = "departure_time_fmt")
-	private String fmtDriverDepartureTime;
 
 	public FlightStatus() {
 
@@ -54,8 +55,8 @@ public class FlightStatus {
 	public FlightStatus(Long id, Long flightId, String carrierFsCode, Integer flightNumber,
 			String departureAirportFsCode, String arrivalAirportFsCode, DepartureDate departureDate,
 			ArrivalDate arrivalDate, String status, OperationalTimes operationalTimes, FlightDurations flightDurations,
-			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath, Long driveDurationSec,
-			LocalDateTime driverDeparture, String fmtDriverDepartureTime) {
+			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath,
+			Long driveDuration, LocalDateTime driverDeparture) {
 		super();
 		this.id = id;
 		this.flightId = flightId;
@@ -71,8 +72,8 @@ public class FlightStatus {
 		this.airportResources = airportResources;
 		this.flightEquipment = flightEquipment;
 		this.flightMath = flightMath;
-		this.driveDurationSec = driveDurationSec;
-		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+		this.driveDuration = driveDuration;
+		this.driverDeparture = driverDeparture;
 	}
 
 	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
@@ -207,12 +208,12 @@ public class FlightStatus {
 		this.flightMath = flightMath;
 	}
 
-	public Long getDuration() {
-		return driveDurationSec;
+	public Long getDriveDuration() {
+		return driveDuration;
 	}
 
-	public void setDuration(Long duration) {
-		this.driveDurationSec = duration;
+	public void setDriveDuration(Long driveDuration) {
+		this.driveDuration = driveDuration;
 	}
 
 	public LocalDateTime getDriverDeparture() {
@@ -221,24 +222,6 @@ public class FlightStatus {
 
 	public void setDriverDeparture(LocalDateTime driverDeparture) {
 		this.driverDeparture = driverDeparture;
-	}
-	
-	
-
-	public Long getDriveDurationSec() {
-		return driveDurationSec;
-	}
-
-	public void setDriveDurationSec(Long driveDurationSec) {
-		this.driveDurationSec = driveDurationSec;
-	}
-
-	public String getFmtDriverDepartureTime() {
-		return fmtDriverDepartureTime;
-	}
-
-	public void setFmtDriverDepartureTime(String fmtDriverDepartureTime) {
-		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
 	}
 
 	@Override

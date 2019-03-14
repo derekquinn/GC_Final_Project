@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +11,19 @@
 <%@include file="partials/header.jsp"%>
 
 	<form action="/flightresults">
-		<h2>Enter a flight number</h2>
-		<i>Example: UX0193</i>
+		<h2>Calculate your departure time</h2>
 		<p>
-			Flight Number: <input name="flightcode" />
+			Flight Number: <input name="flightcode" placeholder="UX0193"size="10" />
 		</p>
 		<p>
-			Driver Origin Location: <input type= "text" name= "origin">
-			<input type="submit" value="Calculate Pickup">
+			Driver Origin Location: <input type="text" name="origin" placeholder="2100 Woodward Ave, Detroit, MI " size="35">
+
+
+
 		</p>
+		<input type="submit" value="Calculate Pickup"> 
+		<input type="checkbox" name="bags" value="true"> Checked Bags?
+
 	</form>
 
 </body>
