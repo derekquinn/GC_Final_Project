@@ -23,11 +23,7 @@ public class MyFlightController {
 	@Autowired
 	private FlightStatsApiServices flightStatsApiServices;
 
-	@RequestMapping("/")
-	public ModelAndView showIndex() {
 
-		return new ModelAndView("index");
-	}
 
 	// hard coded google distance matrix results test page with static destination /
 	// origin
@@ -48,10 +44,10 @@ public class MyFlightController {
 	}
 
 	// take user input for flight number and send to API
-	@RequestMapping("/flightsearch")
+	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
-		return new ModelAndView("flightsearch");
+		return new ModelAndView("index");
 	}
 
 	

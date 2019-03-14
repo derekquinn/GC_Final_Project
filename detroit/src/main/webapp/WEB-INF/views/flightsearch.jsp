@@ -8,7 +8,7 @@
 <title>Flight | Search</title>
 </head>
 <body>
-
+<%@include file="partials/header.jsp"%>
 
 	<form action="/flightresults">
 		<h2>Enter a flight number</h2>

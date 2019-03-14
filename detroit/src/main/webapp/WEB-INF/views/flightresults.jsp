@@ -8,8 +8,8 @@
 <title>Flight | Search Results</title>
 </head>
 <body>
-
-Flight Search Results
+<%@include file="partials/header.jsp"%>
+<h2>Flight Search Results</h2>
 			<p> Origin: ${ origlocation } </p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
@@ -34,8 +34,7 @@ Flight Search Results
 	Duration in traffic: ${ traffic } seconds
 	    
 	</div>
-<fmt:parseDate pattern="yyyy-MM-dd'T'HH:mm:ss.SSS" value="${grounddepttime}" var="parsedDate" />
-<fmt:formatDate value="${parsedDate}" pattern="HH:mm a" />
+
 
 <p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
 

@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+h1.display-1{
+	font-weight:bold;
+	font-size:120px;
+	color:#f78098;
+	text-shadow:-1px -1px 0 #6e1f58, 1px -1px 0 #6e1f58, -1px 1px 0 #6e1f58, 1px 1px 0 #6e1f58, 1px 0 0 #65f283, 0 1px 0 #65f283, 2px 1px 0 #65f283, 1px 2px 0 #65f283, 3px 2px 0 #65f283, 2px 3px 0 #65f283, 4px 3px 0 #65f283, 3px 4px 0 #65f283, 5px 4px 0 #65f283, 3px 5px 0 #6e1f58, 6px 5px 0 #6e1f58, -1px 2px 0 #000, 0 3px 0 #6e1f58, 1px 4px 0 #6e1f58, 2px 5px 0 #6e1f58, 2px -1px 0 #6e1f58, 3px 0 0 #6e1f58, 4px 1px 0 #6e1f58, 5px 2px 0 #6e1f58, 6px 3px 0 #6e1f58, 7px 4px 0 #6e1f58, 10px 10px 4px #dac249;
+}
+h2{
+	font-family: Georgia, serif;
+	font-size: 40px; 
+}
+div .table {
+	color: #000000;
+	table-layout: fixed;
+}
+
+div img {
+	max-width: 100%;
+	min-width: 80%;
+}
+
+body {
+	background-color:ghostwhite;
+}
+
+thead{
+	font-size:20px;
+}
+
+tbody{
+	color:#E8F7EE;
+}
