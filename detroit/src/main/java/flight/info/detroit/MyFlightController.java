@@ -138,7 +138,7 @@ public class MyFlightController {
 		return new ModelAndView("redirect:/flightlist");
 
 	}
-
+//extra  comment
 //Update and item
 	@RequestMapping("/flightstatus/update")
 	public ModelAndView update(FlightStatus fs) {
