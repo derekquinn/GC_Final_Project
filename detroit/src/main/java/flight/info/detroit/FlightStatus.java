@@ -47,7 +47,11 @@ public class FlightStatus {
 	@Column(name = "departure_time")
 	private LocalDateTime driverDeparture;
 	@Column(name = "departure_time_fmt")
+	
 	private String fmtDriverDepartureTime;
+	@Transient
+	private String fmtPickupTime;
+	
 	private String driverOrigin;
 	private boolean hasBags;
 
@@ -266,6 +270,15 @@ public class FlightStatus {
 
 	public void setHasBags(boolean hasBags) {
 		this.hasBags = hasBags;
+	}
+	
+
+	public String getFmtPickupTime() {
+		return fmtPickupTime;
+	}
+
+	public void setFmtPickupTime(String fmtPickupTime) {
+		this.fmtPickupTime = fmtPickupTime;
 	}
 
 	@Override

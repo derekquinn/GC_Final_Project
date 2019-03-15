@@ -88,7 +88,7 @@ public class MyFlightController {
 		flightTripDao.updateFlight(flightstatus.get(0));
 
 		LocalDateTime driverDeptTime;
-
+		
 		if (hasBags != null) {
 			// storing the calculated departure time for driver / user with checked bags
 			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus.get(0), dur);
@@ -110,19 +110,27 @@ public class MyFlightController {
 		// storing the calcualted driver departure time in a string, reformatted for
 		// humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+
 		// sending reformatted driver departure time to database
 		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.updateFlight(flightstatus.get(0));
 		// sending airline passenger gate assignment to database
-
+		
+		// getting formatted time at door from Flight Math Calc
+		
+		String timeAtDoor = FlightMathCalculator.getPickupTime(dur, driverDeptTime);
+		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightstatus.get(0));
+		
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
 		// mav.addObject("gatearrivalmetric", gateArrivalMetric);
-		// placing reformatted driver departure time on jsp after reformatting to 12hr
-		// time
+		// placing reformatted times on jsp after reformatting to 12hr
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
+		mav.addObject("timeatdoor", timeAtDoor);
+		mav.addObject("gatearrival", gateArrival);
+		
 
 		return mav;
 
@@ -169,7 +177,7 @@ public class MyFlightController {
 			updatedFs.get(0).setDriverDeparture(driverDeptTime);
 			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
 		}		
-
+		
 	
 		updatedFs.get(0).setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
 		

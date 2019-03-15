@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import com.google.maps.model.Duration;
+
 public class FlightMathCalculator {
 
 	private static Long getBagsTime = 22L;
@@ -78,5 +80,29 @@ public class FlightMathCalculator {
 		LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
 
 		return timeToLeave;
+	}
+
+	public static String getPickupTime(Long driveTimeInSeconds, LocalDateTime driverDepartureTime) {
+
+		Long minsInTraffic = driveTimeInSeconds / 60;
+
+		LocalDateTime pickupTime = driverDepartureTime.plusMinutes(minsInTraffic);
+
+		String formattedPickupTime = pickupTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+
+		return formattedPickupTime;
+
+	}
+
+	public static String getFormattedGateArrival(FlightStatus fs) {
+
+		String gateArrivaljson = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		LocalDateTime gateArrival = LocalDateTime.parse(gateArrivaljson, formatter);
+
+		String formattedGateArrival = gateArrival.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+
+		return formattedGateArrival;
 	}
 }
