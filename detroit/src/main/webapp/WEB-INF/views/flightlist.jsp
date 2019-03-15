@@ -4,24 +4,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <meta charset="UTF-8">
 <title>Flight | List</title>
 </head>
 <body>
+<%@include file="partials/header.jsp"%>
 <p>
-<a href = "/">Home</a>
+
 </p>
 	<b>Previous Searches</b>
 <br>
 <br>
 
-	<table width =33%>
+	<table class="table table-hover" width =33%>
 		<tr>
-			<th>Airline</th>
-			<th>Flight #</th>
-			<th>Driver Departure</th>
-			<th>Refresh</th>
-			<th>Remove</th>
+			<th scope="col">Airline</th>
+			<th scope="col">Flight #</th>
+			<th scope="col">Driver Departure</th>
+			<th scope="col">Refresh</th>
+			<th scope="col">Remove</th>
 		</tr>
 
 
