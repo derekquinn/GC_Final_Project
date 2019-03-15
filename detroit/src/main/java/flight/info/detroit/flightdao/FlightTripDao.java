@@ -42,7 +42,7 @@ public class FlightTripDao {
 		return em.createQuery("FROM Duration", Duration.class).getSingleResult();
 	}
 
-	public void update(FlightStatus flightStatus) {
+	public void updateFlight(FlightStatus flightStatus) {
 
 		em.merge(flightStatus);
 	}
@@ -54,9 +54,9 @@ public class FlightTripDao {
 
 	}
 
-	public void updateFlightById(Long id, FlightStatus flightStatus) {
-		flightStatus = em.getReference(FlightStatus.class, id);
-		em.merge(flightStatus);
+	public void updateFlightById(Long id) {
+		FlightStatus flightStatus = em.getReference(FlightStatus.class, id);
+		em.persist(flightStatus);
 	}
 
 }

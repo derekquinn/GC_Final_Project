@@ -51,6 +51,7 @@ public class FlightStatsApiServices {
 		System.out.println(today);
 		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/" + airline + "/"
 				+ flightNumber + "/dep/" + today + "?appId=" + appId + "&appKey=" + appKey + "&utc=false";
+		System.out.println(url);
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
 		return response.getFlightStatuses();
