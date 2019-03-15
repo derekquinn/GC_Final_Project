@@ -4,11 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,8 +29,8 @@ public class MyFlightController {
 	public ModelAndView deployResults(FlightStatus fs) {
 		flightTripDao.create(fs);
 		ModelAndView mav = new ModelAndView("results");
-	//	Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-	//	mav.addObject("dur", dur);
+		// Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
+		// mav.addObject("dur", dur);
 		mav.addObject("flightstatus", flightTripDao.findAll());
 		return mav;
 	}
@@ -77,7 +74,7 @@ public class MyFlightController {
 		}
 		String arrivalLocation = flightstatus.get(0).getAirportResources().getArrivalTerminal();
 		flightTripDao.create(flightstatus.get(0));
-		
+
 		// Long gateArrivalMetric =
 		// FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin, arrivalLocation);
@@ -88,13 +85,13 @@ public class MyFlightController {
 		flightTripDao.updateFlight(flightstatus.get(0));
 
 		LocalDateTime driverDeptTime;
-		
+
 		if (hasBags != null) {
 			// storing the calculated departure time for driver / user with checked bags
 			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus.get(0), dur);
 			flightstatus.get(0).setHasBags(true);
 			flightTripDao.updateFlight(flightstatus.get(0));
-			
+
 		} else {
 
 			// storing the calculated departure time for driver / user with no checked bags
@@ -115,12 +112,12 @@ public class MyFlightController {
 		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.updateFlight(flightstatus.get(0));
 		// sending airline passenger gate assignment to database
-		
+
 		// getting formatted time at door from Flight Math Calc
-		
+
 		String timeAtDoor = FlightMathCalculator.getPickupTime(dur, driverDeptTime);
 		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightstatus.get(0));
-		
+
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 
 		mav.addObject("traffic", dur);
@@ -130,7 +127,6 @@ public class MyFlightController {
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
-		
 
 		return mav;
 
@@ -162,28 +158,29 @@ public class MyFlightController {
 		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
 		updatedFs.get(0).setId(id);
 		String arrivalLocation = updatedFs.get(0).getAirportResources().getArrivalTerminal();
-		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(), arrivalLocation);
+		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(),
+				arrivalLocation);
 		updatedFs.get(0).setDriveDurationSec(updatedDur);
-		
+
 		if (updatedFs.get(0).getHasBags()) {
 			// calculate updated driver departure time with new traffic info
 			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs.get(0), updatedDur);
-			String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
+					.format(DateTimeFormatter.ofPattern("hh:mm a"));
 			updatedFs.get(0).setDriverDeparture(driverDeptTime);
 			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
-			
+
 		} else {
 			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs.get(0), updatedDur);
-			String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
+					.format(DateTimeFormatter.ofPattern("hh:mm a"));
 			updatedFs.get(0).setDriverDeparture(driverDeptTime);
 			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
-		}		
-		
-	
-		updatedFs.get(0).setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
-		
-		flightTripDao.updateFlight(updatedFs.get(0));
+		}
 
+		updatedFs.get(0).setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
+
+		flightTripDao.updateFlight(updatedFs.get(0));
 
 		ModelAndView mav = new ModelAndView("redirect:/flightlist");
 
