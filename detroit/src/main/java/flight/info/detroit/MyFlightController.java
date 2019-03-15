@@ -54,7 +54,7 @@ public class MyFlightController {
 
 	@RequestMapping("/flightresults")
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
-			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean checkedBags) {
+			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
 		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
@@ -89,16 +89,18 @@ public class MyFlightController {
 
 		LocalDateTime driverDeptTime;
 
-		if (checkedBags != null) {
+		if (hasBags != null) {
 			// storing the calculated departure time for driver / user with checked bags
 			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus.get(0), dur);
-			
+			flightstatus.get(0).setHasBags(true);
 			flightTripDao.updateFlight(flightstatus.get(0));
+			
 		} else {
 
 			// storing the calculated departure time for driver / user with no checked bags
 
 			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus.get(0), dur);
+			flightstatus.get(0).setHasBags(false);
 			flightTripDao.updateFlight(flightstatus.get(0));
 		}
 
@@ -150,10 +152,11 @@ public class MyFlightController {
 
 		// call both APIS again to update data points for a flight
 		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
+		updatedFs.get(0).setId(id);
 		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin());
 		updatedFs.get(0).setDriveDurationSec(updatedDur);
 		
-		if (updatedFs.get(0).getHasBags() == true ) {
+		if (updatedFs.get(0).getHasBags()) {
 			// calculate updated driver departure time with new traffic info
 			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs.get(0), updatedDur);
 			String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
