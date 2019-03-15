@@ -10,13 +10,37 @@
 <body>
 
 	<%@include file="partials/header.jsp"%>
-	<h2>Flight Search Results</h2>
+	<h2>Pick up Status</h2>
+	<c:forEach var="flightstatus" items="${flightstatus}">
+	<h5>${flightstatus.carrierFsCode}-${flightstatus.flightNumber}</h5>
+				</c:forEach>
+	
 
-	<p>Origin: ${ origlocation }</p>
+	<p>${ origlocation } ------> DTW</p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
-			<h3>${flightstatus.flightId}-
-				${flightstatus.carrierFsCode}-${flightstatus.flightNumber}</h3>
+		<h3>Here are your Flight Results:</h3>   
+		<div class="container">
+  <div class="row">
+    <div class="col-sm">
+     <h4>Passenger Gate Arrival</h4>
+      ${gatearrival }
+    </div>
+    <div class="col-sm">
+     <h4>Driver Departure</h4>
+      ${ grounddepttime }
+      
+    </div>
+    <div class="col-sm">
+     <h4>Pickup</h4>
+      ${ timeatdoor }
+      
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
 
 			Expected Arrival:
 			${flightstatus.operationalTimes.publishedArrival.dateLocal}<br>
@@ -26,19 +50,18 @@
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
 			
-			GA formatted ${gatearrival }
+			
 
 
 		</div>
 
 	</c:forEach>
 
-	<div>Duration in traffic: ${ traffic } seconds</div>
+	
 	
 
 
-	<p>Based on current traffic conditions, you should leave for the
-		airport at ${ grounddepttime } . You will arrive at ${ timeAtDoor }</p>
+	
 
 </body>
 </html>
