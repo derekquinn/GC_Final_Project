@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "flight_data")
 public class FlightStatus {
@@ -46,6 +48,8 @@ public class FlightStatus {
 	private LocalDateTime driverDeparture;
 	@Column(name = "departure_time_fmt")
 	private String fmtDriverDepartureTime;
+	private String driverOrigin;
+	private boolean hasBags;
 
 	public FlightStatus() {
 
@@ -54,8 +58,9 @@ public class FlightStatus {
 	public FlightStatus(Long id, Long flightId, String carrierFsCode, Integer flightNumber,
 			String departureAirportFsCode, String arrivalAirportFsCode, DepartureDate departureDate,
 			ArrivalDate arrivalDate, String status, OperationalTimes operationalTimes, FlightDurations flightDurations,
-			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath, Long driveDurationSec,
-			LocalDateTime driverDeparture, String fmtDriverDepartureTime) {
+			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath,
+			Long driveDurationSec, LocalDateTime driverDeparture, String fmtDriverDepartureTime, String driverOrigin,
+			boolean hasBags) {
 		super();
 		this.id = id;
 		this.flightId = flightId;
@@ -73,12 +78,15 @@ public class FlightStatus {
 		this.flightMath = flightMath;
 		this.driveDurationSec = driveDurationSec;
 		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+		this.driverOrigin = driverOrigin;
+		this.hasBags = hasBags;
 	}
 
 	public FlightStatus(Long flightId, String carrierFsCode, Integer flightNumber, String departureAirportFsCode,
 			String arrivalAirportFsCode, DepartureDate departureDate, ArrivalDate arrivalDate, String status,
 			OperationalTimes operationalTimes, FlightDurations flightDurations, AirportResources airportResources,
-			FlightEquipment flightEquipment, FlightMath flightMath) {
+			FlightEquipment flightEquipment, FlightMath flightMath, Long driveDurationSec,
+			LocalDateTime driverDeparture, String fmtDriverDepartureTime, String driverOrigin, boolean hasBags) {
 		super();
 		this.flightId = flightId;
 		this.carrierFsCode = carrierFsCode;
@@ -93,6 +101,11 @@ public class FlightStatus {
 		this.airportResources = airportResources;
 		this.flightEquipment = flightEquipment;
 		this.flightMath = flightMath;
+		this.driveDurationSec = driveDurationSec;
+		this.driverDeparture = driverDeparture;
+		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+		this.driverOrigin = driverOrigin;
+		this.hasBags = hasBags;
 	}
 
 	public Long getId() {
@@ -222,8 +235,6 @@ public class FlightStatus {
 	public void setDriverDeparture(LocalDateTime driverDeparture) {
 		this.driverDeparture = driverDeparture;
 	}
-	
-	
 
 	public Long getDriveDurationSec() {
 		return driveDurationSec;
@@ -239,6 +250,22 @@ public class FlightStatus {
 
 	public void setFmtDriverDepartureTime(String fmtDriverDepartureTime) {
 		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
+	}
+
+	public String getDriverOrigin() {
+		return driverOrigin;
+	}
+
+	public void setDriveOrigin(String driverOrigin) {
+		this.driverOrigin = driverOrigin;
+	}
+
+	public boolean getHasBags() {
+		return hasBags;
+	}
+
+	public void setHasBags(boolean hasBags) {
+		this.hasBags = hasBags;
 	}
 
 	@Override

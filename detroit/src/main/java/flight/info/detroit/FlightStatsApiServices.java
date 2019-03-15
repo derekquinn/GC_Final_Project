@@ -1,5 +1,7 @@
 package flight.info.detroit;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +33,7 @@ public class FlightStatsApiServices {
 		};
 		restTemplateWithUserAgent = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
 	}
-	
+
 	// hard coded flight number for testing purposes
 
 	public List<FlightStatus> getFlightStatus() {
@@ -40,16 +42,21 @@ public class FlightStatsApiServices {
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 		return response.getFlightStatuses();
 	}
-	
-	// allows API to respond to user search for any flight 
-	
-	public List <FlightStatus> searchFlight(String airline, String flightNumber){
-		
-		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/"+ airline +"/" +flightNumber+"/dep/2019/03/07?appId="
-				+ appId + "&appKey=" + appKey + "&utc=false";
+
+	// allows API to respond to user search for any flight
+
+	public List<FlightStatus> searchFlight(String airline, String flightNumber) {
+		// puts todays date in the URL as string
+		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+		System.out.println(today);
+		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/" + airline + "/"
+				+ flightNumber + "/dep/" + today + "?appId=" + appId + "&appKey=" + appKey + "&utc=false";
+		System.out.println(url);
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
 		return response.getFlightStatuses();
 	}
+	
+	
 
 }

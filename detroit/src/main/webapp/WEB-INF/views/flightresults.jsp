@@ -9,10 +9,10 @@
 </head>
 <body>
 
-<%@include file="partials/header.jsp"%>
-<h2>Flight Search Results</h2>
+	<%@include file="partials/header.jsp"%>
+	<h2>Flight Search Results</h2>
 
-			<p> Origin: ${ origlocation } </p>
+	<p>Origin: ${ origlocation }</p>
 	<c:forEach var="flightstatus" items="${flightstatus}">
 		<div>
 			<h3>${flightstatus.flightId}-
@@ -25,22 +25,17 @@
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
-			Arrival Metric: ${gatearrivalmetric}
+
 
 		</div>
 
 	</c:forEach>
 
-	<div>
-	
-	Duration in traffic: ${ traffic } seconds
-	    
-	</div>
+	<div>Duration in traffic: ${ traffic } seconds</div>
 
 
-<p> Based on current traffic conditions, you should leave for the airport at ${ grounddepttime } .
-
-</p>
+	<p>Based on current traffic conditions, you should leave for the
+		airport at ${ grounddepttime } .</p>
 
 </body>
 </html>
