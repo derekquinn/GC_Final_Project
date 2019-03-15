@@ -54,8 +54,9 @@ public class FlightTripDao {
 
 	}
 
-	public void updateFlight(FlightStatus fs) {
-		em.merge(fs);
+	public void updateFlightById(Long id, FlightStatus flightStatus) {
+		flightStatus = em.getReference(FlightStatus.class, id);
+		em.merge(flightStatus);
 	}
 
 }

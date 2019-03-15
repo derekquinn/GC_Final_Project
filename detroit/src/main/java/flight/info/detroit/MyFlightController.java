@@ -39,7 +39,6 @@ public class MyFlightController {
 	@RequestMapping("/flighttest")
 	public ModelAndView showFlight() {
 		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
-
 		return new ModelAndView("flighttest", "flightstatus", flightstatus);
 	}
 
@@ -54,34 +53,33 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean checkedBags) {
 
-		
-		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$")) ) { 
-			  ModelAndView mav = new ModelAndView("flightsearch"); 
-			  mav.addObject("message", "Invalid flight number or flight code. Please re-enter."); 
-			  return mav;
-		  }
-		  
-		 
+		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$"))) {
+			ModelAndView mav = new ModelAndView("flightsearch");
+			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
+			return mav;
+		}
+
 		// split the flight search into airline and flight number for API url and accept
 		// flight numbers ranging from 3-6 characters in length
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+		System.out.println(flightstatus.get(0));
+
 		if (flightstatus.isEmpty()) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "The flight information you entered could not be found. Please try again.");
 			return mav;
 		}
-		
+
 		flightTripDao.create(flightstatus.get(0));
-		
-		
 
 		Long gateArrivalMetric = FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin);
 
 		// send duration in seconds to the database
+		flightstatus.get(0).setDriveOrigin(origin);
 		flightstatus.get(0).setDuration(dur);
 		flightTripDao.update(flightstatus.get(0));
 
@@ -106,8 +104,7 @@ public class MyFlightController {
 		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.update(flightstatus.get(0));
 		// sending airline passenger gate assignment to database
-		
-	
+
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 
 		mav.addObject("traffic", dur);
@@ -116,10 +113,9 @@ public class MyFlightController {
 		// placing reformatted driver departure time on jsp after reformatting to 12hr
 		// time
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
-		
+
 		return mav;
-		
-		
+
 	}
 
 	@RequestMapping("flightlist")
@@ -138,11 +134,22 @@ public class MyFlightController {
 		return new ModelAndView("redirect:/flightlist");
 
 	}
-//extra  comment
-//Update and item
+
+//extra  comment Update and item
+	
 	@RequestMapping("/flightstatus/update")
-	public ModelAndView update(FlightStatus fs) {
-		flightTripDao.updateFlight(fs);
+	public ModelAndView update(@RequestParam("id") Long id) {
+		
+		String airline = flightTripDao.findById(id).getCarrierFsCode();
+		System.out.println(airline);
+		String flightNumber = flightTripDao.findById(id).getFlightNumber().toString();
+		
+		System.out.println(flightNumber);
+		
+		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
+		
+		flightTripDao.updateFlightById(id, updatedFs.get(0));
+		
 		return new ModelAndView("redirect:/flightlist");
 
 	}
