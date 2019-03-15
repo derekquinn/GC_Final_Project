@@ -40,28 +40,25 @@ public class MapsInfoApiService {
 	 * System.out.println(gson.toJson(results[0].addressComponents)); }
 	 */
 	// origin = "1 Park Ave, Detroit, MI";
-	public Long getTravelWithTraffic(String origin) {
+	public Long getTravelWithTraffic(String origin, String arrivalTerminal) {
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
-
+		
 		DistanceMatrix trix;
 //		Instant now = new Instant(52329028);
+		if (arrivalTerminal.contains("M")) {
 		try {
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-			trix = req.origins(origin).destinations("11050 Rogell Drive, Romulus, MI").departureTime(Instant.now())
+			trix = req.origins(origin).destinations("42.2073831,-83.356775").departureTime(Instant.now())
 					.await();
 
 			System.out.println(trix.rows[0].elements[0].duration.humanReadable);
 			// System.out.println(trix.rows[0].elements[0].
-			System.out.println("What?");
-			Map<String, Integer> map = new HashMap<>();
-			map.put("Hi", 3);
-			map.put("Yo", 7);
+			System.out.println("You are driving to McNamara Terminal");
 			Long dur;
 //        System.out.println(trix);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			System.out.println(gson.toJson(map));
 			System.out.println(gson.toJson(trix));
-			System.out.println("Hello?");
+			System.out.println("Printing out a google object that mimicks .json object built through google's Java library in the console as a test");
 //			return trix;
 			dur = trix.rows[0].elements[0].durationInTraffic.inSeconds;
 			return dur;
@@ -69,6 +66,30 @@ public class MapsInfoApiService {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		}
+		else {
+			try {
+				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+				trix = req.origins(origin).destinations("42.225302, -83.348186").departureTime(Instant.now())
+						.await();
+
+				System.out.println(trix.rows[0].elements[0].duration.humanReadable);
+				// System.out.println(trix.rows[0].elements[0].
+				System.out.println("You are driving to North Terminal");
+				Long dur;
+//	        System.out.println(trix);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				System.out.println(gson.toJson(trix));
+				System.out.println("Printing out a google object that mimicks .json object built through google's Java library in the console as a test");
+//				return trix;
+				dur = trix.rows[0].elements[0].durationInTraffic.inSeconds;
+				return dur;
+			} catch (ApiException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
 		}
 		return null;
 	}

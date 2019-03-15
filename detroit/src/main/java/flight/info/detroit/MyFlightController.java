@@ -32,8 +32,8 @@ public class MyFlightController {
 	public ModelAndView deployResults(FlightStatus fs) {
 		flightTripDao.create(fs);
 		ModelAndView mav = new ModelAndView("results");
-		Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		mav.addObject("dur", dur);
+	//	Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
+	//	mav.addObject("dur", dur);
 		mav.addObject("flightstatus", flightTripDao.findAll());
 		return mav;
 	}
@@ -75,12 +75,12 @@ public class MyFlightController {
 			mav.addObject("message", "The flight information you entered could not be found. Please try again.");
 			return mav;
 		}
-
+		String arrivalLocation = flightstatus.get(0).getAirportResources().getArrivalTerminal();
 		flightTripDao.create(flightstatus.get(0));
-
+		
 		// Long gateArrivalMetric =
 		// FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
-		Long dur = mapsApiService.getTravelWithTraffic(origin);
+		Long dur = mapsApiService.getTravelWithTraffic(origin, arrivalLocation);
 
 		// send duration in seconds to the database
 		flightstatus.get(0).setDriveOrigin(origin);
@@ -161,7 +161,8 @@ public class MyFlightController {
 		// call both APIS again to update data points for a flight
 		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
 		updatedFs.get(0).setId(id);
-		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin());
+		String arrivalLocation = updatedFs.get(0).getAirportResources().getArrivalTerminal();
+		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(), arrivalLocation);
 		updatedFs.get(0).setDriveDurationSec(updatedDur);
 		
 		if (updatedFs.get(0).getHasBags()) {
