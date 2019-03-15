@@ -8,16 +8,14 @@
 <title>Flight | List</title>
 </head>
 <body>
-<p>
-<a href = "/">Home</a>
-</p>
+<%@include file="partials/header.jsp"%>
 	<b>Previous Searches</b>
 <br>
 <br>
 
 	<table width =33%>
 		<tr>
-			<th>Airline</th>
+			<td style=color=#000080>>Airline</td>
 			<th>Flight #</th>
 			<th>Driver Departure</th>
 		</tr>

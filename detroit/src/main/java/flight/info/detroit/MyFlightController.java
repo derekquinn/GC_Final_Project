@@ -48,7 +48,7 @@ public class MyFlightController {
 	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
-		return new ModelAndView("flightresults");
+		return new ModelAndView("flightsearch");
 	}
 
 	@RequestMapping("flightresults")

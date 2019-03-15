@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Flight | Search</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <%@include file="partials/header.jsp"%>
