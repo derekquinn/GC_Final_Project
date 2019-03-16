@@ -47,11 +47,9 @@ public class FlightStatus {
 	@Column(name = "departure_time")
 	private LocalDateTime driverDeparture;
 	@Column(name = "departure_time_fmt")
-	
 	private String fmtDriverDepartureTime;
-	@Transient
 	private String fmtPickupTime;
-	
+	private String fmtGateArrival;
 	private String driverOrigin;
 	private boolean hasBags;
 
@@ -63,7 +61,7 @@ public class FlightStatus {
 			String departureAirportFsCode, String arrivalAirportFsCode, DepartureDate departureDate,
 			ArrivalDate arrivalDate, String status, OperationalTimes operationalTimes, FlightDurations flightDurations,
 			AirportResources airportResources, FlightEquipment flightEquipment, FlightMath flightMath,
-			Long driveDurationSec, LocalDateTime driverDeparture, String fmtDriverDepartureTime, String driverOrigin,
+			Long driveDurationSec, LocalDateTime driverDeparture, String fmtDriverDepartureTime, String driverOrigin, String fmtGateArrival,
 			boolean hasBags) {
 		super();
 		this.id = id;
@@ -83,6 +81,7 @@ public class FlightStatus {
 		this.driveDurationSec = driveDurationSec;
 		this.fmtDriverDepartureTime = fmtDriverDepartureTime;
 		this.driverOrigin = driverOrigin;
+		this.fmtGateArrival = fmtGateArrival;
 		this.hasBags = hasBags;
 	}
 
@@ -279,6 +278,14 @@ public class FlightStatus {
 
 	public void setFmtPickupTime(String fmtPickupTime) {
 		this.fmtPickupTime = fmtPickupTime;
+	}
+
+	public String getFmtGateArrival() {
+		return fmtGateArrival;
+	}
+
+	public void setFmtGateArrival(String fmtGateArrival) {
+		this.fmtGateArrival = fmtGateArrival;
 	}
 
 	@Override

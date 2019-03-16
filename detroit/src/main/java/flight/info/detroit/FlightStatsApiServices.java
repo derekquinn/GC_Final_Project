@@ -34,6 +34,7 @@ public class FlightStatsApiServices {
 		restTemplateWithUserAgent = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
 	}
 
+	
 	// hard coded flight number for testing purposes
 
 	public List<FlightStatus> getFlightStatus() {

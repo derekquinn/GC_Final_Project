@@ -62,6 +62,8 @@ public class FlightMathCalculator {
 
 		LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
 		LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+		
+		
 
 		return timeToLeave;
 	}
