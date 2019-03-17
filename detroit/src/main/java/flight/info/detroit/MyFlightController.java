@@ -29,7 +29,6 @@ public class MyFlightController {
 	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
-		
 		return new ModelAndView("flightsearch");
 	}
 
@@ -122,8 +121,13 @@ public class MyFlightController {
 	@RequestMapping("/flights/{id}")
 	public ModelAndView detail(@PathVariable("id") Long id) {
 		FlightStatus flightStatus = flightTripDao.findById(id);
-
-		return new ModelAndView("flightdetails", "flight", flightStatus);
+		
+		ModelAndView mav = new ModelAndView("flightdetails", "flight", flightStatus);
+		
+		Integer progressBar = FlightMathCalculator.getProgressBarMetric(flightStatus);
+		mav.addObject("progressbar", progressBar);
+		
+		return mav; 
 	}
 
 // LIST OF MULTIPLE FLIGHT RESULTS ACCESSED FROM DB

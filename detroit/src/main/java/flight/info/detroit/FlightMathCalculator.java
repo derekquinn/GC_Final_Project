@@ -2,6 +2,7 @@ package flight.info.detroit;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -12,6 +13,7 @@ public class FlightMathCalculator {
 	private static Long getBagsTime = 22L;
 	private static Long getWalkToDoor = 15L;
 
+	// determine how late / early to expect a plane based on flight stats API estimates
 	public static Long gateArrivalMath(FlightStatus fs) {
 
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
@@ -49,7 +51,8 @@ public class FlightMathCalculator {
 
 		return totalMinutes;
 	}
-
+	
+	// assign departure time for driver in bagless scenario 
 	public static LocalDateTime driverDepartureWithBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
@@ -67,7 +70,7 @@ public class FlightMathCalculator {
 
 		return timeToLeave;
 	}
-
+	// account for baggage cliam 
 	public static LocalDateTime driverDepartureNoBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
@@ -82,7 +85,8 @@ public class FlightMathCalculator {
 
 		return timeToLeave;
 	}
-
+	
+	// calculate pickup time from google API and format it for humans
 	public static String getPickupTime(Long driveTimeInSeconds, LocalDateTime driverDepartureTime) {
 
 		Long minsInTraffic = driveTimeInSeconds / 60;
@@ -94,7 +98,8 @@ public class FlightMathCalculator {
 		return formattedPickupTime;
 
 	}
-
+	
+	// get gate arrival time from flightstats API and format it for humans
 	public static String getFormattedGateArrival(FlightStatus fs) {
 
 		String gateArrivaljson = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
@@ -106,5 +111,25 @@ public class FlightMathCalculator {
 
 		return formattedGateArrival;
 	}
+	
+	// calculate percentage for progress bar on details page 
+	
+	public static Integer getProgressBarMetric(FlightStatus fs) {
+		
+		String driverDeparture = fs.getFmtDriverDepartureTime();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		LocalTime driverDepartureFmt = LocalTime.parse(driverDeparture, formatter);
+		
+		String pickupTime = fs.getFmtPickupTime();
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("hh:mm a");
+		LocalTime pickupTimeFmt = LocalTime.parse(pickupTime, formatter);
+		
+		Integer progressMetric = LocalTime.now().compareTo(pickupTimeFmt);
+		
+		
+		return progressMetric;
+	}
+	
+	
 	
 }

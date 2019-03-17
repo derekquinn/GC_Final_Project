@@ -56,7 +56,7 @@ The inbound passenger does <b>not</b> have checked bags. Pickup time has been ad
     </c:otherwise>
 </c:choose>
 
-
+${progressbar }
 
 <br>
 <center>
