@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Flight | Detail </title>
+<title>APU | Detail </title>
 </head>
 <body>
 	<%@include file="partials/header.jsp"%>
@@ -18,7 +18,7 @@
 
 	<p>${ flight.driverOrigin } ------> DTW</p>
 
-		<div>
+
 <br>
 		<div class="container">
   <div class="row">
@@ -36,8 +36,62 @@
       ${ flight.fmtPickupTime}
     </div>  
 </div>
-  </div>
 </div>
+<center>
+<br> 
+<c:choose>
+    <c:when test="${flight.hasBags }">
 
-</body>
+<div class="alert alert-warning" role="alert">
+The inbound passenger has checked bags. Pickup time has been adjusted accordingly.
+</div>
+    </c:when>
+   
+    <c:otherwise>
+<div class="alert alert-success" role="alert">
+
+The inbound passenger does <b>not</b> have checked bags. Pickup time has been adjusted accordingly.  
+</center>
+</div>
+    </c:otherwise>
+</c:choose>
+
+
+
+<br>
+<center>
+<div class="progress" style="width:80%;height:170px ">
+<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 20%" > <B> <h4>Pickup <br> scheduled</h4> </B></div>
+</center>
+
+
+<br>
+<center>
+<div class="progress" style="width:80%;height:170px ">
+<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 40%" > <B> <h4>Driver <br> inbound</h4> </B> </div>
+</center>
+
+<br>
+<center>
+<div class="progress" style="width:80%;height:170px ">
+<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%" > <B> <h4>Driver inbound</h4> </B></div>
+</center>
+
+<br>
+<center>
+<div class="progress" style="width:80%;height:170px ">
+<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 80%" > <B> <h4>Pickup <br> soon!</h4> </B></div>
+
+</center>
+
+<br>
+<center>
+<div class="progress" style="width:80%;height:170px ">
+<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%" > <B> <h4>Driver inbound</h4> </B></div>
+</center>
+
+
+
+
+</body> 
 </html>

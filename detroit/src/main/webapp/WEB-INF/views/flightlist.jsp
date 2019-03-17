@@ -11,10 +11,6 @@
 <body>
 <%@include file="partials/header.jsp"%>
 
-
-
-
-	<b>Previous Searches</b>
 <br>
 <br>
 

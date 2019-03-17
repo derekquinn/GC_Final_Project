@@ -24,29 +24,12 @@ public class MyFlightController {
 
 	@Autowired
 	private FlightStatsApiServices flightStatsApiServices;
-//
-//	// hard coded google distance matrix results test page with static destination
-//	@RequestMapping("/results")
-//	public ModelAndView deployResults(FlightStatus fs) {
-//		flightTripDao.create(fs);
-//		ModelAndView mav = new ModelAndView("results");
-//		// Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-//		// mav.addObject("dur", dur);
-//		mav.addObject("flightstatus", flightTripDao.findAll());
-//		return mav;
-//	}
-//
-//	// hard coded flight test results with a static flight number
-//	@RequestMapping("/flighttest")
-//	public ModelAndView showFlight() {
-//		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
-//		return new ModelAndView("flighttest", "flightstatus", flightstatus);
-//	}
 
-	// take user input for flight number and send to API
+	// INDEX take user input for flight number and send to API
 	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
+		
 		return new ModelAndView("flightsearch");
 	}
 
@@ -66,7 +49,6 @@ public class MyFlightController {
 		String flightNumber = flightCode.substring(2);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-		System.out.println(flightstatus.get(0));
 
 		if (flightstatus.isEmpty()) {
 			ModelAndView mav = new ModelAndView("flightsearch");
@@ -121,7 +103,10 @@ public class MyFlightController {
 		flightstatus.get(0).setFmtPickupTime(timeAtDoor);
 		flightTripDao.updateFlight(flightstatus.get(0));
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-
+		
+		// send bags value to JSP
+		Boolean bags = flightstatus.get(0).getHasBags();
+		mav.addObject("bags", bags);
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
 		// placing reformatted times on jsp after reformatting to 12hr
@@ -178,6 +163,7 @@ public class MyFlightController {
 		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(),
 				arrivalLocation);
 		updatedFs.get(0).setDriveDurationSec(updatedDur);
+ 
 
 		// conditional logic to account for pickups with (if) and without bags  (else) 
 		if (updatedFs.get(0).getHasBags()) {

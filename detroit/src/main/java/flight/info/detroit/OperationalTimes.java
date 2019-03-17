@@ -1,19 +1,41 @@
 package flight.info.detroit;
 
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
+
+@Embeddable
 public class OperationalTimes {
+	@Column(name="pub_departure")
 	private AircraftTiming publishedDeparture;
+	@Transient
 	private AircraftTiming publishedArrival;
+	@Transient
 	private AircraftTiming scheduledGateDeparture;
+	@Transient
 	private AircraftTiming estimatedGateDeparture;
+	@Transient
 	private AircraftTiming actualGateDeparture;
+	@Transient
 	private AircraftTiming flightPlanPlannedDeparture;
+	@Transient
 	private AircraftTiming estimatedRunwayDeparture;
+	@Transient
 	private AircraftTiming actualRunwayDeparture;
+	@Transient
 	private AircraftTiming scheduledGateArrival;
+	@Transient
 	private AircraftTiming estimatedGateArrival;
+	@Transient
 	private AircraftTiming actualGateArrival;
+	@Transient
 	private AircraftTiming flightPlanPlannedArrival;
+	@Transient
 	private AircraftTiming estimatedRunwayArrival;
+	@Transient
 	private AircraftTiming actualRunwayArrival;
 
 	public OperationalTimes() {

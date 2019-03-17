@@ -2,8 +2,15 @@ package flight.info.detroit;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Embedded;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
+
 public class AircraftTiming {
+	@Type(type = "LocalDateString")
 	private String dateLocal;
+	@Transient
 	private String dateUtc;
 
 	public AircraftTiming() {

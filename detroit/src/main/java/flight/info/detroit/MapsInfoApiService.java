@@ -52,14 +52,11 @@ public class MapsInfoApiService {
 					.await();
 
 			System.out.println(trix.rows[0].elements[0].duration.humanReadable);
-			// System.out.println(trix.rows[0].elements[0].
+
 			System.out.println("You are driving to McNamara Terminal");
 			Long dur;
-//        System.out.println(trix);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			System.out.println(gson.toJson(trix));
-			System.out.println("Printing out a google object that mimicks .json object built through google's Java library in the console as a test");
-//			return trix;
+	
 			dur = trix.rows[0].elements[0].durationInTraffic.inSeconds;
 			return dur;
 		} catch (ApiException e) {
@@ -75,14 +72,12 @@ public class MapsInfoApiService {
 						.await();
 
 				System.out.println(trix.rows[0].elements[0].duration.humanReadable);
-				// System.out.println(trix.rows[0].elements[0].
+
 				System.out.println("You are driving to North Terminal");
 				Long dur;
-//	        System.out.println(trix);
+
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				System.out.println(gson.toJson(trix));
-				System.out.println("Printing out a google object that mimicks .json object built through google's Java library in the console as a test");
-//				return trix;
+	
 				dur = trix.rows[0].elements[0].durationInTraffic.inSeconds;
 				return dur;
 			} catch (ApiException e) {

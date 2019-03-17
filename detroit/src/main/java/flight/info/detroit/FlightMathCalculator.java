@@ -71,7 +71,6 @@ public class FlightMathCalculator {
 	public static LocalDateTime driverDepartureNoBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
 		Long minsInTraffic = durationInSeconds / 60;
@@ -107,4 +106,5 @@ public class FlightMathCalculator {
 
 		return formattedGateArrival;
 	}
+	
 }

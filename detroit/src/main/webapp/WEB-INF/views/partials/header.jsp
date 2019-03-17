@@ -13,13 +13,8 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
 	
-	
-<link rel="stylesheet" href="style.css" />
+
 <meta content="text/html; charset=UTF-8">
 
 </head>
@@ -27,11 +22,11 @@
 <header>
 
 	<nav class= "navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">My Flight Calculator </a>
+  <a class="navbar-brand" href="/">Airport Pickup Utility (APU) </a>
   
 	
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-item" href="/flightlist">My Flight History</a>
+		<a class="navbar-item" href="/flightlist">My Pickups</a>
 	</nav>
 
    
