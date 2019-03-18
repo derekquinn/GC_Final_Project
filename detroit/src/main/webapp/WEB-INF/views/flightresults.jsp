@@ -32,7 +32,7 @@
       
     </div>
     <div class="col-sm">
-     <h4>Pickup</h4>
+     <h4>Passenger To Arrivals Door</h4>
       ${ timeatdoor }
       
     </div>
