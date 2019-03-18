@@ -18,7 +18,12 @@
 	<form action="/flightresults">
 		<h2>Calculate your departure time</h2>
 		<p>
+<<<<<<< HEAD
+			Flight Number: <input name="flightcode" placeholder="UX0193" value="${ flightNum}" size="10" min="4" maxlength="6" required pattern="[A-Za-z]{2}\d{2,4}" />
+		<a class="btn btn-primary" href="findflight">Don't Know?</a>
+=======
 			Flight Number: <input name="flightcode" placeholder="UX0193"size="10" min="4" maxlength="6" required pattern="[A-Za-z]{2}\d{1,4}" />
+>>>>>>> 92b6ac60e02fa690755956077294233183121f17
 		</p>
 		<p>
 			Driver Origin Location: <input type="text" name="origin" placeholder="2100 Woodward Ave, Detroit, MI " size="35" required>
