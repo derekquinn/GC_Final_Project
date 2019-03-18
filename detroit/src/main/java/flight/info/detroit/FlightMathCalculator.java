@@ -2,8 +2,11 @@ package flight.info.detroit;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
 
 import com.google.maps.model.Duration;
 
@@ -12,6 +15,7 @@ public class FlightMathCalculator {
 	private static Long getBagsTime = 22L;
 	private static Long getWalkToDoor = 15L;
 
+	// determine how late / early to expect a plane based on flight stats API estimates
 	public static Long gateArrivalMath(FlightStatus fs) {
 
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
@@ -49,7 +53,8 @@ public class FlightMathCalculator {
 
 		return totalMinutes;
 	}
-
+	
+	// assign departure time for driver in bagless scenario 
 	public static LocalDateTime driverDepartureWithBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
@@ -62,14 +67,15 @@ public class FlightMathCalculator {
 
 		LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
 		LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+		
+		
 
 		return timeToLeave;
 	}
-
+	// account for baggage cliam 
 	public static LocalDateTime driverDepartureNoBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
 		Long minsInTraffic = durationInSeconds / 60;
@@ -81,7 +87,8 @@ public class FlightMathCalculator {
 
 		return timeToLeave;
 	}
-
+	
+	// calculate pickup time from google API and format it for humans
 	public static String getPickupTime(Long driveTimeInSeconds, LocalDateTime driverDepartureTime) {
 
 		Long minsInTraffic = driveTimeInSeconds / 60;
@@ -93,7 +100,8 @@ public class FlightMathCalculator {
 		return formattedPickupTime;
 
 	}
-
+	
+	// get gate arrival time from flightstats API and format it for humans
 	public static String getFormattedGateArrival(FlightStatus fs) {
 
 		String gateArrivaljson = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
@@ -105,4 +113,26 @@ public class FlightMathCalculator {
 
 		return formattedGateArrival;
 	}
+	
+	// calculate percentage for progress bar on details page 
+	
+	public static Long getProgressBarMetric(FlightStatus fs) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		
+		String driverDeparture = fs.getFmtDriverDepartureTime();
+		
+		String pickupTime = fs.getFmtPickupTime();
+		
+		//LocalTime driverDepartureFmt = LocalTime.parse(driverDeparture, formatter);
+		LocalTime currentTime = LocalTime.now();
+		System.out.println(currentTime);
+		LocalTime pickupTimeFmt = LocalTime.parse(pickupTime, formatter);
+		
+		Long progressMetric = ChronoUnit.MINUTES.between(currentTime,pickupTimeFmt);
+		
+		return progressMetric;
+	}
+	
+	
+	
 }

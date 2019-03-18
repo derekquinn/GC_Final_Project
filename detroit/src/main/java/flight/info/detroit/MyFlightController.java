@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,25 +25,7 @@ public class MyFlightController {
 	@Autowired
 	private FlightStatsApiServices flightStatsApiServices;
 
-	// hard coded google distance matrix results test page with static destination
-	@RequestMapping("/results")
-	public ModelAndView deployResults(FlightStatus fs) {
-		flightTripDao.create(fs);
-		ModelAndView mav = new ModelAndView("results");
-		// Long dur = mapsApiService.getTravelWithTraffic("1 Park Ave, Detroit, MI");
-		// mav.addObject("dur", dur);
-		mav.addObject("flightstatus", flightTripDao.findAll());
-		return mav;
-	}
-
-	// hard coded flight test results with a static flight number
-	@RequestMapping("/flighttest")
-	public ModelAndView showFlight() {
-		List<FlightStatus> flightstatus = flightStatsApiServices.getFlightStatus();
-		return new ModelAndView("flighttest", "flightstatus", flightstatus);
-	}
-
-	// take user input for flight number and send to API
+	// INDEX take user input for flight number and send to API
 	@RequestMapping("/")
 	public ModelAndView showFlightSearch() {
 
@@ -53,7 +36,7 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
-		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$"))) {
+		if (!(flightCode.matches("^[A-Za-z]{2}\\d{1,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
 			return mav;
@@ -65,7 +48,6 @@ public class MyFlightController {
 		String flightNumber = flightCode.substring(2);
 
 		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
-		System.out.println(flightstatus.get(0));
 
 		if (flightstatus.isEmpty()) {
 			ModelAndView mav = new ModelAndView("flightsearch");
@@ -75,8 +57,6 @@ public class MyFlightController {
 		String arrivalLocation = flightstatus.get(0).getAirportResources().getArrivalTerminal();
 		flightTripDao.create(flightstatus.get(0));
 
-		// Long gateArrivalMetric =
-		// FlightMathCalculator.gateArrivalMath(flightstatus.get(0));
 		Long dur = mapsApiService.getTravelWithTraffic(origin, arrivalLocation);
 
 		// send duration in seconds to the database
@@ -95,7 +75,6 @@ public class MyFlightController {
 		} else {
 
 			// storing the calculated departure time for driver / user with no checked bags
-
 			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus.get(0), dur);
 			flightstatus.get(0).setHasBags(false);
 			flightTripDao.updateFlight(flightstatus.get(0));
@@ -118,11 +97,17 @@ public class MyFlightController {
 		String timeAtDoor = FlightMathCalculator.getPickupTime(dur, driverDeptTime);
 		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightstatus.get(0));
 
+		// store formatted time at door and gate arrival in DB
+		flightstatus.get(0).setFmtGateArrival(gateArrival);
+		flightstatus.get(0).setFmtPickupTime(timeAtDoor);
+		flightTripDao.updateFlight(flightstatus.get(0));
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
-
+		
+		// send bags value to JSP
+		Boolean bags = flightstatus.get(0).getHasBags();
+		mav.addObject("bags", bags);
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
-		// mav.addObject("gatearrivalmetric", gateArrivalMetric);
 		// placing reformatted times on jsp after reformatting to 12hr
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		mav.addObject("timeatdoor", timeAtDoor);
@@ -132,6 +117,20 @@ public class MyFlightController {
 
 	}
 
+// SINGLE FLIGHT DETAIL ACCESSED FROM DB
+	@RequestMapping("/flights/{id}")
+	public ModelAndView detail(@PathVariable("id") Long id) {
+		FlightStatus flightStatus = flightTripDao.findById(id);
+		
+		ModelAndView mav = new ModelAndView("flightdetails", "flight", flightStatus);
+		
+		Long progressBar = FlightMathCalculator.getProgressBarMetric(flightStatus);
+		mav.addObject("progressbar", progressBar);
+		
+		return mav; 
+	}
+
+// LIST OF MULTIPLE FLIGHT RESULTS ACCESSED FROM DB
 	@RequestMapping("/flightlist")
 	public ModelAndView showList() {
 
@@ -150,18 +149,27 @@ public class MyFlightController {
 // UPDATE DEPARTURE / PICKUP TIMING  
 	@RequestMapping("/flightstatus/update")
 	public ModelAndView update(@RequestParam("id") Long id) {
-		// grab the necessary search strings from database to replicate user's search
+		// grab the necessary search strings from database to replicate user's search and hold other use submitted data
 		String airline = flightTripDao.findById(id).getCarrierFsCode();
 		String flightNumber = flightTripDao.findById(id).getFlightNumber().toString();
+		Boolean hasBags = flightTripDao.findById(id).getHasBags();
+		String gateArrivalTime = flightTripDao.findById(id).getFmtGateArrival();
+		String pickupTime = flightTripDao.findById(id).getFmtPickupTime();
 
 		// call both APIS again to update data points for a flight
 		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
 		updatedFs.get(0).setId(id);
+		updatedFs.get(0).setHasBags(hasBags);
+		updatedFs.get(0).setFmtGateArrival(gateArrivalTime);
+		updatedFs.get(0).setFmtPickupTime(pickupTime);
+
 		String arrivalLocation = updatedFs.get(0).getAirportResources().getArrivalTerminal();
 		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(),
 				arrivalLocation);
 		updatedFs.get(0).setDriveDurationSec(updatedDur);
+ 
 
+		// conditional logic to account for pickups with (if) and without bags  (else) 
 		if (updatedFs.get(0).getHasBags()) {
 			// calculate updated driver departure time with new traffic info
 			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs.get(0), updatedDur);
@@ -169,7 +177,8 @@ public class MyFlightController {
 					.format(DateTimeFormatter.ofPattern("hh:mm a"));
 			updatedFs.get(0).setDriverDeparture(driverDeptTime);
 			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
-
+			
+			
 		} else {
 			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs.get(0), updatedDur);
 			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
@@ -185,13 +194,5 @@ public class MyFlightController {
 		ModelAndView mav = new ModelAndView("redirect:/flightlist");
 
 		return mav;
-
 	}
-
-//	@PostMapping("/flightstatus/update")
-//	public ModelAndView submitUpdate(Long id) {
-//		
-//		return new ModelAndView("redirect:/flightlist");
-//	}
-
-}
+}	

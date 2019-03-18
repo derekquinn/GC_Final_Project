@@ -41,7 +41,6 @@
 <br>
 <br>
 <br>
-
 			Expected Arrival:
 			${flightstatus.operationalTimes.publishedArrival.dateLocal}<br>
 			Actual Arrival:
@@ -49,19 +48,8 @@
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
-			
-			
-
-
 		</div>
 
 	</c:forEach>
-
-	
-	
-
-
-	
-
 </body>
 </html>
