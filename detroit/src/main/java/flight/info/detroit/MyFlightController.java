@@ -36,7 +36,7 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
-		if (!(flightCode.matches("^[A-Za-z]{2}\\d{2,4}$"))) {
+		if (!(flightCode.matches("^[A-Za-z]{2}\\d{1,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
 			return mav;
@@ -124,7 +124,7 @@ public class MyFlightController {
 		
 		ModelAndView mav = new ModelAndView("flightdetails", "flight", flightStatus);
 		
-		Integer progressBar = FlightMathCalculator.getProgressBarMetric(flightStatus);
+		Long progressBar = FlightMathCalculator.getProgressBarMetric(flightStatus);
 		mav.addObject("progressbar", progressBar);
 		
 		return mav; 

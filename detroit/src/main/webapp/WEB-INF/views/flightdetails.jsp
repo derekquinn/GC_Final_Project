@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <title>APU | Detail </title>
 </head>
 <body>
-	<%@include file="partials/header.jsp"%>
+<%@include file="partials/header.jsp"%>
 
 	<h2>Pickup Timing</h2>
 
@@ -61,7 +62,7 @@ ${progressbar }
 <br>
 <center>
 <div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 20%" > <B> <h4>Pickup <br> scheduled</h4> </B></div>
+<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 20%" > <B> <h4>Pickup <br> scheduled</h4> </B></div>
 </center>
 
 
@@ -74,20 +75,20 @@ ${progressbar }
 <br>
 <center>
 <div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%" > <B> <h4>Driver inbound</h4> </B></div>
+<div class="progress-bar progress-bar-striped progress-bar-animated  " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%" > <B> <h4>Driver inbound</h4> </B></div>
 </center>
 
 <br>
 <center>
 <div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 80%" > <B> <h4>Pickup <br> soon!</h4> </B></div>
+<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 80%" > <B> <h4>Pickup <br> soon!</h4> </B></div>
 
 </center>
 
 <br>
 <center>
 <div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%" > <B> <h4>Driver inbound</h4> </B></div>
+<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%" > <B> <h4>Pickup Complete!</h4> </B></div>
 </center>
 
 

@@ -3,8 +3,10 @@ package flight.info.detroit;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
 
 import com.google.maps.model.Duration;
 
@@ -114,18 +116,19 @@ public class FlightMathCalculator {
 	
 	// calculate percentage for progress bar on details page 
 	
-	public static Integer getProgressBarMetric(FlightStatus fs) {
+	public static Long getProgressBarMetric(FlightStatus fs) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 		
 		String driverDeparture = fs.getFmtDriverDepartureTime();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-		LocalTime driverDepartureFmt = LocalTime.parse(driverDeparture, formatter);
 		
 		String pickupTime = fs.getFmtPickupTime();
-		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("hh:mm a");
+		
+		//LocalTime driverDepartureFmt = LocalTime.parse(driverDeparture, formatter);
+		LocalTime currentTime = LocalTime.now();
+		System.out.println(currentTime);
 		LocalTime pickupTimeFmt = LocalTime.parse(pickupTime, formatter);
 		
-		Integer progressMetric = LocalTime.now().compareTo(pickupTimeFmt);
-		
+		Long progressMetric = ChronoUnit.MINUTES.between(currentTime,pickupTimeFmt);
 		
 		return progressMetric;
 	}
