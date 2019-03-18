@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Flight | Search</title>
 <link rel="stylesheet" href="style.css" />
+<title>Flight | Search</title>
 </head>
 <body>
 <%@include file="partials/header.jsp"%>
@@ -30,6 +30,7 @@
 		<input type="checkbox" name="bags" value="true"> Checked Bags?
 
 	</form>
+
 
 </body>
 </html>
