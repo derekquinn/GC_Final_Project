@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/progressbarstyle.css" />
 <title>Flight | Search Results</title>
 </head>
 <body>
@@ -51,5 +52,29 @@
 		</div>
 
 	</c:forEach>
+	
+	
+	<div class="inliner"></div>
+<div class="inlined">
+  
+  <!-- Start component -->
+  <div class="progress-meter">
+    <div class="track">
+      <span class="progress" style="width: 50%;"></span>
+    </div>
+    <ol class="progress-points" data-current="4">
+    <c:forEach var="timeline" items= "${ timelinePoint }">
+      <li class="progress-point ${ timeline.completed ? 'completed' : '' }">
+        <span class="label">${timeline.description} ${ timeline.time }</span>
+      </li>
+      </c:forEach>
+    </ol>
+  </div>
+
+  <!-- End component -->
+  
+</div>
+
+	
 </body>
 </html>

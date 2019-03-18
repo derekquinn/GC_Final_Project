@@ -2,7 +2,9 @@ package flight.info.detroit;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,6 +105,16 @@ public class MyFlightController {
 		flightTripDao.updateFlight(flightstatus.get(0));
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
+		ArrayList<TimelinePoint> timeLineList = new ArrayList<TimelinePoint>();
+		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", formattedDriverDeptTime);
+		timeLineList.add(driverDepartureTime);
+		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrival);
+		timeLineList.add(airplaneGateArrival);
+		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoor);
+		timeLineList.add(passengerDoorPickup);
+		
+		
+		
 		// send bags value to JSP
 		Boolean bags = flightstatus.get(0).getHasBags();
 		mav.addObject("bags", bags);
@@ -112,7 +124,10 @@ public class MyFlightController {
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
+		mav.addObject("timelinePoint", timeLineList);
 
+		
+		
 		return mav;
 
 	}

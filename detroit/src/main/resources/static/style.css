@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 h1.display-1{
 	font-weight:bold;
 	font-size:120px;
@@ -35,3 +36,4 @@ tbody{
 td {
 	color: black;
 }
+
