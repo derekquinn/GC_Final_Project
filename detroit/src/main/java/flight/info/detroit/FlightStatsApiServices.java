@@ -2,6 +2,7 @@ package flight.info.detroit;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +58,20 @@ public class FlightStatsApiServices {
 
 		return response.getFlightStatuses();
 	}
-	
-	
+
+	public ArrayList<FlightTracks> searchFlightCode() {
+		// puts todays date in the URL as string
+		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+		System.out.println(today);
+		
+		//https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" + appId + "&appKey="
+//		+ appKey + "&utc=false"
+		//https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr?appId=4268fe7d&appKey=389dc76faba2972d4f915431dcacdfaa&includeFlightPlan=false&maxPositions=2&maxFlights=15
+		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr"+ "?appId=" + appId + "&appKey="
+				+ appKey + "&utc=false";
+		AirlineCode response = restTemplateWithUserAgent.getForObject(url, AirlineCode.class);
+		System.out.println(response);
+		return response.getFlightTracks();
+	}
 
 }
