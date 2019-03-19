@@ -38,7 +38,7 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
-		if (!(flightCode.matches("^[A-Za-z]{2}\\d{1,4}$"))) {
+		if (!(flightCode.matches("^[A-Za-z9]{2}\\d{1,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
 			return mav;
@@ -49,74 +49,78 @@ public class MyFlightController {
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 
-		List<FlightStatus> flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
+		FlightStatus flightstatus = flightStatsApiServices.searchFlight(airline, flightNumber);
 
-		if (flightstatus.isEmpty()) {
+		if (flightstatus==null) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "The flight information you entered could not be found. Please try again.");
 			return mav;
 		}
-		String arrivalLocation = flightstatus.get(0).getAirportResources().getArrivalTerminal();
-		flightTripDao.create(flightstatus.get(0));
+		String arrivalLocation = flightstatus.getAirportResources().getArrivalTerminal();
+		flightTripDao.create(flightstatus);
 
 		Long dur = mapsApiService.getTravelWithTraffic(origin, arrivalLocation);
 
 		// send duration in seconds to the database
-		flightstatus.get(0).setDriveOrigin(origin);
-		flightstatus.get(0).setDuration(dur);
-		flightTripDao.updateFlight(flightstatus.get(0));
+		flightstatus.setDriveOrigin(origin);
+		flightstatus.setDuration(dur);
+		flightTripDao.updateFlight(flightstatus);
 
 		LocalDateTime driverDeptTime;
 
 		if (hasBags != null) {
 			// storing the calculated departure time for driver / user with checked bags
-			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus.get(0), dur);
-			flightstatus.get(0).setHasBags(true);
-			flightTripDao.updateFlight(flightstatus.get(0));
+			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightstatus, dur);
+			flightstatus.setHasBags(true);
+			flightTripDao.updateFlight(flightstatus);
 
 		} else {
 
 			// storing the calculated departure time for driver / user with no checked bags
-			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus.get(0), dur);
-			flightstatus.get(0).setHasBags(false);
-			flightTripDao.updateFlight(flightstatus.get(0));
+			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus, dur);
+			flightstatus.setHasBags(false);
+			flightTripDao.updateFlight(flightstatus);
 		}
 
 		// sending driver departure time to database
-		flightstatus.get(0).setDriverDeparture(driverDeptTime);
-		flightTripDao.updateFlight(flightstatus.get(0));
+		flightstatus.setDriverDeparture(driverDeptTime);
+		flightTripDao.updateFlight(flightstatus);
 		// storing the calcualted driver departure time in a string, reformatted for
 		// humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
 		// sending reformatted driver departure time to database
-		flightstatus.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
-		flightTripDao.updateFlight(flightstatus.get(0));
+		flightstatus.setFmtDriverDepartureTime(formattedDriverDeptTime);
+		flightTripDao.updateFlight(flightstatus);
 		// sending airline passenger gate assignment to database
 
 		// getting formatted time at door from Flight Math Calc
 
 		String timeAtDoor = FlightMathCalculator.getPickupTime(dur, driverDeptTime);
-		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightstatus.get(0));
+		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightstatus);
 
 		// store formatted time at door and gate arrival in DB
-		flightstatus.get(0).setFmtGateArrival(gateArrival);
-		flightstatus.get(0).setFmtPickupTime(timeAtDoor);
-		flightTripDao.updateFlight(flightstatus.get(0));
+		flightstatus.setFmtGateArrival(gateArrival);
+		flightstatus.setFmtPickupTime(timeAtDoor);
+		flightTripDao.updateFlight(flightstatus);
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
+		// need to add new method from FlightMathCalculator to determine boolean values for the TimelinePoint objects below
+		boolean completed = false;
+		
+		
 		ArrayList<TimelinePoint> timeLineList = new ArrayList<TimelinePoint>();
-		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", formattedDriverDeptTime);
+		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", formattedDriverDeptTime, completed);
 		timeLineList.add(driverDepartureTime);
-		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrival);
+		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrival, completed);
 		timeLineList.add(airplaneGateArrival);
-		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoor);
+		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoor, completed);
 		timeLineList.add(passengerDoorPickup);
 		
 		
 		
 		// send bags value to JSP
-		Boolean bags = flightstatus.get(0).getHasBags();
+		Boolean bags = flightstatus.getHasBags();
 		mav.addObject("bags", bags);
 		mav.addObject("traffic", dur);
 		mav.addObject("origlocation", origin);
@@ -172,39 +176,39 @@ public class MyFlightController {
 		String pickupTime = flightTripDao.findById(id).getFmtPickupTime();
 
 		// call both APIS again to update data points for a flight
-		List<FlightStatus> updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
-		updatedFs.get(0).setId(id);
-		updatedFs.get(0).setHasBags(hasBags);
-		updatedFs.get(0).setFmtGateArrival(gateArrivalTime);
-		updatedFs.get(0).setFmtPickupTime(pickupTime);
+		FlightStatus updatedFs = flightStatsApiServices.searchFlight(airline, flightNumber);
+		updatedFs.setId(id);
+		updatedFs.setHasBags(hasBags);
+		updatedFs.setFmtGateArrival(gateArrivalTime);
+		updatedFs.setFmtPickupTime(pickupTime);
 
-		String arrivalLocation = updatedFs.get(0).getAirportResources().getArrivalTerminal();
+		String arrivalLocation = updatedFs.getAirportResources().getArrivalTerminal();
 		Long updatedDur = mapsApiService.getTravelWithTraffic(flightTripDao.findById(id).getDriverOrigin(),
 				arrivalLocation);
-		updatedFs.get(0).setDriveDurationSec(updatedDur);
+		updatedFs.setDriveDurationSec(updatedDur);
  
 
 		// conditional logic to account for pickups with (if) and without bags  (else) 
-		if (updatedFs.get(0).getHasBags()) {
+		if (updatedFs.getHasBags()) {
 			// calculate updated driver departure time with new traffic info
-			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs.get(0), updatedDur);
+			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs, updatedDur);
 			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
 					.format(DateTimeFormatter.ofPattern("hh:mm a"));
-			updatedFs.get(0).setDriverDeparture(driverDeptTime);
-			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
+			updatedFs.setDriverDeparture(driverDeptTime);
+			updatedFs.setFmtDriverDepartureTime(formattedDriverDeptTime);
 			
 			
 		} else {
-			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs.get(0), updatedDur);
+			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs, updatedDur);
 			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
 					.format(DateTimeFormatter.ofPattern("hh:mm a"));
-			updatedFs.get(0).setDriverDeparture(driverDeptTime);
-			updatedFs.get(0).setFmtDriverDepartureTime(formattedDriverDeptTime);
+			updatedFs.setDriverDeparture(driverDeptTime);
+			updatedFs.setFmtDriverDepartureTime(formattedDriverDeptTime);
 		}
 
-		updatedFs.get(0).setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
+		updatedFs.setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
 
-		flightTripDao.updateFlight(updatedFs.get(0));
+		flightTripDao.updateFlight(updatedFs);
 
 		ModelAndView mav = new ModelAndView("redirect:/flightlist");
 

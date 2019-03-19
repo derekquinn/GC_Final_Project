@@ -12,13 +12,13 @@
 
 	<%@include file="partials/header.jsp"%>
 	<h2>Pick up Status</h2>
-	<c:forEach var="flightstatus" items="${flightstatus}">
+	<%-- <c:forEach var="flightstatus" items="${flightstatus}"> --%>
 	<h5>${flightstatus.carrierFsCode}-${flightstatus.flightNumber}</h5>
-				</c:forEach>
+				<%-- </c:forEach> --%>
 	
 
 	<p>${ origlocation } ------> DTW</p>
-	<c:forEach var="flightstatus" items="${flightstatus}">
+	<%-- <c:forEach var="flightstatus" items="${flightstatus}"> --%>
 		<div>
 		<h3>Here are your Flight Results:</h3>   
 		<div class="container">
@@ -51,7 +51,7 @@
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
 		</div>
 
-	</c:forEach>
+	<%-- </c:forEach> --%>
 	
 	
 	<div class="inliner"></div>
@@ -64,10 +64,11 @@
     </div>
     <ol class="progress-points" data-current="4">
     <c:forEach var="timeline" items= "${ timelinePoint }">
-      <li class="progress-point ${ timeline.completed ? 'completed' : '' }">
+     <%--  <li class="progress-point ${ timeline.completed ? 'completed' : '' }"> --%>
+      <li class="progress-point completed">
         <span class="label">${timeline.description} ${ timeline.time }</span>
       </li>
-      </c:forEach>
+     </c:forEach>
     </ol>
   </div>
 
