@@ -54,25 +54,31 @@
 	<%-- </c:forEach> --%>
 	
 	
-	<div class="inliner"></div>
+	<!-- <div class="inliner"></div> -->
 <div class="inlined">
   
-  <!-- Start component -->
+  <!-- Start progress bar -->
   <div class="progress-meter">
     <div class="track">
       <span class="progress" style="width: 50%;"></span>
     </div>
-    <ol class="progress-points" data-current="4">
+
+      <ol class="progress-points" data-current="4">
     <c:forEach var="timeline" items= "${ timelinePoint }">
-     <%--  <li class="progress-point ${ timeline.completed ? 'completed' : '' }"> --%>
-      <li class="progress-point completed">
-        <span class="label">${timeline.description} ${ timeline.time }</span>
-      </li>
+	 
+	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
+	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
+     </li>
+      
+    
+      
+    
      </c:forEach>
-    </ol>
+     </ol>
+  
   </div>
 
-  <!-- End component -->
+  <!-- End progress bar -->
   
 </div>
 

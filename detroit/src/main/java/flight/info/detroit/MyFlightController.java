@@ -3,6 +3,7 @@ package flight.info.detroit;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -85,8 +86,7 @@ public class MyFlightController {
 		// sending driver departure time to database
 		flightstatus.setDriverDeparture(driverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
-		// storing the calcualted driver departure time in a string, reformatted for
-		// humans
+		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
 		// sending reformatted driver departure time to database
@@ -105,19 +105,26 @@ public class MyFlightController {
 		flightTripDao.updateFlight(flightstatus);
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
-		// need to add new method from FlightMathCalculator to determine boolean values for the TimelinePoint objects below
-		boolean completed = false;
+		// times being compared for timelinepoint 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		// get non trucated localdatetime metrics from API for comparison 
+		String estGateArrivalS = flightstatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+		LocalDateTime gateArrivalTimeline = LocalDateTime.parse(estGateArrivalS, formatter);
+		LocalDateTime timeAtDoorTimeline = FlightMathCalculator.getPickupTimeLdt(dur, driverDeptTime);
 		
-		
+		// compare to current time to see if this phase of the pickup is complete 
+		boolean gateArrivalBool = FlightMathCalculator.PickupStageComplete(gateArrival);
+		boolean driverDepartureBool = FlightMathCalculator.PickupStageComplete(formattedDriverDeptTime);
+		boolean timeAtDoorBool = FlightMathCalculator.PickupStageComplete(timeAtDoor);
+				
 		ArrayList<TimelinePoint> timeLineList = new ArrayList<TimelinePoint>();
-		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", formattedDriverDeptTime, completed);
+		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", driverDeptTime, driverDepartureBool);
 		timeLineList.add(driverDepartureTime);
-		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrival, completed);
+		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrivalTimeline, gateArrivalBool);
 		timeLineList.add(airplaneGateArrival);
-		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoor, completed);
-		timeLineList.add(passengerDoorPickup);
-		
-		
+		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoorTimeline, timeAtDoorBool);
+		timeLineList.add(passengerDoorPickup);	
+		Collections.sort(timeLineList);
 		
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();

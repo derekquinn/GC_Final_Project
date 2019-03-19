@@ -96,6 +96,17 @@ public class FlightMathCalculator {
 
 	}
 	
+	// calculate pickup time from google API and format it for timeline sorting
+		public static LocalDateTime getPickupTimeLdt(Long driveTimeInSeconds, LocalDateTime driverDepartureTime) {
+
+			Long minsInTraffic = driveTimeInSeconds / 60;
+
+			LocalDateTime pickupTime = driverDepartureTime.plusMinutes(minsInTraffic);
+
+			return pickupTime;
+
+		}
+	
 	// get gate arrival time from flightstats API and format it for humans
 	public static String getFormattedGateArrival(FlightStatus fs) {
 
@@ -114,7 +125,7 @@ public class FlightMathCalculator {
 	public static Long getProgressBarMetric(FlightStatus fs) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 		
-		String driverDeparture = fs.getFmtDriverDepartureTime();
+	//	String driverDeparture = fs.getFmtDriverDepartureTime();
 		
 		String pickupTime = fs.getFmtPickupTime();
 		
@@ -128,11 +139,13 @@ public class FlightMathCalculator {
 		return progressMetric;
 	}
 	
-	public static boolean PickupStageComplete(String str1, String str2) {
+	// when TRUE is returned the pickup stage on TIMELINE should be checked
+	public static boolean PickupStageComplete(String time) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		
 		LocalTime currentTime = LocalTime.now();
-		LocalTime timeMetric1 = LocalTime.parse(str1, formatter);
-		LocalTime timeMetric2 = LocalTime.parse(str2, formatter);
-		return timeMetric1.isBefore(timeMetric2);
+		LocalTime timeMetric1 = LocalTime.parse(time, formatter);
+
+		return timeMetric1.isBefore(currentTime);
 	}
 }
