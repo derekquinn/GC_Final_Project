@@ -15,72 +15,157 @@ public class FlightMathCalculator {
 
 		String publishedArrival = fs.getOperationalTimes().getPublishedArrival().getDateLocal();
 		String estimatedGateArrival = fs.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+		String actualGateArrival = fs.getOperationalTimes().getActualGateArrival().getDateLocal();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
 		LocalDateTime published = LocalDateTime.parse(publishedArrival, formatter);
 		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
+		LocalDateTime actual = LocalDateTime.parse(actualGateArrival, formatter);
 
-		LocalDateTime fromTemp = LocalDateTime.from(published);
-		long years = fromTemp.until(estimated, ChronoUnit.YEARS);
-		fromTemp = fromTemp.plusYears(years);
+		if (actual == null) {
+			
+			LocalDateTime fromTemp = LocalDateTime.from(published);
+			long years = fromTemp.until(estimated, ChronoUnit.YEARS);
+			fromTemp = fromTemp.plusYears(years);
+	
+			long months = fromTemp.until(estimated, ChronoUnit.MONTHS);
+			fromTemp = fromTemp.plusMonths(months);
+	
+			long days = fromTemp.until(estimated, ChronoUnit.DAYS);
+			fromTemp = fromTemp.plusDays(days);
+	
+			long hours = fromTemp.until(estimated, ChronoUnit.HOURS);
+			fromTemp = fromTemp.plusHours(hours);
+	
+			long minutes = fromTemp.until(estimated, ChronoUnit.MINUTES);
+			fromTemp = fromTemp.plusMinutes(minutes);
+	
+			long seconds = fromTemp.until(estimated, ChronoUnit.SECONDS);
+			fromTemp = fromTemp.plusSeconds(seconds);
+	
+			long millis = fromTemp.until(estimated, ChronoUnit.MILLIS);
+	
+			long hoursAsMinutes = hours * 60;
+	
+			long totalMinutes = minutes + hoursAsMinutes;
+	
+			return totalMinutes;
+		
+		}
+		else {
+		
+			LocalDateTime fromTemp = LocalDateTime.from(published);
+			long years = fromTemp.until(actual, ChronoUnit.YEARS);
+			fromTemp = fromTemp.plusYears(years);
 
-		long months = fromTemp.until(estimated, ChronoUnit.MONTHS);
-		fromTemp = fromTemp.plusMonths(months);
+			long months = fromTemp.until(actual, ChronoUnit.MONTHS);
+			fromTemp = fromTemp.plusMonths(months);
 
-		long days = fromTemp.until(estimated, ChronoUnit.DAYS);
-		fromTemp = fromTemp.plusDays(days);
+			long days = fromTemp.until(actual, ChronoUnit.DAYS);
+			fromTemp = fromTemp.plusDays(days);
 
-		long hours = fromTemp.until(estimated, ChronoUnit.HOURS);
-		fromTemp = fromTemp.plusHours(hours);
+			long hours = fromTemp.until(estimated, ChronoUnit.HOURS);
+			fromTemp = fromTemp.plusHours(hours);
 
-		long minutes = fromTemp.until(estimated, ChronoUnit.MINUTES);
-		fromTemp = fromTemp.plusMinutes(minutes);
+			long minutes = fromTemp.until(actual, ChronoUnit.MINUTES);
+			fromTemp = fromTemp.plusMinutes(minutes);
 
-		long seconds = fromTemp.until(estimated, ChronoUnit.SECONDS);
-		fromTemp = fromTemp.plusSeconds(seconds);
+			long seconds = fromTemp.until(actual, ChronoUnit.SECONDS);
+			fromTemp = fromTemp.plusSeconds(seconds);
 
-		long millis = fromTemp.until(estimated, ChronoUnit.MILLIS);
+			long millis = fromTemp.until(actual, ChronoUnit.MILLIS);
 
-		long hoursAsMinutes = hours * 60;
+			long hoursAsMinutes = hours * 60;
 
-		long totalMinutes = minutes + hoursAsMinutes;
+			long totalMinutes = minutes + hoursAsMinutes;
 
-		return totalMinutes;
+			return totalMinutes;
+		}
 	}
 	
 	// assign departure time for driver in bagless scenario 
 	public static LocalDateTime driverDepartureWithBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
-		Long minsInTraffic = durationInSeconds / 60;
-
-		Long airlinePassTask = (getBagsTime + getWalkToDoor);
-
-		LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
-		LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+		String actualGateArrival = null;
+		
+		try {
+		actualGateArrival = fs.getOperationalTimes().getActualGateArrival().getDateLocal();
+		}
+		catch (NullPointerException e) {
+			// it's okay for one of these to be null
+		}
 		
 		
+		if (actualGateArrival == null) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
+			Long minsInTraffic = durationInSeconds / 60;
+	
+			Long airlinePassTask = (getBagsTime + getWalkToDoor);
+	
+			LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
+			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+			
+			return timeToLeave;
+		}
+		else {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			LocalDateTime actual = LocalDateTime.parse(actualGateArrival, formatter);
+			Long minsInTraffic = durationInSeconds / 60;
+	
+			Long airlinePassTask = (getBagsTime + getWalkToDoor);
+	
+			LocalDateTime timeAtDoor = actual.plusMinutes(airlinePassTask);
+			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+			
+			return timeToLeave;
+		}
 
-		return timeToLeave;
+	
 	}
-	// account for baggage cliam 
+	// account for baggage claim 
 	public static LocalDateTime driverDepartureNoBags(FlightStatus fs, Long durationInSeconds) {
 
 		String estimatedGateArrival = fs.getOperationalTimes().getScheduledGateArrival().getDateLocal();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-		LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
-		Long minsInTraffic = durationInSeconds / 60;
-
-		Long airlinePassTask = (getWalkToDoor);
-
-		LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
-		LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
-
-		return timeToLeave;
+		String actualGateArrival = null;
+		
+		try {
+		actualGateArrival = fs.getOperationalTimes().getActualGateArrival().getDateLocal();
+		}
+		catch (NullPointerException e) {
+			// it's okay for one of these to be null
+		}
+		
+		
+		if (actualGateArrival == null) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
+			Long minsInTraffic = durationInSeconds / 60;
+	
+			Long airlinePassTask = (getWalkToDoor);
+	
+			LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
+			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+	
+			return timeToLeave;
+		}
+		
+		else {
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+			LocalDateTime actual = LocalDateTime.parse(actualGateArrival, formatter);
+			Long minsInTraffic = durationInSeconds / 60;
+	
+			Long airlinePassTask = (getWalkToDoor);
+	
+			LocalDateTime timeAtDoor = actual.plusMinutes(airlinePassTask);
+			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
+	
+			return timeToLeave;
+		}
+		
 	}
 	
 	// calculate pickup time from google API and format it for humans
