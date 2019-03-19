@@ -3,6 +3,7 @@ package flight.info.detroit;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -123,6 +124,7 @@ public class MyFlightController {
 		timeLineList.add(airplaneGateArrival);
 		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoorTimeline, timeAtDoorBool);
 		timeLineList.add(passengerDoorPickup);	
+		Collections.sort(timeLineList);
 		
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();

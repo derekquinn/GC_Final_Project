@@ -50,9 +50,12 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
 	}
 
 	@Override
-	public int compareTo(TimelinePoint o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(TimelinePoint object) {
+		return this.time.compareTo(object.time);
+		/*
+		 * if (this.time < object.time) { return -1; } else if (this.getTime() ==
+		 * time.getTime()) { return 0; } else { return 1; }
+		 */
 	}
 	
 	
