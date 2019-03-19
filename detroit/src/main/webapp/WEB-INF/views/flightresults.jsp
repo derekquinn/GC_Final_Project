@@ -64,9 +64,9 @@
     </div>
     <ol class="progress-points" data-current="4">
     <c:forEach var="timeline" items= "${ timelinePoint }">
-      <li class="progress-point ${ timeline.completed ? 'completed' : '' }">
+   <!--    <li class="progress-point ${ timeline.completed ? 'completed' : '' }">-->
         <span class="label">${timeline.description} ${ timeline.time }</span>
-      </li>
+   <!--     </li>-->
       </c:forEach>
     </ol>
   </div>
