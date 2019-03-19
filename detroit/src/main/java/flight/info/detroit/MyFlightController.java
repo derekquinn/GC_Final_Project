@@ -39,7 +39,7 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
-		if (!(flightCode.matches("^[A-Za-z9]{2}\\d{1,4}$"))) {
+		if (!(flightCode.matches("^[A-Za-z0-9]{2}\\d{1,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
 			return mav;

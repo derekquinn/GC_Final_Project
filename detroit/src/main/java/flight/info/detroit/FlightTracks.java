@@ -5,6 +5,15 @@ public class FlightTracks {
 	private String carrierFsCode;
 	private String flightNumber;
 	private String departureAirportFsCode;
+	private DepartureDate departureDate;
+	
+	public DepartureDate getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(DepartureDate departureDate) {
+		this.departureDate = departureDate;
+	}
 
 	public String getCarrierFsCode() {
 		return carrierFsCode;

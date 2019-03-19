@@ -6,6 +6,16 @@ public class AirlineCode {
 
 	private ArrayList<FlightTracks> flightTracks;
 
+	private Appendix appendix;
+
+	public Appendix getAppendix() {
+		return appendix;
+	}
+
+	public void setAppendix(Appendix appendix) {
+		this.appendix = appendix;
+	}
+
 	public ArrayList<FlightTracks> getFlightTracks() {
 		return flightTracks;
 	}
@@ -16,7 +26,7 @@ public class AirlineCode {
 
 	@Override
 	public String toString() {
-		return "AirlineCode [flightTracks=" + flightTracks + "]";
+		return "AirlineCode [flightTracks=" + flightTracks + appendix + "]";
 	}
 
 }
