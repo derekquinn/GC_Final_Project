@@ -56,7 +56,19 @@ public class FlightStatsApiServices {
 		System.out.println(url);
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
-		return response.getFlightStatuses().get(0);
+		// store the response temporarily
+		flightStatus = response.getFlightStatuses();
+		// loop through the response and find the flight landing at DTW
+		for (int i = 0; i < flightStatus.size(); i++) {
+			
+			String arrivalCode = flightStatus.get(i).getArrivalAirportFsCode();
+
+			if (arrivalCode.equals("DTW")) {
+				return flightStatus.get(i);
+			}
+		}
+
+		return flightStatus.get(0);
 	}
 
 	public ArrayList<FlightTracks> searchFlightCode() {

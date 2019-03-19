@@ -41,11 +41,11 @@
 </div>
 <br>
 <br>
-<br>
+<br><%-- 
 			Expected Arrival:
 			${flightstatus.operationalTimes.publishedArrival.dateLocal}<br>
 			Actual Arrival:
-			${flightstatus.operationalTimes.estimatedGateArrival.dateLocal}<br>
+			${flightstatus.operationalTimes.estimatedGateArrival.dateLocal}<br> --%>
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>

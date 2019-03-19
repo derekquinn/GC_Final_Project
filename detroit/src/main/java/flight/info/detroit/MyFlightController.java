@@ -108,7 +108,20 @@ public class MyFlightController {
 		// times being compared for timelinepoint 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		// get non trucated localdatetime metrics from API for comparison 
-		String estGateArrivalS = flightstatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+		
+		/// use estimated gate arrival (more accurate) if its available, if not use scheduled (less accurate)
+		String estGateArrivalS = "";
+		
+		try {
+		estGateArrivalS = flightstatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+		
+		
+		} catch (NullPointerException e) {
+		estGateArrivalS = flightstatus.getOperationalTimes().getScheduledGateArrival().getDateLocal();
+		
+		}
+		
+		
 		LocalDateTime gateArrivalTimeline = LocalDateTime.parse(estGateArrivalS, formatter);
 		LocalDateTime timeAtDoorTimeline = FlightMathCalculator.getPickupTimeLdt(dur, driverDeptTime);
 		
