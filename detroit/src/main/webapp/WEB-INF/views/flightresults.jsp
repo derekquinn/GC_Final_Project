@@ -6,102 +6,216 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/progressbarstyle.css" />
-<title>Flight | Search Results</title>
+<title>APU | Flight Results</title>
 </head>
 <body>
 
 	<%@include file="partials/header.jsp"%>
-	<h2>Pick up Status</h2>
-
-	<h5><c:choose>
-	<c:when test="${flightstatus.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'UA'}"> United Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'WN'}"> Southwest Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'NK'}"> Spirit Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'AS'}"> Alaska Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'B6'}"> JetBlue Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'LH'}"> Lufthansa Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'RV'}"> Air Canada Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq '5D'}"> AeroMexico Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'F9'}"> Frontier Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'AF'}"> Air France Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'RJ'}"> Royal Jordanian Airlines Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'WW'}"> WOW air Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
-	<c:when test="${flightstatus.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
-	<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
-	</c:choose>${flightstatus.flightNumber}<br></h5>
-
-
-		Pickup Location: 
-			<c:choose>
-			<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'M'}"> McNamara Terminal</c:when>
-			<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'N'}"> North Terminal </c:when>
-			<c:otherwise> ${flightstatus.airportResources.arrivalTerminal} </c:otherwise>
-			</c:choose><br>
 	
-
-	<p>Driver Origin: ${ origlocation } </p>
-
-		<div>
+	<div class="container">
+		<center>
+		<br>
+		<h2>Pick up Status</h2>
 	
-		<div class="container">
-  
-    </div>
-  </div>
-
-<br>
-<br>
-<br>		
-			<b> Time Adjustments</b>
-			<ul>
-			<li>Drive Time in Current Traffic Conditions: ${ traffic } </li>
-			
-			<c:choose> 
-			<c:when test="${bags}"> <li>Checked Baggage Pickup: 10 Minutes </li></c:when>
-			<c:otherwise> <li>No Checked bags</li></c:otherwise>
-			</c:choose>
-			
-			<li>Walk time from Gate ${flightstatus.airportResources.arrivalGate}: ${walktime} Minutes</li>
-			
+		<h5>
 			<c:choose>
-			<c:when test="${planesize eq '-10'}"><li>Smaller aircraft disembarkment time: 10 Minutes <i>faster</i></li></c:when>
-			<c:when test="${planesize eq '10'}"><li>Larger aircraft disembarkment delay: ${planesize} Minutes</li></c:when>
-			<c:when test="${planesize eq '15'}"><li>Wide-body aircraft disembarkment delay: ${planesize} Minutes</li></c:when>
-			<c:otherwise> <li>Standard aircraft size: <i> No time adjustment made</i></li></c:otherwise>
-			</c:choose>
-			</ul>
+				<c:when test="${flightstatus.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'UA'}"> United Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'WN'}"> Southwest Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'NK'}"> Spirit Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'AS'}"> Alaska Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'B6'}"> JetBlue Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'LH'}"> Lufthansa Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'RV'}"> Air Canada Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq '5D'}"> AeroMexico Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'F9'}"> Frontier Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'AF'}"> Air France Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'RJ'}"> Royal Jordanian Airlines Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'WW'}"> WOW air Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
+				<c:when test="${flightstatus.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
+				<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
+			</c:choose>${flightstatus.flightNumber}<br>
+		</h5>
 
+	</center>
+<center>
+
+		<div class="inlined">
+
+			<!-- Start progress bar -->
+			<div class="progress-meter">
+				<div class="track">
+					<span class="progress" style="width: ${ progresspercent }%;"></span>
+				</div>
+
+				<ol class="progress-points" data-current="4">
+					<c:forEach var="timeline" items="${ timelinePoint }">
+
+						<li
+							class="progress-point ${ timeline.completed ? 'completed' : '' }">
+							<span class="label">${timeline.description} <br> ${ timeline.timeAsString }</span>
+						</li>
+
+
+
+
+					</c:forEach>
+				</ol>
+</center>
+			
+
+			<!-- End progress bar -->
+		</div></div>
+
+
+
+
+
+			<div class="container">
+		
+		</div>
+
+		<br> <br> <br>
 		
 
-<div class="inlined">
-  
-  <!-- Start progress bar -->
-  <div class="progress-meter">
-    <div class="track">
-      <span class="progress" style="width: ${ progresspercent }%;"></span>
-    </div>
 
-      <ol class="progress-points" data-current="4">
-    <c:forEach var="timeline" items= "${ timelinePoint }">
-	 
-	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
-	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
-     </li>
-      
-    
-      
-    
-     </c:forEach>
-     </ol>
-  
-  </div>
+		<!-- BEGIN GROUND TRAFFIC  OUTPUT -->
 
-  <!-- End progress bar -->
-  
-</div>
 
-	
+
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Drive Time</h5>
+				<small>${ traffic }</small>
+			</div>
+			<p class="mb-1">
+				This pickup originates at ${ origlocation } and ends at
+				<c:choose>
+					<c:when
+						test="${flightstatus.airportResources.arrivalTerminal eq 'M'}"> McNamara Terminal.</c:when>
+					<c:when
+						test="${flightstatus.airportResources.arrivalTerminal eq 'N'}"> North Terminal. </c:when>
+					<c:otherwise> DTW </c:otherwise>
+				</c:choose>
+			</p> <!--     <small>Donec id elit non mi porta.</small> -->
+		</a>
+
+
+
+
+
+
+
+
+		<!-- END GROUND TRAFFIC  OUTPUT -->
+
+		<!-- BEGIN AIRCRAFT SIZE METRICS OUTPUT -->
+		<div class="list-group">
+
+			<c:choose>
+
+				<c:when test="${planesize eq '0'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>No deplaning delay</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a smaller regional
+							aircraft, which allows faster deplaning.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+					</a>
+				</c:when>
+
+
+				<c:when test="${planesize eq '20'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>20 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a larger aircraft,
+							which can cause deplaning delays.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+					</a>
+				</c:when>
+
+
+				<c:when test="${planesize eq '25'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>25 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a wide-body
+							aircraft, which can cause significant deplaning delays.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+					</a>
+				</c:when>
+
+				<c:otherwise>
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>10 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a medium-sized
+							aircraft, which can cause some deplaning delay.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+					</a>
+
+
+
+				</c:otherwise>
+			</c:choose>
+		</div>
+		<!-- END AIRCRAFT SIZE METRICS OUTPUT -->
+
+		<!-- BEGIN GATE WALK OUTPUT -->
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Concourse Walk Time</h5>
+				<small>${walktime} minute walk time</small>
+			</div>
+			<p class="mb-1">The passenger is landing at gate
+				${flightstatus.airportResources.arrivalGate}.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+		</a>
+
+		<!-- END GATE WALK OUTPUT -->
+
+		<!-- BEGIN BAGGAGE  OUTPUT -->
+
+		<c:choose>
+			<c:when test="${bags}">
+				<a class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Checked Bags</h5>
+						<small>15 minutes added</small>
+					</div>
+					<p class="mb-1">The passenger has checked bags, which can cause
+						delays at baggage claim.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+				</a>
+			</c:when>
+
+			<c:otherwise>
+
+				<a class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Checked Bags</h5>
+						<small>No checked baggage delay</small>
+					</div>
+					<p class="mb-1">The passenger has not checked bags.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+				</a>
+
+
+			</c:otherwise>
+		</c:choose>
+		<!-- END BAGGAGE  OUTPUT -->
+
+
+
+
+
 </body>
 </html>

@@ -5,94 +5,211 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>APU | Detail </title>
+<link rel="stylesheet" href="/progressbarstyle.css" />
 </head>
 <body>
-<%@include file="partials/header.jsp"%>
-
-	<h2>Pickup Timing</h2>
-
-	<h5>${flight.carrierFsCode}-${flight.flightNumber}</h5>
-
+	<%@include file="partials/header.jsp"%>
 	
+	<div class="container">
+		<center>
+		<br>
+		<h2>Pick up Status</h2>
+	
+		<h5>
+			<c:choose>
+				<c:when test="${flight.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'UA'}"> United Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'WN'}"> Southwest Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'NK'}"> Spirit Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'AS'}"> Alaska Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'B6'}"> JetBlue Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'LH'}"> Lufthansa Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'RV'}"> Air Canada Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq '5D'}"> AeroMexico Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'F9'}"> Frontier Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'AF'}"> Air France Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'RJ'}"> Royal Jordanian Airlines Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'WW'}"> WOW air Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
+				<c:when test="${flight.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
+				<c:otherwise>${flight.carrierFsCode}</c:otherwise>
+			</c:choose>${flight.flightNumber}<br>
+		</h5>
 
-	<p>${ flight.driverOrigin } ------> DTW</p>
-
-
-<br>
-		<div class="container">
-  <div class="row">
-    <div class="col-sm">
-     <h4>Passenger Gate Arrival</h4>
-      ${flight.fmtGateArrival }
-    </div>
-    <div class="col-sm">
-     <h4>Driver Departure</h4>
-      ${ flight.fmtDriverDepartureTime }
-      
-    </div>
-    <div class="col-sm">
-     <h4>Pickup</h4>
-      ${ flight.fmtPickupTime}
-    </div>  
-</div>
-</div>
+	</center>
 <center>
-<br> 
-<c:choose>
-    <c:when test="${flight.hasBags }">
 
-<div class="alert alert-warning" role="alert">
-The inbound passenger has checked bags. Pickup time has been adjusted accordingly.
-</div>
-    </c:when>
-   
-    <c:otherwise>
-<div class="alert alert-success" role="alert">
+		<div class="inlined">
 
-The inbound passenger does <b>not</b> have checked bags. Pickup time has been adjusted accordingly.  
+			<!-- Start progress bar -->
+			<div class="progress-meter">
+				<div class="track">
+					<span class="progress" style="width: ${ progresspercent }%;"></span>
+				</div>
+
+				<ol class="progress-points" data-current="4">
+					<c:forEach var="timeline" items="${ timelinePoint }">
+
+						<li
+							class="progress-point ${ timeline.completed ? 'completed' : '' }">
+							<span class="label">${timeline.description} <br> ${ timeline.timeAsString }</span>
+						</li>
+
+
+
+
+					</c:forEach>
+				</ol>
 </center>
-</div>
-    </c:otherwise>
-</c:choose>
+			
 
-${progressbar }
-
-<br>
-<center>
-<div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 20%" > <B> <h4>Pickup <br> scheduled</h4> </B></div>
-</center>
-
-
-<br>
-<center>
-<div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 40%" > <B> <h4>Driver <br> inbound</h4> </B> </div>
-</center>
-
-<br>
-<center>
-<div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated  " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%" > <B> <h4>Driver inbound</h4> </B></div>
-</center>
-
-<br>
-<center>
-<div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 80%" > <B> <h4>Pickup <br> soon!</h4> </B></div>
-
-</center>
-
-<br>
-<center>
-<div class="progress" style="width:80%;height:170px ">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%" > <B> <h4>Pickup Complete!</h4> </B></div>
-</center>
+			<!-- End progress bar -->
+		</div></div>
 
 
 
 
-</body> 
+
+			<div class="container">
+		
+		</div>
+
+		<br> <br> <br>
+		
+
+
+		<!-- BEGIN GROUND TRAFFIC  OUTPUT -->
+
+
+
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Drive Time</h5>
+				<small>${ traffic }</small>
+			</div>
+			<p class="mb-1">
+				This pickup originates at ${ origlocation } and ends at
+				<c:choose>
+					<c:when
+						test="${flight.airportResources.arrivalTerminal eq 'M'}"> McNamara Terminal.</c:when>
+					<c:when
+						test="${flight.airportResources.arrivalTerminal eq 'N'}"> North Terminal. </c:when>
+					<c:otherwise> DTW </c:otherwise>
+				</c:choose>
+			</p>
+		</a>
+
+
+
+
+
+
+
+
+		<!-- END GROUND TRAFFIC  OUTPUT -->
+
+		<!-- BEGIN AIRCRAFT SIZE METRICS OUTPUT -->
+		<div class="list-group">
+
+			<c:choose>
+
+				<c:when test="${planesize eq '0'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>No deplaning delay</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a smaller regional
+							aircraft, which allows faster deplaning.</p> 
+					</a>
+				</c:when>
+
+
+				<c:when test="${planesize eq '20'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>20 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a larger aircraft,
+							which can cause deplaning delays.</p>
+					</a>
+				</c:when>
+
+
+				<c:when test="${planesize eq '25'}">
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>25 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a wide-body
+							aircraft, which can cause significant deplaning delays.</p>
+					</a>
+				</c:when>
+
+				<c:otherwise>
+
+					<a class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Aircraft Size</h5>
+							<small>10 minutes added</small>
+						</div>
+						<p class="mb-1">The passenger is flying on a medium-sized
+							aircraft, which can cause some deplaning delay.</p> 
+					</a>
+
+
+
+				</c:otherwise>
+			</c:choose>
+		</div>
+		<!-- END AIRCRAFT SIZE METRICS OUTPUT -->
+
+		<!-- BEGIN GATE WALK OUTPUT -->
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Concourse Walk Time</h5>
+				<small>${walktime} minute walk time</small>
+			</div>
+			<p class="mb-1">The passenger is landing at gate
+				${flight.airportResources.arrivalGate}.</p> 
+		</a>
+
+		<!-- END GATE WALK OUTPUT -->
+
+		<!-- BEGIN BAGGAGE  OUTPUT -->
+
+		<c:choose>
+			<c:when test="${bags}">
+				<a class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Checked Bags</h5>
+						<small>15 minutes added</small>
+					</div>
+					<p class="mb-1">The passenger has checked bags, which can cause
+						delays at baggage claim.</p> 
+				</a>
+			</c:when>
+
+			<c:otherwise>
+
+				<a class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Checked Bags</h5>
+						<small>No checked baggage delay</small>
+					</div>
+					<p class="mb-1">The passenger has not checked bags.</p> 
+				</a>
+
+
+			</c:otherwise>
+		</c:choose>
+		<!-- END BAGGAGE  OUTPUT -->
+
+</body>
 </html>
