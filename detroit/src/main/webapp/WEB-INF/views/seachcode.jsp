@@ -17,17 +17,25 @@
 
 		<thead>
 			<tr>
-				<th width="20%">Origin Departure City</th>
-				<th width="20%">Departure Airport</th>
-				<th width="20%">Airline Companies</th>
-				<th width="20%">Flight Number</th>
-				<th width="20%">Arrival Time</th>
+				<th width="16%">Select Your Flight</th>
+				<th width="15%">Departure Time</th>
+				<th width="17%">Departure Airport</th>
+				<th width="17%">Airline Companies</th>
+				<th width="15%">Flight Number</th>
+				<th width="25%">Origin Departure City</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="flight" items="${listofflights }">
 				<tr>
-					<c:forEach var="a" items="${airportInfo}">
+			
+					<td><a class="btn btn-primary"
+						href="flightcode?carr=${flight.carrierFsCode }&num=${flight.flightNumber }">Select</a></td>
+					<td>${flight.departureDate.dateLocal}</td>
+					<td>${flight.departureAirportFsCode }</td>
+					<td>${flight.carrierFsCode }</td>
+					<td>${flight.flightNumber }</td>
+							<c:forEach var="a" items="${airportInfo}">
 						 	<c:if test="${flight.departureAirportFsCode == a.cityCode }">
 						<td>${a.city}</td>
 						
@@ -48,12 +56,7 @@
 							</c:otherwise>
 						</c:choose>  --%>
 					</c:forEach>
-					<td>${flight.departureAirportFsCode }</td>
-					<td>${flight.carrierFsCode }</td>
-					<td>${flight.flightNumber }</td>
-					<td>${flight.departureDate.dateLocal}</td>
-					<td><a class="btn btn-primary"
-						href="flightcode?carr=${flight.carrierFsCode }&num=${flight.flightNumber }">Select</a></td>
+
 				</tr>
 			</c:forEach>
 		</tbody>

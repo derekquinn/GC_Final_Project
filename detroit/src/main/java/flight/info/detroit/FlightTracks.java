@@ -6,7 +6,7 @@ public class FlightTracks {
 	private String flightNumber;
 	private String departureAirportFsCode;
 	private DepartureDate departureDate;
-	
+
 	public DepartureDate getDepartureDate() {
 		return departureDate;
 	}
