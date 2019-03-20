@@ -95,7 +95,7 @@ public class MyFlightController {
 		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
-		
+		System.out.println("you got here bitch" + FlightMathCalculator.checkGateWalkTime(flightstatus));
 		
 		
 		

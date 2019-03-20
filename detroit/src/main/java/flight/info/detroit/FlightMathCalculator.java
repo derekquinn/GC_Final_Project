@@ -251,4 +251,34 @@ public class FlightMathCalculator {
 		return planeSizeAdjustment;
 	}
 	
+	public static Long checkGateWalkTime(FlightStatus fs) {
+		Long gateWalkAdjustment = 0L;
+		String arrivalGate = fs.getAirportResources().getArrivalGate();
+		String arrivalTerminal = fs.getAirportResources().getArrivalTerminal();
+		if (arrivalTerminal.startsWith("M")) {
+			if (!(arrivalGate.equals("A7")) && ((arrivalGate.startsWith("B") || arrivalGate.startsWith("A7")
+					|| arrivalGate.startsWith("C")))) {
+				gateWalkAdjustment = gateWalkAdjustment + 15L;
+			}
+			else if (!(arrivalGate.equals("A6")) && ((arrivalGate.startsWith("A6") 
+					|| arrivalGate.startsWith("A1") || arrivalGate.startsWith("A2")))) {
+				gateWalkAdjustment = gateWalkAdjustment + 10L;
+			}
+			
+			
+		}
+		else {
+			if (!(arrivalGate.equals("D1")) && !(arrivalGate.startsWith("D1"))) {
+				gateWalkAdjustment = gateWalkAdjustment + 5L;
+			}
+			else if (arrivalGate.equals("D1") || arrivalGate.equals("D2") || arrivalGate.equals("D3")
+					|| arrivalGate.equals("D4") || arrivalGate.equals("D5") || arrivalGate.equals("D6")
+					|| arrivalGate.equals("D28") || arrivalGate.equals("D30") || arrivalGate.equals("D32")) {
+				gateWalkAdjustment = gateWalkAdjustment + 8L;
+			}
+		}
+		
+		return gateWalkAdjustment;
+	}
+	
 }
