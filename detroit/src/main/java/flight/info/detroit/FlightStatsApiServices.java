@@ -47,8 +47,9 @@ public class FlightStatsApiServices {
 
 	// allows API to respond to user search for any flight
 
-	public List<FlightStatus> searchFlight(String airline, String flightNumber) {
+	public FlightStatus searchFlight(String airline, String flightNumber) {
 		// puts todays date in the URL as string
+		List<FlightStatus> flightStatus = new ArrayList<FlightStatus>();
 		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		System.out.println(today);
 		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/" + airline + "/"
@@ -56,7 +57,7 @@ public class FlightStatsApiServices {
 		System.out.println(url);
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
-		return response.getFlightStatuses();
+		return response.getFlightStatuses().get(0);
 	}
 
 	public ArrayList<FlightTracks> searchFlightCode() {

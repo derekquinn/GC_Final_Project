@@ -1,14 +1,9 @@
 package flight.info.detroit;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
-
-import com.google.maps.model.Duration;
 
 public class FlightMathCalculator {
 
@@ -133,6 +128,11 @@ public class FlightMathCalculator {
 		return progressMetric;
 	}
 	
-	
-	
+	public static boolean PickupStageComplete(String str1, String str2) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		LocalTime currentTime = LocalTime.now();
+		LocalTime timeMetric1 = LocalTime.parse(str1, formatter);
+		LocalTime timeMetric2 = LocalTime.parse(str2, formatter);
+		return timeMetric1.isBefore(timeMetric2);
+	}
 }

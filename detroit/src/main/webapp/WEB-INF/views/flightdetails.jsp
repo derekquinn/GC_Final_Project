@@ -5,20 +5,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="../../css/editor.css" rel="stylesheet">
+  <link href="album.css" rel="stylesheet">
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/progressbarstyle.css" />
+<link rel="stylesheet" href="style.css" />
 <title>APU | Detail </title>
 </head>
 <body>
 <%@include file="partials/header.jsp"%>
 
-	<h2>Pickup Timing</h2>
-
-	<h5>${flight.carrierFsCode}-${flight.flightNumber}</h5>
-
+	 <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading" contenteditable="true" spellcheckker="false">Pick up Details</h1>
+           <p class="lead text-muted"></p>
+          <p>
+           <h5>Flight Number: ${flight.carrierFsCode}-${flight.flightNumber}</h5>
+				<%-- </c:forEach> --%>
 	
 
-	<p>${ flight.driverOrigin } ------> DTW</p>
+	 <p>From: ${ flight.driverOrigin}</p>
+          </p><br><br>
+          <div class="inliner"></div>
+<div class="inlined">
+  
+  <!-- Start component -->
+  <div class="progress-meter">
+    <div class="track">
+      <span class="progress" style="width: 50%;"></span>
+    </div>
+    <ol class="progress-points" data-current="4">
+    <c:forEach var="timeline" items= "${ timelinePoint }">
+     <li class="progress-point completed">
+        <span class="label">${timeline.description} ${ timeline.time }</span>
+      </li>
+     </c:forEach>
 
+    </ol>
+  </div>
+          
+        </div>
+      </section>
+
+	
 
 <br>
 		<div class="container">
@@ -40,7 +69,7 @@
 </div>
 <center>
 <br> 
-<c:choose>
+<%-- <c:choose>
     <c:when test="${flight.hasBags }">
 
 <div class="alert alert-warning" role="alert">
@@ -92,7 +121,7 @@ ${progressbar }
 </center>
 
 
-
+ --%>
 
 </body> 
 </html>

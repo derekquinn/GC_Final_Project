@@ -13,22 +13,23 @@
 
 	<p>${ message }</p>
 
-	<table class="table">
+	<table class="table table-hover" width =33%">
 
 		<thead>
 			<tr>
-			<th width="20%">Original Departure City</th>
-			<th width="20%">Airline Companies</th>
-			<th width="20%">Flight Number</th>
+			<th class="text-center" scope="col">Departure City</th>
+			<th class="text-center" scope="col">Airlines</th>
+			<th class="text-center" scope="col">Flight Number</th>
+			<th class="text-center"scope="col">Select</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="flight" items="${listofflights }">
 				<tr>
-					<td>${flight.departureAirportFsCode }</td>
-					<td>${flight.carrierFsCode }</td>
-					<td>${flight.flightNumber }</td>
-					<td><a class="btn btn-primary"
+					<td class="text-center">${flight.departureAirportFsCode }</td>
+					<td class="text-center">${flight.carrierFsCode }</td>
+					<td class="text-center">${flight.flightNumber }</td>
+					<td class="text-center"><a class="btn btn-primary"
 						href="flightcode?carr=${flight.carrierFsCode }&num=${flight.flightNumber }">Select</a></td>
 				</tr>
 			</c:forEach>

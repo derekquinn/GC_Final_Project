@@ -45,7 +45,11 @@ public class MapsInfoApiService {
 		
 		DistanceMatrix trix;
 //		Instant now = new Instant(52329028);
-		if (arrivalTerminal.contains("M")) {
+		// if arrival terminal contains an 'M", or the arrival terminal cannot be determined, use the coordinates
+		// for DTW McNamara Terminal to calculate drive time. Otherwise, use the coordinates for DTW North Terminal.
+		System.out.println("Arrival Terminal is" + arrivalTerminal);
+		
+		if (arrivalTerminal == null || arrivalTerminal.isEmpty() || arrivalTerminal.contains("M") ) {
 		try {
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
 			trix = req.origins(origin).destinations("42.2073831,-83.356775").departureTime(Instant.now())
