@@ -16,7 +16,9 @@
 
 
 	<form action="/flightresults">
-		<h2>Calculate your departure time</h2>
+		<h2><center>Airport Pickup Utility </center><br>
+		<center>Your Gateway to Detroit Metro Airport </center><br> </h2>
+		<h3>Calculate your departure time</h3>
 		<p>
 			Flight Number: <input name="flightcode" placeholder="UX0193" value="${ flightNum}" size="10" min="4" maxlength="6" required pattern="[A-Za-z0-9]{2}\d{2,4}" />
 		<a class="btn btn-primary" href="findflight">Don't Know?</a>
