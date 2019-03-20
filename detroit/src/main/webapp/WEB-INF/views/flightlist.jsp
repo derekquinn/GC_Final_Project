@@ -17,28 +17,33 @@
 
 	<table class="table table-hover" width =33%>
 		<tr>
-			<th scope="col">Details</th>
-			<th scope="col">Airline</th>
-			<th scope="col">Flight #</th>
-			<th scope="col">Driver Departure</th>
-			<th scope="col">Traffic [SEC]</th>
-			<th scope="col">Origin Address</th>
-			<th scope="col">Refresh</th>
-			<th scope="col">Remove</th>
+		
+			<th class="text-center" width =4% >Details</th>
+			<th class="text-center" scope="col">Driver Departure</th>
+			<th class="text-center" scope="col">Airline</th>
+			<th class="text-center" scope="col">Flight #</th>
+			<!-- <th class="text-center" scope="col">Driver Departure</th> -->
+			<!-- <th class="text-center" scope="col">Traffic [SEC]</th> -->
+			<th class="text-center" scope="col">Origin Address</th>
+			<th class="text-center" width =4%>Refresh</th>
+			<th class="text-center" width =4%>Remove</th>
 </tr>
 
 
 		<c:forEach var="flights" items="${flights}">
 
 			<tr>
-			<td><a href="/flights/${flights.id}">Details</a></td>
-				<td>${flights.carrierFsCode}</td>
-				<td>${flights.flightNumber}</td>
-				<td>${flights.fmtDriverDepartureTime}</td>
-				<td>${flights.driveDurationSec }</td>
-				<td>${flights.driverOrigin }</td>	
-				<td><a href="/flightstatus/update?id=${flights.id}">Update</a></td>
-				<td><a href="/flightstatus/delete?id=${flights.id}">Delete</a></td>
+				
+			<td class="text-center"><a href="/flights/${flights.id}">Details</a></td>
+			<td class="text-center">${flights.fmtDriverDepartureTime}</td>
+				<td class="text-center">${flights.carrierFsCode}</td>
+				<td class="text-center">${flights.flightNumber}</td>
+				<%-- <td class="text-center">${flights.fmtDriverDepartureTime}</td> --%>
+				<%-- <td class="text-center">${flights.driveDurationSec }</td> --%>
+				<td class="text-center">${flights.driverOrigin }</td>	
+				<td class="text-center"><a href="/flightstatus/update?id=${flights.id}">Update</a></td>
+				<td class="text-center"><a href="/flightstatus/delete?id=${flights.id}">Delete</a></td>
+				
 			</tr>
 		</c:forEach>
 
