@@ -1,9 +1,12 @@
 package flight.info.detroit;
 
-public class TimelinePoint {
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class TimelinePoint implements Comparable<TimelinePoint> {
 
 	private String description;
-	private String time;
+	private LocalDateTime time;
 	private boolean completed;
 	
 	
@@ -11,7 +14,7 @@ public class TimelinePoint {
 		super();
 	}
 
-	public TimelinePoint(String description, String time, boolean completed) {
+	public TimelinePoint(String description, LocalDateTime time, boolean completed) {
 		super();
 		this.description = description;
 		this.time = time;
@@ -26,12 +29,16 @@ public class TimelinePoint {
 		this.description = description;
 	}
 
-	public String getTime() {
+	public LocalDateTime getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(LocalDateTime time) {
 		this.time = time;
+	}
+	
+	public String getTimeAsString() {
+		return time.format((DateTimeFormatter.ofPattern("hh:mm a")));
 	}
 
 	public boolean isCompleted() {
@@ -40,6 +47,15 @@ public class TimelinePoint {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
+	}
+
+	@Override
+	public int compareTo(TimelinePoint object) {
+		return this.time.compareTo(object.time);
+		/*
+		 * if (this.time < object.time) { return -1; } else if (this.getTime() ==
+		 * time.getTime()) { return 0; } else { return 1; }
+		 */
 	}
 	
 	

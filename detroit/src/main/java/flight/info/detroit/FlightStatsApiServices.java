@@ -35,7 +35,6 @@ public class FlightStatsApiServices {
 		restTemplateWithUserAgent = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
 	}
 
-	
 	// hard coded flight number for testing purposes
 
 	public List<FlightStatus> getFlightStatus() {
@@ -57,22 +56,47 @@ public class FlightStatsApiServices {
 		System.out.println(url);
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
-		return response.getFlightStatuses().get(0);
+		// store the response temporarily
+		flightStatus = response.getFlightStatuses();
+		// loop through the response and find the flight landing at DTW
+		for (int i = 0; i < flightStatus.size(); i++) {
+			
+			String arrivalCode = flightStatus.get(i).getArrivalAirportFsCode();
+
+			if (arrivalCode.equals("DTW")) {
+				return flightStatus.get(i);
+			}
+		}
+
+		return flightStatus.get(0);
 	}
 
 	public ArrayList<FlightTracks> searchFlightCode() {
 		// puts todays date in the URL as string
 		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		System.out.println(today);
-		
-		//https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" + appId + "&appKey="
+
+		// https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" +
+		// appId + "&appKey="
 //		+ appKey + "&utc=false"
-		//https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr?appId=4268fe7d&appKey=389dc76faba2972d4f915431dcacdfaa&includeFlightPlan=false&maxPositions=2&maxFlights=15
-		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr"+ "?appId=" + appId + "&appKey="
-				+ appKey + "&utc=false";
+
+		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr" + "?appId="
+				+ appId + "&appKey=" + appKey + "&utc=false";
 		AirlineCode response = restTemplateWithUserAgent.getForObject(url, AirlineCode.class);
 		System.out.println(response);
 		return response.getFlightTracks();
 	}
 
+	public ArrayList<Airports> searchAirportCode() {
+		// puts todays date in the URL as string
+
+		// https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" +
+		// appId + "&appKey="
+//		+ appKey + "&utc=false"
+
+		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr" + "?appId="
+				+ appId + "&appKey=" + appKey + "&utc=false";
+		AirlineCode response = restTemplateWithUserAgent.getForObject(url, AirlineCode.class);
+		return response.getAppendix().getAirports();
+	}
 }

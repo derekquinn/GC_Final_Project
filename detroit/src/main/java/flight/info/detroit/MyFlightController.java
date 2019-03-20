@@ -3,6 +3,7 @@ package flight.info.detroit;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -38,14 +39,13 @@ public class MyFlightController {
 	public ModelAndView showFlightResults(@RequestParam("flightcode") String flightCode,
 			@RequestParam("origin") String origin, @RequestParam(name = "bags", required = false) Boolean hasBags) {
 
-		if (!(flightCode.matches("^[A-Za-z9]{2}\\d{1,4}$"))) {
+		if (!(flightCode.matches("^[A-Za-z0-9]{2}\\d{1,4}$"))) {
 			ModelAndView mav = new ModelAndView("flightsearch");
 			mav.addObject("message", "Invalid flight number or flight code. Please re-enter.");
 			return mav;
 		}
 
-		// split the flight search into airline and flight number for API url and accept
-		// flight numbers ranging from 3-6 characters in length
+		// split the flight search into airline and flight number for API url and accept flight numbers ranging from 3-6 characters in length
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 
@@ -80,15 +80,22 @@ public class MyFlightController {
 			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus, dur);
 			flightstatus.setHasBags(false);
 			flightTripDao.updateFlight(flightstatus);
-		}
-
-		// sending driver departure time to database
+		}	
+		
+		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time 	
+		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightstatus);
+		// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb is 
+		Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(flightstatus);
+		
+		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
+		driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
+		
+		// sending updated driver departure time (including walk time and plane size adjustment)
 		flightstatus.setDriverDeparture(driverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
-		// storing the calcualted driver departure time in a string, reformatted for
-		// humans
+		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
-
+		
 		// sending reformatted driver departure time to database
 		flightstatus.setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
@@ -105,32 +112,54 @@ public class MyFlightController {
 		flightTripDao.updateFlight(flightstatus);
 		ModelAndView mav = new ModelAndView("flightresults", "flightstatus", flightstatus);
 		
-		// need to add new method from FlightMathCalculator to determine boolean values for the TimelinePoint objects below
-		boolean completed = false;
+		// times being compared for timelinepoint 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		// get non trucated localdatetime metrics from API for comparison 
 		
+		/// use estimated gate arrival (more accurate) if its available, if not use scheduled (less accurate)
+		String estGateArrivalS = "";
 		
+		try {
+		estGateArrivalS = flightstatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
+				
+		} catch (NullPointerException e) {
+		estGateArrivalS = flightstatus.getOperationalTimes().getScheduledGateArrival().getDateLocal();
+		
+		}
+				
+		LocalDateTime gateArrivalTimeline = LocalDateTime.parse(estGateArrivalS, formatter);
+		LocalDateTime timeAtDoorTimeline = FlightMathCalculator.getPickupTimeLdt(dur, driverDeptTime);
+		
+		// compare to current time to see if this phase of the pickup is complete 
+		boolean gateArrivalBool = FlightMathCalculator.PickupStageComplete(gateArrival);
+		boolean driverDepartureBool = FlightMathCalculator.PickupStageComplete(formattedDriverDeptTime);
+		boolean timeAtDoorBool = FlightMathCalculator.PickupStageComplete(timeAtDoor);
+				
 		ArrayList<TimelinePoint> timeLineList = new ArrayList<TimelinePoint>();
-		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", formattedDriverDeptTime, completed);
+		TimelinePoint driverDepartureTime = new TimelinePoint ("Driver Departure Time", driverDeptTime, driverDepartureBool);
 		timeLineList.add(driverDepartureTime);
-		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrival, completed);
+		TimelinePoint airplaneGateArrival = new TimelinePoint ("Airplane Arrival", gateArrivalTimeline, gateArrivalBool);
 		timeLineList.add(airplaneGateArrival);
-		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoor, completed);
-		timeLineList.add(passengerDoorPickup);
-		
-		
+		TimelinePoint passengerDoorPickup = new TimelinePoint("Passenger Ready At Door", timeAtDoorTimeline, timeAtDoorBool);
+		timeLineList.add(passengerDoorPickup);	
+		Collections.sort(timeLineList);
 		
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();
+		
+		// show the human readable string of duration in traffic with minutes and seconds to the user
+		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(dur);
+		
+		mav.addObject("walktime", walkingTimeAdjustment);
+		mav.addObject("planesize", planeSizeAdjustment);
 		mav.addObject("bags", bags);
-		mav.addObject("traffic", dur);
+		mav.addObject("traffic", showDriveTimeInTrafficMinsSecs);
 		mav.addObject("origlocation", origin);
 		// placing reformatted times on jsp after reformatting to 12hr
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
 		mav.addObject("timelinePoint", timeLineList);
-
-		
 		
 		return mav;
 
