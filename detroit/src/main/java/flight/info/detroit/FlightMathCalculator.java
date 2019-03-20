@@ -242,10 +242,10 @@ public class FlightMathCalculator {
 		if (planeSize.equals("CR9") || planeSize.equals("CR7")|| planeSize.equals("CRJ")|| planeSize.equals("CR2")) {
 			planeSizeAdjustment = planeSizeAdjustment -10L;
 			// bigger planes
-		} else if (planeSize.equals("333")) {
+		} else if (planeSize.equals("333") || planeSize.equals("752") || planeSize.equals("753")) {
 			planeSizeAdjustment = planeSizeAdjustment +10L;
 		}   // biggest planes
-		else if (planeSize.equals("359") || planeSize.equals("77W")) {
+		else if (planeSize.equals("359") || planeSize.equals("77W") || planeSize.equals("788") ) {
 			planeSizeAdjustment = planeSizeAdjustment +15L;
 		} 	
 		return planeSizeAdjustment;
