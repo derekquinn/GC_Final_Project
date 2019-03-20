@@ -144,6 +144,29 @@ public class MyFlightController {
 		timeLineList.add(passengerDoorPickup);	
 		Collections.sort(timeLineList);
 		
+		//move progress bar along based on whether gate arrival time, time at door, and driver departure times have already occurred.
+		
+		List<Boolean> progressBarBooleans = new ArrayList<Boolean>();
+		progressBarBooleans.add(gateArrivalBool);
+		progressBarBooleans.add(driverDepartureBool);
+		progressBarBooleans.add(timeAtDoorBool);
+		
+		int progressBarCounter = 0;
+		for (int i= 0; i<progressBarBooleans.size(); i++) {
+			if (progressBarBooleans.get(i)) {
+				progressBarCounter++;
+			}
+		}
+		
+		// Explicit cast as a double to avoid int math of 2/3 = 0.  \
+		//Subtracts 1 from numerator and 1 from denominator so that  2/3 becomes 1/2 = 50% progress
+		double progressBarMvt = 100 * ( (double)(progressBarCounter -1)/ (  (double)(progressBarBooleans.size() -1) ));
+		// E.g. for three progress points, we want 0 = 0%, 1= 0%, 2=50%, 3=100%.   
+		// The expression above does not work for 0 = 0%.  Fix is to look for negative numbers, and assign them a value of zero.
+		if (progressBarMvt<0) {
+			progressBarMvt = 0;
+		}
+		
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();
 		
@@ -160,6 +183,7 @@ public class MyFlightController {
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
 		mav.addObject("timelinePoint", timeLineList);
+		mav.addObject("progresspercent", progressBarMvt);
 		
 		return mav;
 

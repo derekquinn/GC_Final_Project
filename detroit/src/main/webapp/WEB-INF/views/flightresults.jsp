@@ -65,6 +65,8 @@
 	<c:when test="${flightstatus.carrierFsCode eq 'AF'}"> Air France Airlines Flight </c:when>
 	<c:when test="${flightstatus.carrierFsCode eq 'RJ'}"> Royal Jordanian Airlines Flight </c:when>
 	<c:when test="${flightstatus.carrierFsCode eq 'WW'}"> WOW air Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
 	<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
 	</c:choose>${flightstatus.flightNumber}<br></h5>
 
@@ -111,7 +113,11 @@
   <!-- Start progress bar -->
   <div class="progress-meter">
     <div class="track">
+
       <span class="progress" style="width: 100%;"></span>
+
+      <span class="progress" style="width: ${ progresspercent }%;"></span>
+
     </div>
 
       <ol class="progress-points" data-current="4">
