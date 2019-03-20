@@ -49,6 +49,7 @@
 
 			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
+			Drive Time in Current Traffic Conditions: ${ traffic } <br> 
 		</div>
 
 	<%-- </c:forEach> --%>

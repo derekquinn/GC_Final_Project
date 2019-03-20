@@ -281,4 +281,16 @@ public class FlightMathCalculator {
 		return gateWalkAdjustment;
 	}
 	
+	public static String humanReadableDuration(Long duration) {
+		Long driveTimeMinutesComponent;
+		Long driveTimeSecondsComponent;
+		String driveTimeHumanReadable;
+		
+		driveTimeMinutesComponent = duration/60;
+		driveTimeSecondsComponent  = duration % 60;
+		driveTimeHumanReadable = driveTimeMinutesComponent + " minutes " + driveTimeSecondsComponent + " seconds";
+		
+		return driveTimeHumanReadable;
+	}
+	
 }

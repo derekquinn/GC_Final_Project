@@ -95,7 +95,7 @@ public class MyFlightController {
 		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
-		System.out.println("you got here bitch" + FlightMathCalculator.checkGateWalkTime(flightstatus));
+		System.out.println("you got here" + FlightMathCalculator.checkGateWalkTime(flightstatus));
 		
 		
 		
@@ -153,8 +153,13 @@ public class MyFlightController {
 		
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();
+		
+		// show the human readable string of duration in traffic with minutes and seconds to the user
+		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(dur);
+		
+		
 		mav.addObject("bags", bags);
-		mav.addObject("traffic", dur);
+		mav.addObject("traffic", showDriveTimeInTrafficMinsSecs);
 		mav.addObject("origlocation", origin);
 		// placing reformatted times on jsp after reformatting to 12hr
 		mav.addObject("grounddepttime", formattedDriverDeptTime);
