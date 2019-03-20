@@ -13,9 +13,15 @@
 	<%@include file="partials/header.jsp"%>
 	<h2>Pick up Status</h2>
 	<%-- <c:forEach var="flightstatus" items="${flightstatus}"> --%>
-	<h5>${flightstatus.carrierFsCode}-${flightstatus.flightNumber}</h5>
+	<h5><c:choose>
+	<c:when test="${flightstatus.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq 'UA'}"> United Airlines Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq 'WN'}"> Southwest Airlines Flight </c:when>
+	<c:when test="${flightstatus.carrierFsCode eq 'NK'}"> Spirit Airlines Flight </c:when>
+	<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
+	</c:choose>${flightstatus.flightNumber}<br></h5>
 				<%-- </c:forEach> --%>
-	
 
 	<p>${ origlocation } ------> DTW</p>
 	<%-- <c:forEach var="flightstatus" items="${flightstatus}"> --%>
@@ -47,9 +53,19 @@
 			Actual Arrival:
 			${flightstatus.operationalTimes.estimatedGateArrival.dateLocal}<br> --%>
 
-			Arrival Terminal: ${flightstatus.airportResources.arrivalTerminal}<br>
+
+			
+			Arrival Terminal: 
+			<c:choose>
+			<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'M'}"> McNamara Terminal</c:when>
+			<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'N'}"> North Terminal </c:when>
+			<c:otherwise> ${flightstatus.airportResources.arrivalTerminal} </c:otherwise>
+			</c:choose><br>
 			Arrival Gate: ${flightstatus.airportResources.arrivalGate}<br>
 			Drive Time in Current Traffic Conditions: ${ traffic } <br> 
+			Time adjustment due to bags: <br>
+			Time adjustment due to gate walk:<br>
+			Time adjustment due to flight size:<br>
 		</div>
 
 	<%-- </c:forEach> --%>
