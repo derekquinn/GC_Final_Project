@@ -45,8 +45,7 @@ public class MyFlightController {
 			return mav;
 		}
 
-		// split the flight search into airline and flight number for API url and accept
-		// flight numbers ranging from 3-6 characters in length
+		// split the flight search into airline and flight number for API url and accept flight numbers ranging from 3-6 characters in length
 		String airline = flightCode.substring(0, 2);
 		String flightNumber = flightCode.substring(2);
 
@@ -85,21 +84,17 @@ public class MyFlightController {
 		
 		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time 	
 		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightstatus);
-		System.out.println(planeSizeAdjustment);
-		System.out.println("departure before plane size math: " + driverDeptTime);
+		// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb is 
+		Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(flightstatus);
+		
 		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
-		System.out.println("departure after plane size math: " + driverDeptTime);
-		// sending driver departure time to database
+		driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
+		
+		// sending updated driver departure time (including walk time and plane size adjustment)
 		flightstatus.setDriverDeparture(driverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
 		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
-
-		System.out.println("you got here" + FlightMathCalculator.checkGateWalkTime(flightstatus));
-		
-		
-		
-		
 		
 		// sending reformatted driver departure time to database
 		flightstatus.setFmtDriverDepartureTime(formattedDriverDeptTime);
@@ -126,14 +121,12 @@ public class MyFlightController {
 		
 		try {
 		estGateArrivalS = flightstatus.getOperationalTimes().getEstimatedGateArrival().getDateLocal();
-		
-		
+				
 		} catch (NullPointerException e) {
 		estGateArrivalS = flightstatus.getOperationalTimes().getScheduledGateArrival().getDateLocal();
 		
 		}
-		
-		
+				
 		LocalDateTime gateArrivalTimeline = LocalDateTime.parse(estGateArrivalS, formatter);
 		LocalDateTime timeAtDoorTimeline = FlightMathCalculator.getPickupTimeLdt(dur, driverDeptTime);
 		
@@ -157,7 +150,8 @@ public class MyFlightController {
 		// show the human readable string of duration in traffic with minutes and seconds to the user
 		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(dur);
 		
-		
+		mav.addObject("walktime", walkingTimeAdjustment);
+		mav.addObject("planesize", planeSizeAdjustment);
 		mav.addObject("bags", bags);
 		mav.addObject("traffic", showDriveTimeInTrafficMinsSecs);
 		mav.addObject("origlocation", origin);
@@ -166,8 +160,6 @@ public class MyFlightController {
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
 		mav.addObject("timelinePoint", timeLineList);
-
-		
 		
 		return mav;
 

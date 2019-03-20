@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 public class FlightMathCalculator {
 
 	private static Long getBagsTime = 10L;
-	private static Long getWalkToDoor = 10L;
+	private static Long getWalkToDoor =0L;
 
 	// determine how late / early to expect a plane based on flight stats API estimates
 	public static Long gateArrivalMath(FlightStatus fs) {
@@ -236,7 +236,7 @@ public class FlightMathCalculator {
 	
 	// check to see if aircraft is JUMBO JET or REGIONAL JET 
 	public static Long checkPlaneSize(FlightStatus fs) {	
-		Long planeSizeAdjustment=0L; 
+		Long planeSizeAdjustment=10L; 
 		String planeSize = fs.getFlightEquipment().getScheduledEquipmentIataCode();
 		    // small plane decrease in time 
 		if (planeSize.equals("CR9") || planeSize.equals("CR7")|| planeSize.equals("CRJ")|| planeSize.equals("CR2")) {
@@ -263,6 +263,8 @@ public class FlightMathCalculator {
 			else if (!(arrivalGate.equals("A6")) && ((arrivalGate.startsWith("A6") 
 					|| arrivalGate.startsWith("A1") || arrivalGate.startsWith("A2")))) {
 				gateWalkAdjustment = gateWalkAdjustment + 10L;
+			} else {
+				gateWalkAdjustment = 10L;
 			}
 			
 			
@@ -275,6 +277,8 @@ public class FlightMathCalculator {
 					|| arrivalGate.equals("D4") || arrivalGate.equals("D5") || arrivalGate.equals("D6")
 					|| arrivalGate.equals("D28") || arrivalGate.equals("D30") || arrivalGate.equals("D32")) {
 				gateWalkAdjustment = gateWalkAdjustment + 8L;
+			}else {
+				gateWalkAdjustment = 10L;
 			}
 		}
 		
