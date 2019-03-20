@@ -7,8 +7,8 @@ import java.time.temporal.ChronoUnit;
 
 public class FlightMathCalculator {
 
-	private static Long getBagsTime = 22L;
-	private static Long getWalkToDoor = 15L;
+	private static Long getBagsTime = 10L;
+	private static Long getWalkToDoor = 10L;
 
 	// determine how late / early to expect a plane based on flight stats API estimates
 	public static Long gateArrivalMath(FlightStatus fs) {
@@ -103,7 +103,7 @@ public class FlightMathCalculator {
 			LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
 			Long minsInTraffic = durationInSeconds / 60;
 	
-			Long airlinePassTask = (getBagsTime + getWalkToDoor);
+			Long airlinePassTask = getBagsTime;
 	
 			LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
 			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
@@ -115,7 +115,7 @@ public class FlightMathCalculator {
 			LocalDateTime actual = LocalDateTime.parse(actualGateArrival, formatter);
 			Long minsInTraffic = durationInSeconds / 60;
 	
-			Long airlinePassTask = (getBagsTime + getWalkToDoor);
+			Long airlinePassTask = getBagsTime;
 	
 			LocalDateTime timeAtDoor = actual.plusMinutes(airlinePassTask);
 			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
@@ -144,7 +144,7 @@ public class FlightMathCalculator {
 			LocalDateTime estimated = LocalDateTime.parse(estimatedGateArrival, formatter);
 			Long minsInTraffic = durationInSeconds / 60;
 	
-			Long airlinePassTask = (getWalkToDoor);
+			Long airlinePassTask = getWalkToDoor;
 	
 			LocalDateTime timeAtDoor = estimated.plusMinutes(airlinePassTask);
 			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
@@ -158,7 +158,7 @@ public class FlightMathCalculator {
 			LocalDateTime actual = LocalDateTime.parse(actualGateArrival, formatter);
 			Long minsInTraffic = durationInSeconds / 60;
 	
-			Long airlinePassTask = (getWalkToDoor);
+			Long airlinePassTask = getWalkToDoor;
 	
 			LocalDateTime timeAtDoor = actual.plusMinutes(airlinePassTask);
 			LocalDateTime timeToLeave = timeAtDoor.minusMinutes(minsInTraffic);
@@ -233,4 +233,22 @@ public class FlightMathCalculator {
 
 		return timeMetric1.isBefore(currentTime);
 	}
+	
+	// check to see if aircraft is JUMBO JET or REGIONAL JET 
+	public static Long checkPlaneSize(FlightStatus fs) {	
+		Long planeSizeAdjustment=0L; 
+		String planeSize = fs.getFlightEquipment().getScheduledEquipmentIataCode();
+		    // small plane decrease in time 
+		if (planeSize.equals("CR9") || planeSize.equals("CR7")|| planeSize.equals("CRJ")|| planeSize.equals("CR2")) {
+			planeSizeAdjustment = planeSizeAdjustment -10L;
+			// bigger planes
+		} else if (planeSize.equals("333")) {
+			planeSizeAdjustment = planeSizeAdjustment +10L;
+		}   // biggest planes
+		else if (planeSize.equals("359") || planeSize.equals("77W")) {
+			planeSizeAdjustment = planeSizeAdjustment +15L;
+		} 	
+		return planeSizeAdjustment;
+	}
+	
 }

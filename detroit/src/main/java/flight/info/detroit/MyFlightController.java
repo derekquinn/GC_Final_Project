@@ -81,14 +81,26 @@ public class MyFlightController {
 			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(flightstatus, dur);
 			flightstatus.setHasBags(false);
 			flightTripDao.updateFlight(flightstatus);
-		}
-
+		}	
+		
+		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time 	
+		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightstatus);
+		System.out.println(planeSizeAdjustment);
+		System.out.println("departure before plane size math: " + driverDeptTime);
+		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
+		System.out.println("departure after plane size math: " + driverDeptTime);
 		// sending driver departure time to database
 		flightstatus.setDriverDeparture(driverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
 		// storing the calcualted driver departure time in a string, reformatted for humans
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
+		
+		
+		
+		
+		
+		
 		// sending reformatted driver departure time to database
 		flightstatus.setFmtDriverDepartureTime(formattedDriverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
