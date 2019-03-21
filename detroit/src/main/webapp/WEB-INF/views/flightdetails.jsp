@@ -52,7 +52,7 @@
     <c:forEach var="timeline" items= "${ timelinePoint }">
 	 
 	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
-	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
+	 <span class="label">${timeline.description} <br>${ timeline.timeAsString }</span>
      </li>
          
      </c:forEach>   </ol>
@@ -190,6 +190,8 @@
 
 
   
+<br>
+<br>
 <br>
 <br>
   
