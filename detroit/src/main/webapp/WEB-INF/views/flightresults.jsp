@@ -43,7 +43,7 @@
   <div class="progress-meter">
     <div class="track">
 
-      <span class="progress" style="width: 100%;"></span>
+   
 
       <span class="progress" style="width: ${ progresspercent }%;"></span>
 

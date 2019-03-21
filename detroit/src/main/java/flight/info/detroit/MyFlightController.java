@@ -165,6 +165,11 @@ public class MyFlightController {
 		// Subtracts 1 from numerator and 1 from denominator so that 2/3 becomes 1/2 =
 		// 50% progress
 		double progressBarMvt = 100 * ((double) (progressBarCounter - 1) / ((double) (progressBarBooleans.size() - 1)));
+		
+		System.out.println("Progress bar movement " + progressBarMvt);
+		System.out.println("Progress bar counter " + progressBarCounter);
+		System.out.println("Progress bar boolean size " + progressBarBooleans.size());
+		
 		// E.g. for three progress points, we want 0 = 0%, 1= 0%, 2=50%, 3=100%.
 		// The expression above does not work for 0 = 0%. Fix is to look for negative
 		// numbers, and assign them a value of zero.
