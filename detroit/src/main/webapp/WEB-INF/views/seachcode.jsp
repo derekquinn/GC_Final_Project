@@ -13,20 +13,16 @@
 
 	<p>${ message }</p>
 
-	<table class="table table-hover" width=33%">
+	<table class="table table-hover">
 
 		<thead>
 			<tr>
 
-				<th width="16%">Select Your Flight</th>
-				<th width="15%">Departure Time</th>
-				<th width="17%">Departure Airport</th>
-				<th width="17%">Airline Companies</th>
-				<th width="15%">Flight Number</th>
-				<th width="25%">Origin Departure City</th>
-
-
-
+				<th>Select A Flight</th>
+				<th >Departure Time</th>
+				<th >Departure Airport</th>
+				<th >Airline </th>
+				<th >Flight Number</th>
 
 			</tr>
 		</thead>
@@ -39,29 +35,10 @@
 					<td class="text-center">${flight.departureAirportFsCode }</td>
 					<td class="text-center">${flight.carrierFsCode }</td>
 					<td class="text-center">${flight.flightNumber }</td>
-					<c:forEach var="a" items="${airportInfo}">
-
-							<c:if test="${flight.departureAirportFsCode == a.cityCode }">
-								<td>${a.city}</td>
-
-							</c:if>
-							<%-- <c:if test="${flight.departureAirportFsCode != a.cityCode }">
-						<td>Unknown</td>
-						</c:if> --%>
-
-
-							<%--  						<c:choose>
-
-							<c:when test="${flight.departureAirportFsCode == a.cityCode }">
-								<td>${a.city}</td>
-							</c:when>
-
-							<c:otherwise>
-								<td>Unknown</td>
-							</c:otherwise>
-						</c:choose>  --%>
+			
+		
 						</c:forEach>
-						</c:forEach>
+					
 	</table>
 
 
