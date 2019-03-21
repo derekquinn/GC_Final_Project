@@ -44,14 +44,14 @@
 					 
 				<div class="form-group">
 					<input style="width: 250px;" name="flightcode"
-						placeholder="DL2882" value="${ flightNum}" size="10"
+						placeholder="Flight Number Ex: DL2882 " value="${flightNum}" size="10"
 						min="4" maxlength="6" required pattern="[A-Za-z0-9]{2}\d{2,4}" /><br>
 					<a href="findflight">Don't Know?</a>
 
 				</div>
 				<br><br>
 				<div class="form-group">
-					<input type="text" name="origin" placeholder="Pickup origin address" style="text-align: center:"
+					<input type="text" name="origin" placeholder="Address Ex: 1538 Centre St, Detroit, MI" style="text-align: center:"
 						size="45" required><br>
 					<input type="checkbox" name="bags" value="true" style="text-align:left;"> <b style="color:#007bff;"> Checked Bags?</b>
 				</div>
