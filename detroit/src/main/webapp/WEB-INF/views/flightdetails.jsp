@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta charset="UTF-8">
+<%@include file="partials/header.jsp"%>
 <link rel="stylesheet" href="/progressbarstyle.css" />
+
+<title>APU | Flight Results</title>
 </head>
-<body>
-	<%@include file="partials/header.jsp"%>
-	
+
 	<div class="container">
-		<center>
-		<br>
-		<h2>Pick up Status</h2>
-	
-		<h5>
+<br>
+
+		<h2>Pick Up Status</h2>
+				<h5>
 			<c:choose>
 				<c:when test="${flight.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
 				<c:when test="${flight.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
@@ -36,52 +37,35 @@
 				<c:otherwise>${flight.carrierFsCode}</c:otherwise>
 			</c:choose>${flight.flightNumber}<br>
 		</h5>
-
-	</center>
-<center>
-
-		<div class="inlined">
-
-			<!-- Start progress bar -->
-			<div class="progress-meter">
-				<div class="track">
-					<span class="progress" style="width: ${ progresspercent }%;"></span>
-				</div>
-
-				<ol class="progress-points" data-current="4">
-					<c:forEach var="timeline" items="${ timelinePoint }">
-
-						<li
-							class="progress-point ${ timeline.completed ? 'completed' : '' }">
-							<span class="label">${timeline.description} <br> ${ timeline.timeAsString }</span>
-						</li>
-
-
-
-
-					</c:forEach>
-				</ol>
-</center>
-			
-
-			<!-- End progress bar -->
-		</div></div>
-
-
-
-
-
-			<div class="container">
 		
-		</div>
 
-		<br> <br> <br>
-		
+	  <!-- Start progress bar -->
+  <div class="progress-meter">
+    <div class="track">
+
+      <span class="progress" style="width: 100%;"></span>
+
+      <span class="progress" style="width: ${ progresspercent }%;"></span>
+
+    </div>
+
+      <ol class="progress-points" data-current="4">
+    <c:forEach var="timeline" items= "${ timelinePoint }">
+	 
+	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
+	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
+     </li>
+         
+     </c:forEach>   </ol>
+  
+  </div>
+<br>
+<br>
+  <!-- End progress bar -->
+
 
 
 		<!-- BEGIN GROUND TRAFFIC  OUTPUT -->
-
-
 
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
@@ -97,15 +81,8 @@
 						test="${flight.airportResources.arrivalTerminal eq 'N'}"> North Terminal. </c:when>
 					<c:otherwise> DTW </c:otherwise>
 				</c:choose>
-			</p>
+			</p> 
 		</a>
-
-
-
-
-
-
-
 
 		<!-- END GROUND TRAFFIC  OUTPUT -->
 
@@ -149,7 +126,6 @@
 						</div>
 						<p class="mb-1">The passenger is flying on a wide-body
 							aircraft, which can cause significant deplaning delays.</p>
-					</a>
 				</c:when>
 
 				<c:otherwise>
@@ -167,6 +143,7 @@
 
 				</c:otherwise>
 			</c:choose>
+
 		</div>
 		<!-- END AIRCRAFT SIZE METRICS OUTPUT -->
 
@@ -192,7 +169,7 @@
 						<small>15 minutes added</small>
 					</div>
 					<p class="mb-1">The passenger has checked bags, which can cause
-						delays at baggage claim.</p> 
+						delays at baggage claim.</p>    
 				</a>
 			</c:when>
 
@@ -210,6 +187,12 @@
 			</c:otherwise>
 		</c:choose>
 		<!-- END BAGGAGE  OUTPUT -->
+
+
+  
+
+  
+</div>
 
 </body>
 </html>

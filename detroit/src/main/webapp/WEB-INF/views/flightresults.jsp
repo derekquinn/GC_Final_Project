@@ -4,20 +4,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<%@include file="partials/header.jsp"%>
 <link rel="stylesheet" href="/progressbarstyle.css" />
+
 <title>APU | Flight Results</title>
 </head>
-<body>
 
-	<%@include file="partials/header.jsp"%>
-	
 	<div class="container">
-		<center>
-		<br>
+
+
 		<h2>Pick up Status</h2>
-	
-		<h5>
+				<h5>
 			<c:choose>
 				<c:when test="${flightstatus.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
 				<c:when test="${flightstatus.carrierFsCode eq 'AA'}"> American Airlines Flight </c:when>
@@ -38,52 +37,35 @@
 				<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
 			</c:choose>${flightstatus.flightNumber}<br>
 		</h5>
-
-	</center>
-<center>
-
-		<div class="inlined">
-
-			<!-- Start progress bar -->
-			<div class="progress-meter">
-				<div class="track">
-					<span class="progress" style="width: ${ progresspercent }%;"></span>
-				</div>
-
-				<ol class="progress-points" data-current="4">
-					<c:forEach var="timeline" items="${ timelinePoint }">
-
-						<li
-							class="progress-point ${ timeline.completed ? 'completed' : '' }">
-							<span class="label">${timeline.description} <br> ${ timeline.timeAsString }</span>
-						</li>
-
-
-
-
-					</c:forEach>
-				</ol>
-</center>
-			
-
-			<!-- End progress bar -->
-		</div></div>
-
-
-
-
-
-			<div class="container">
 		
-		</div>
 
-		<br> <br> <br>
-		
+	  <!-- Start progress bar -->
+  <div class="progress-meter">
+    <div class="track">
+
+      <span class="progress" style="width: 100%;"></span>
+
+      <span class="progress" style="width: ${ progresspercent }%;"></span>
+
+    </div>
+
+      <ol class="progress-points" data-current="4">
+    <c:forEach var="timeline" items= "${ timelinePoint }">
+	 
+	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
+	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
+     </li>
+         
+     </c:forEach>   </ol>
+  
+  </div>
+<br>
+<br>
+  <!-- End progress bar -->
+
 
 
 		<!-- BEGIN GROUND TRAFFIC  OUTPUT -->
-
-
 
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
@@ -99,15 +81,8 @@
 						test="${flightstatus.airportResources.arrivalTerminal eq 'N'}"> North Terminal. </c:when>
 					<c:otherwise> DTW </c:otherwise>
 				</c:choose>
-			</p> <!--     <small>Donec id elit non mi porta.</small> -->
+			</p> 
 		</a>
-
-
-
-
-
-
-
 
 		<!-- END GROUND TRAFFIC  OUTPUT -->
 
@@ -124,7 +99,7 @@
 							<small>No deplaning delay</small>
 						</div>
 						<p class="mb-1">The passenger is flying on a smaller regional
-							aircraft, which allows faster deplaning.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+							aircraft, which allows faster deplaning.</p> 
 					</a>
 				</c:when>
 
@@ -137,7 +112,7 @@
 							<small>20 minutes added</small>
 						</div>
 						<p class="mb-1">The passenger is flying on a larger aircraft,
-							which can cause deplaning delays.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+							which can cause deplaning delays.</p>
 					</a>
 				</c:when>
 
@@ -150,8 +125,7 @@
 							<small>25 minutes added</small>
 						</div>
 						<p class="mb-1">The passenger is flying on a wide-body
-							aircraft, which can cause significant deplaning delays.</p> <!--     <small>Donec id elit non mi porta.</small> -->
-					</a>
+							aircraft, which can cause significant deplaning delays.</p>
 				</c:when>
 
 				<c:otherwise>
@@ -162,13 +136,14 @@
 							<small>10 minutes added</small>
 						</div>
 						<p class="mb-1">The passenger is flying on a medium-sized
-							aircraft, which can cause some deplaning delay.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+							aircraft, which can cause some deplaning delay.</p> 
 					</a>
 
 
 
 				</c:otherwise>
 			</c:choose>
+
 		</div>
 		<!-- END AIRCRAFT SIZE METRICS OUTPUT -->
 
@@ -179,7 +154,7 @@
 				<small>${walktime} minute walk time</small>
 			</div>
 			<p class="mb-1">The passenger is landing at gate
-				${flightstatus.airportResources.arrivalGate}.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+				${flightstatus.airportResources.arrivalGate}.</p> 
 		</a>
 
 		<!-- END GATE WALK OUTPUT -->
@@ -194,7 +169,7 @@
 						<small>15 minutes added</small>
 					</div>
 					<p class="mb-1">The passenger has checked bags, which can cause
-						delays at baggage claim.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+						delays at baggage claim.</p>    
 				</a>
 			</c:when>
 
@@ -205,7 +180,7 @@
 						<h5 class="mb-1">Checked Bags</h5>
 						<small>No checked baggage delay</small>
 					</div>
-					<p class="mb-1">The passenger has not checked bags.</p> <!--     <small>Donec id elit non mi porta.</small> -->
+					<p class="mb-1">The passenger has not checked bags.</p> 
 				</a>
 
 
@@ -214,8 +189,10 @@
 		<!-- END BAGGAGE  OUTPUT -->
 
 
+  
 
-
+  
+</div>
 
 </body>
 </html>
