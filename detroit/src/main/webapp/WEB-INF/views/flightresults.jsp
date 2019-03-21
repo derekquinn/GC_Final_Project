@@ -150,6 +150,14 @@
 
 		<!-- BEGIN GATE WALK OUTPUT -->
 			<c:choose>
+			<c:when test="${flightstatus.airportResources.arrivalGate eq null}">
+			<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Concourse Walk Time</h5>
+				<small>Walk Time Unavailable</small>
+			</div>
+			<p class="mb-1">Walking time between gates varies depending on terminal. Refresh closer to landing time to see more.</p> 
+		</a></c:when>
 
 				<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'N'}">
 		<a class="list-group-item list-group-item-action">
