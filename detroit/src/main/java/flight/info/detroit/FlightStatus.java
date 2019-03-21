@@ -25,7 +25,6 @@ public class FlightStatus {
 	private Long flightId;
 	private String carrierFsCode;
 	private Integer flightNumber;
-	@Transient
 	private String departureAirportFsCode;
 	@Transient
 	private String arrivalAirportFsCode;

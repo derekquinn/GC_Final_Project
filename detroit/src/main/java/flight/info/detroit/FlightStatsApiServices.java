@@ -50,10 +50,9 @@ public class FlightStatsApiServices {
 		// puts todays date in the URL as string
 		List<FlightStatus> flightStatus = new ArrayList<FlightStatus>();
 		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-		System.out.println(today);
 		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/" + airline + "/"
 				+ flightNumber + "/dep/" + today + "?appId=" + appId + "&appKey=" + appKey + "&utc=false";
-		System.out.println(url);
+
 		FlightResponse response = restTemplateWithUserAgent.getForObject(url, FlightResponse.class);
 
 		// store the response temporarily
@@ -74,25 +73,15 @@ public class FlightStatsApiServices {
 	public ArrayList<FlightTracks> searchFlightCode() {
 		// puts todays date in the URL as string
 		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-		System.out.println(today);
 
-		// https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" +
-		// appId + "&appKey="
-//		+ appKey + "&utc=false"
 
 		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr" + "?appId="
 				+ appId + "&appKey=" + appKey + "&utc=false";
 		AirlineCode response = restTemplateWithUserAgent.getForObject(url, AirlineCode.class);
-		System.out.println(response);
 		return response.getFlightTracks();
 	}
 
 	public ArrayList<Airports> searchAirportCode() {
-		// puts todays date in the URL as string
-
-		// https://api.flightstats.com/flex/airlines/rest/v1/json/active/" + "?appId=" +
-		// appId + "&appKey="
-//		+ appKey + "&utc=false"
 
 		String url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/tracks/DTW/arr" + "?appId="
 				+ appId + "&appKey=" + appKey + "&utc=false";

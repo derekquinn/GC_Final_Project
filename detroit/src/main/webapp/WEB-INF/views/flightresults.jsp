@@ -14,8 +14,8 @@
 
 	<div class="container">
 
-
-		<h2>Pick up Status</h2>
+<br>
+		<h2>Pick Up Status</h2>
 				<h5>
 			<c:choose>
 				<c:when test="${flightstatus.carrierFsCode eq 'DL'}"> Delta Airlines Flight </c:when>
@@ -35,7 +35,7 @@
 				<c:when test="${flightstatus.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
 				<c:when test="${flightstatus.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
 				<c:otherwise>${flightstatus.carrierFsCode}</c:otherwise>
-			</c:choose>${flightstatus.flightNumber}<br>
+			</c:choose>${flightstatus.flightNumber} arriving from ${flightstatus.departureAirportFsCode }<br>
 		</h5>
 		
 
@@ -53,7 +53,7 @@
     <c:forEach var="timeline" items= "${ timelinePoint }">
 	 
 	<li class="progress-point ${ timeline.completed ? 'completed' : '' }"> 
-	 <span class="label">${timeline.description} ${ timeline.timeAsString }</span>
+	 <span class="label">${timeline.description} <br>${ timeline.timeAsString }</span>
      </li>
          
      </c:forEach>   </ol>
@@ -109,7 +109,7 @@
 					<a class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Aircraft Size</h5>
-							<small>20 minutes added</small>
+							<h4>20 minutes added</h4>
 						</div>
 						<p class="mb-1">The passenger is flying on a larger aircraft,
 							which can cause deplaning delays.</p>
@@ -126,6 +126,7 @@
 						</div>
 						<p class="mb-1">The passenger is flying on a wide-body
 							aircraft, which can cause significant deplaning delays.</p>
+							</a>
 				</c:when>
 
 				<c:otherwise>
@@ -148,6 +149,9 @@
 		<!-- END AIRCRAFT SIZE METRICS OUTPUT -->
 
 		<!-- BEGIN GATE WALK OUTPUT -->
+			<c:choose>
+
+				<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'N'}">
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Concourse Walk Time</h5>
@@ -155,7 +159,28 @@
 			</div>
 			<p class="mb-1">The passenger is landing at gate
 				${flightstatus.airportResources.arrivalGate}.</p> 
-		</a>
+		</a></c:when>
+		<c:when test="${flightstatus.airportResources.arrivalTerminal eq 'M'}">
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Concourse Walk Time</h5>
+				<small>${walktime} minute walk time</small>
+			</div>
+			<p class="mb-1">The passenger is landing at gate
+				${flightstatus.airportResources.arrivalGate}.</p> 
+		</a></c:when>
+		
+				<c:otherwise>
+		<a class="list-group-item list-group-item-action">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">Concourse Walk Time</h5>
+				<small>Walk Time Unavailable</small>
+			</div>
+			<p class="mb-1">Walking time between gates varies depending on terminal. Refresh closer to landing time to see more.</p> 
+		</a></c:otherwise>
+		
+		
+		</c:choose>
 
 		<!-- END GATE WALK OUTPUT -->
 

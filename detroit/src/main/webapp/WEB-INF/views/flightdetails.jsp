@@ -4,17 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-<%@include file="partials/header.jsp"%>
-<link rel="stylesheet" href="/progressbarstyle.css" />
 
-<title>APU | Flight Results</title>
+
+<title>APU | Flight Details</title>
 </head>
-
+<link rel="stylesheet" href="/progressbarstyle.css" />
+<%@include file="partials/header.jsp"%>
 	<div class="container">
 <br>
-
+<br>
 		<h2>Pick Up Status</h2>
 				<h5>
 			<c:choose>
@@ -35,7 +34,7 @@
 				<c:when test="${flight.carrierFsCode eq 'G7'}"> GoJet Flight </c:when>
 				<c:when test="${flight.carrierFsCode eq '9E'}"> Endeavor Air (Delta Connection) Flight </c:when>
 				<c:otherwise>${flight.carrierFsCode}</c:otherwise>
-			</c:choose>${flight.flightNumber}<br>
+			</c:choose>${flight.flightNumber} arriving from ${flight.departureAirportFsCode }<br>
 		</h5>
 		
 
@@ -62,8 +61,8 @@
 <br>
 <br>
   <!-- End progress bar -->
-
-
+<br>
+<br>
 
 		<!-- BEGIN GROUND TRAFFIC  OUTPUT -->
 
@@ -126,6 +125,7 @@
 						</div>
 						<p class="mb-1">The passenger is flying on a wide-body
 							aircraft, which can cause significant deplaning delays.</p>
+							</a>
 				</c:when>
 
 				<c:otherwise>
@@ -190,7 +190,8 @@
 
 
   
-
+<br>
+<br>
   
 </div>
 

@@ -82,18 +82,16 @@ public class MyFlightController {
 			flightTripDao.updateFlight(flightstatus);
 		}
 
-		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet
-		// decreases time
+		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time
 		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightstatus);
 		// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb
-		// is
+
 		Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(flightstatus);
 
 		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
 		driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
 
-		// sending updated driver departure time (including walk time and plane size
-		// adjustment)
+		// sending updated driver departure time (including walk time and plane size adjustment)
 		flightstatus.setDriverDeparture(driverDeptTime);
 		flightTripDao.updateFlight(flightstatus);
 		// storing the calcualted driver departure time in a string, reformatted forhumans
@@ -119,8 +117,7 @@ public class MyFlightController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		// get non trucated localdatetime metrics from API for comparison
 
-		/// use estimated gate arrival (more accurate) if its available, if not use
-		/// scheduled (less accurate)
+		/// use estimated gate arrival (more accurate) if its available, if not use scheduled (less accurate)
 		String estGateArrivalS = "";
 
 		try {
@@ -150,8 +147,7 @@ public class MyFlightController {
 		timeLineList.add(passengerDoorPickup);
 		Collections.sort(timeLineList);
 
-		// move progress bar along based on whether gate arrival time, time at door, and
-		// driver departure times have already occurred.
+		// move progress bar along based on whether gate arrival time, time at door, and driver departure times have already occurred.
 
 		List<Boolean> progressBarBooleans = new ArrayList<Boolean>();
 		progressBarBooleans.add(gateArrivalBool);
@@ -179,8 +175,7 @@ public class MyFlightController {
 		// send bags value to JSP
 		Boolean bags = flightstatus.getHasBags();
 
-		// show the human readable string of duration in traffic with minutes and
-		// seconds to the user
+		// show the human readable string of duration in traffic with minutes and seconds to the user
 		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(dur);
 
 		mav.addObject("walktime", walkingTimeAdjustment);
@@ -199,7 +194,7 @@ public class MyFlightController {
 
 	}
 
-// SINGLE FLIGHT DETAIL ACCESSED FROM DB + API
+// SINGLE FLIGHT DETAIL ACCESSED FROM DB AND UPDATED VIA APIs
 	@RequestMapping("/flights/{id}")
 	public ModelAndView detail(@PathVariable("id") Long id) {
 		
@@ -214,7 +209,7 @@ public class MyFlightController {
 					
 		LocalDateTime driverDeptTime;
 
-		if (flightStatusUpdated.getHasBags()) {
+		if (flightStatus.getHasBags()) {
 			// storing the calculated departure time for driver / user with checked bags			
 			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(flightStatusUpdated, durUpdated);
 		} else {
@@ -230,6 +225,21 @@ public class MyFlightController {
 			estGateArrivalS = flightStatusUpdated.getOperationalTimes().getScheduledGateArrival().getDateLocal();
 
 		}
+		
+		// show the human readable string of duration in traffic with minutes and seconds to the user
+		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(durUpdated);
+		
+		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time
+		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightStatusUpdated);
+		
+		// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb is
+		Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(flightStatusUpdated);
+
+		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
+		driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
+
+		// modify the updated flight status object to include plane size and walking time
+		flightStatusUpdated.setDriverDeparture(driverDeptTime);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		
 		LocalDateTime gateArrivalTimeline = LocalDateTime.parse(estGateArrivalS, formatter);
@@ -238,6 +248,10 @@ public class MyFlightController {
 		String timeAtDoor = FlightMathCalculator.getPickupTime(durUpdated, driverDeptTime);
 		String gateArrival = FlightMathCalculator.getFormattedGateArrival(flightStatusUpdated);
 		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));	
+		// send bags value to JSP
+		Boolean bags = flightStatus.getHasBags();
+	
+
 		// compare to current time to see if this phase of the pickup is complete
 		boolean gateArrivalBool = FlightMathCalculator.PickupStageComplete(gateArrival);
 		boolean driverDepartureBool = FlightMathCalculator.PickupStageComplete(formattedDriverDeptTime);
@@ -276,31 +290,14 @@ public class MyFlightController {
 		if (progressBarMvt < 0) {
 			progressBarMvt = 0;
 		}
-
+		
 		ModelAndView mav = new ModelAndView("flightdetails", "flight", flightStatusUpdated);
 		
-		// send bags value to JSP
-		Boolean bags = flightStatus.getHasBags();
-		
-		// show the human readable string of duration in traffic with minutes and seconds to the user
-		String showDriveTimeInTrafficMinsSecs = FlightMathCalculator.humanReadableDuration(durUpdated);
-		
-		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet
-				// decreases time
-				Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(flightStatusUpdated);
-				// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb
-				// is
-				Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(flightStatusUpdated);
-
-				driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
-				driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
-
 		mav.addObject("walktime", walkingTimeAdjustment);
 		mav.addObject("planesize", planeSizeAdjustment);
 		mav.addObject("bags", bags);
 		mav.addObject("traffic", showDriveTimeInTrafficMinsSecs);
 		mav.addObject("origlocation", origin);
-		mav.addObject("grounddepttime", formattedDriverDeptTime);
 		mav.addObject("timeatdoor", timeAtDoor);
 		mav.addObject("gatearrival", gateArrival);
 		mav.addObject("timelinePoint", timeLineList);
@@ -348,23 +345,29 @@ public class MyFlightController {
 				arrivalLocation);
 		updatedFs.setDriveDurationSec(updatedDur);
 
-		// conditional logic to account for pickups with (if) and without bags (else)
+		LocalDateTime driverDeptTime;
+
 		if (updatedFs.getHasBags()) {
-			// calculate updated driver departure time with new traffic info
-			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs, updatedDur);
-			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
-					.format(DateTimeFormatter.ofPattern("hh:mm a"));
-			updatedFs.setDriverDeparture(driverDeptTime);
-			updatedFs.setFmtDriverDepartureTime(formattedDriverDeptTime);
-
+			// storing the calculated departure time for driver / user with checked bags			
+			driverDeptTime = FlightMathCalculator.driverDepartureWithBags(updatedFs, updatedDur);
 		} else {
-			LocalDateTime driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs, updatedDur);
-			String formattedDriverDeptTime = driverDeptTime.toLocalTime()
-					.format(DateTimeFormatter.ofPattern("hh:mm a"));
-			updatedFs.setDriverDeparture(driverDeptTime);
-			updatedFs.setFmtDriverDepartureTime(formattedDriverDeptTime);
+			// storing the calculated departure time for driver / user with no checked bags
+			driverDeptTime = FlightMathCalculator.driverDepartureNoBags(updatedFs, updatedDur);	
 		}
-
+			
+		// JUMBO JET CHECK check if aircraft will add additional time or smaller jet decreases time
+		Long planeSizeAdjustment = FlightMathCalculator.checkPlaneSize(updatedFs);
+		
+		// ARRIVAL GATE CHECK checks to see how far the walk from the gate to the curb is
+		Long walkingTimeAdjustment = FlightMathCalculator.checkGateWalkTime(updatedFs);
+		
+		// add time for AIRCRAFT SIZE AND ARRIVAL GATE 
+		driverDeptTime = driverDeptTime.plusMinutes(planeSizeAdjustment);
+		driverDeptTime = driverDeptTime.plusMinutes(walkingTimeAdjustment);
+		
+		String formattedDriverDeptTime = driverDeptTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));	
+		
+		updatedFs.setFmtDriverDepartureTime(formattedDriverDeptTime);
 		updatedFs.setDriveOrigin(flightTripDao.findById(id).getDriverOrigin());
 
 		flightTripDao.updateFlight(updatedFs);
