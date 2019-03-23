@@ -70,7 +70,7 @@
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Drive Time</h5>
-				<small>${ traffic }</small>
+				<medium>${ traffic }</medium>
 			</div>
 			<p class="mb-1">
 				This pickup originates at ${ origlocation } and ends at
@@ -96,7 +96,7 @@
 					<a class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Aircraft Size</h5>
-							<small>No deplaning delay</small>
+							<medium>No deplaning delay</medium>
 						</div>
 						<p class="mb-1">The passenger is flying on a smaller regional
 							aircraft, which allows faster deplaning.</p> 
@@ -109,7 +109,7 @@
 					<a class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Aircraft Size</h5>
-							<h4>20 minutes added</h4>
+							<medium>20 minutes added</medium>
 						</div>
 						<p class="mb-1">The passenger is flying on a larger aircraft,
 							which can cause deplaning delays.</p>
@@ -122,7 +122,7 @@
 					<a class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Aircraft Size</h5>
-							<small>25 minutes added</small>
+							<medium>25 minutes added</medium>
 						</div>
 						<p class="mb-1">The passenger is flying on a wide-body
 							aircraft, which can cause significant deplaning delays.</p>
@@ -134,7 +134,7 @@
 					<a class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Aircraft Size</h5>
-							<small>10 minutes added</small>
+							<medium>10 minutes added</medium>
 						</div>
 						<p class="mb-1">The passenger is flying on a medium-sized
 							aircraft, which can cause some deplaning delay.</p> 
@@ -154,7 +154,7 @@
 			<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Concourse Walk Time</h5>
-				<small>Walk Time Unavailable</small>
+				<medium>Walk Time Unavailable</medium>
 			</div>
 			<p class="mb-1">Walking time between gates varies depending on terminal. Refresh closer to landing time to see more.</p> 
 		</a></c:when>
@@ -163,7 +163,7 @@
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Concourse Walk Time</h5>
-				<small>${walktime} minute walk time</small>
+				<medium>${walktime} minute walk time</medium>
 			</div>
 			<p class="mb-1">The passenger is landing at gate
 				${flightstatus.airportResources.arrivalGate}.</p> 
@@ -172,7 +172,7 @@
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Concourse Walk Time</h5>
-				<small>${walktime} minute walk time</small>
+				<medium>${walktime} minute walk time</medium>
 			</div>
 			<p class="mb-1">The passenger is landing at gate
 				${flightstatus.airportResources.arrivalGate}.</p> 
@@ -182,7 +182,7 @@
 		<a class="list-group-item list-group-item-action">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">Concourse Walk Time</h5>
-				<small>Walk Time Unavailable</small>
+				<medium>Walk Time Unavailable</medium>
 			</div>
 			<p class="mb-1">Walking time between gates varies depending on terminal. Refresh closer to landing time to see more.</p> 
 		</a></c:otherwise>
@@ -199,7 +199,7 @@
 				<a class="list-group-item list-group-item-action">
 					<div class="d-flex w-100 justify-content-between">
 						<h5 class="mb-1">Checked Bags</h5>
-						<small>15 minutes added</small>
+						<medium>15 minutes added</medium>
 					</div>
 					<p class="mb-1">The passenger has checked bags, which can cause
 						delays at baggage claim.</p>    
@@ -211,7 +211,7 @@
 				<a class="list-group-item list-group-item-action">
 					<div class="d-flex w-100 justify-content-between">
 						<h5 class="mb-1">Checked Bags</h5>
-						<small>No checked baggage delay</small>
+						<medium>No checked baggage delay</medium>
 					</div>
 					<p class="mb-1">The passenger has not checked bags.</p> 
 				</a>

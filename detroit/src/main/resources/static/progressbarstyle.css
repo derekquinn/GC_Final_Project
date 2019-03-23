@@ -69,7 +69,7 @@ body {
 }
 .progress-meter .track {
   position: relative;
-  height: 4px;
+  height: 9px;
   background: #ddd;
 }
 .progress-meter .progress {
@@ -82,7 +82,7 @@ body {
   left: 0;
   top: 0;
   width: 0;
-  height: 4px;
+  height: 9px;
   background: red;
 }
 .progress-meter .progress-points {
@@ -115,6 +115,7 @@ body {
 }
 .progress-meter .progress-point.completed, .progress-meter .progress-point.active {
   color: #777;
+  font-weight: 600;
 }
 .progress-meter .progress-point.completed:before {
   border-color: #777;

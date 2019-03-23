@@ -17,11 +17,11 @@ body {
 }
 
 #bodytest {
-	background-image: url(/images/airport-waiting-lounge-picjumbo-com.jpg);
+	background-image: url(/images/airport-waiting-lounge-picjumbo-com2.jpg);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
-	background-size: auto;
+	background-size: 1300px;
 
 }
 
@@ -76,7 +76,7 @@ body {
 
 .progress-meter .track {
 	position: relative;
-	height: 4px;
+	height: 9px;
 	background: #ddd;
 }
 
@@ -90,7 +90,7 @@ body {
 	left: 0;
 	top: 0;
 	width: 0;
-	height: 4px;
+	height: 9px;
 	background: red;
 }
 
@@ -130,6 +130,7 @@ body {
 .progress-meter .progress-point.completed, .progress-meter .progress-point.active
 	{
 	color: #777;
+	font-weight: 600;
 }
 
 .progress-meter .progress-point.completed:before {
